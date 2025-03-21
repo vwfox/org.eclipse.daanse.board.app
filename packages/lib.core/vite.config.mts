@@ -12,7 +12,8 @@ Contributors:
   Stefan Bischof - inital setup
 */
 import { fileURLToPath, URL } from 'node:url'
-
+import path from "path";
+import { dirname, resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -31,5 +32,25 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./packages', import.meta.url))
     }
-  }
+  },
+  build: {
+    lib: {
+      entry: resolve(__dirname, 'lib/lib.core.ts'),
+      name: 'lib.core',
+      // the proper extensions will be added
+      fileName: 'lib.core',
+    },
+    rollupOptions: {
+      // make sure to externalize deps that shouldn't be bundled
+      // into your library
+      external: ['vue'],
+      output: {
+        // Provide global variables to use in the UMD build
+        // for externalized deps
+        globals: {
+          vue: 'Vue',
+        },
+      },
+    },
+  },
 })
