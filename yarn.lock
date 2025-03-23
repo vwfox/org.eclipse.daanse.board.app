@@ -2675,7 +2675,7 @@ acorn@^8.11.0, acorn@^8.12.0, acorn@^8.4.1, acorn@^8.9.0:
   resolved "https://registry.npmjs.org/acorn/-/acorn-8.12.1.tgz"
   integrity sha512-tcpGyI9zbizT9JbV6oYE477V6mTlXvvi0T0G3SNIYE2apm/G5huBa1+K89VGeovbg+jycCrfhl3ADxErOuO6Jg==
 
-acorn@^8.14.0:
+acorn@^8.12.1, acorn@^8.14.0:
   version "8.14.1"
   resolved "https://registry.npmjs.org/acorn/-/acorn-8.14.1.tgz"
   integrity sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==
@@ -7926,6 +7926,16 @@ vite-plugin-dts@4.5.3:
     kolorist "^1.8.0"
     local-pkg "^1.0.0"
     magic-string "^0.30.17"
+
+vite-plugin-dynamic-import@^1.6.0:
+  version "1.6.0"
+  resolved "http://localhost:4873/vite-plugin-dynamic-import/-/vite-plugin-dynamic-import-1.6.0.tgz#c9680b2093fc897721fe535202acc8af77537ae4"
+  integrity sha512-TM0sz70wfzTIo9YCxVFwS8OA9lNREsh+0vMHGSkWDTZ7bgd1Yjs5RV8EgB634l/91IsXJReg0xtmuQqP0mf+rg==
+  dependencies:
+    acorn "^8.12.1"
+    es-module-lexer "^1.5.4"
+    fast-glob "^3.3.2"
+    magic-string "^0.30.11"
 
 vite-plugin-inspect@0.8.9:
   version "0.8.9"

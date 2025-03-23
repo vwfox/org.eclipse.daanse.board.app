@@ -1,7 +1,9 @@
-import { Container } from "inversify";
 
-const container = new Container();
+import {Container} from "inversify";
+import {boot} from './bootstrap';
+import type {ServiceI} from './api/ServiceI';
 
-export {
-    container
-}
+const container= new Container();
+
+
+export {container,boot,ServiceI}

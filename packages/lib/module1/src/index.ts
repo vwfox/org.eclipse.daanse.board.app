@@ -12,11 +12,13 @@ class Module1 {
     }
 }
 
-const register = (container: Container) => {
+const init = (container: Container) => {
+    console.log('init pack1')
     const instance = new Module1();
     container.bind("Default").toConstantValue(instance);
 }
 
+
 export {
-    register
+  init
 }

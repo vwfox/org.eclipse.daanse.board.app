@@ -23,6 +23,7 @@
     "inversify": "7.2.0",
     "typescript": "^5.8.2",
     "vite": "^6.2.1",
-    "vite-plugin-dts": "4.5.3"
+    "vite-plugin-dts": "4.5.3",
+    "vite-plugin-dynamic-import": "^1.6.0"
   }
 }
