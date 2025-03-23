@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import { SampleWidget } from "org.eclipse.daanse.board.app.ui.vue.widgets"
+import { SampleWidget } from "org.eclipse.daanse.board.app.ui.vue.widget.sample"
 import { container } from "org.eclipse.daanse.board.app.lib.core"
 import { ref } from "vue";
 

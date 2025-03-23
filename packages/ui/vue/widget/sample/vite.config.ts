@@ -8,8 +8,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'org.eclipse.daanse.board.app.ui.vue.widgets',
-      fileName: 'org.eclipse.daanse.board.app.ui.vue.widgets',
+      name: 'org.eclipse.daanse.board.app.ui.vue.widget.sample',
+      fileName: 'org.eclipse.daanse.board.app.ui.vue.widget.sample',
     },
     rollupOptions: {
       external: ['vue'],
