@@ -1,6 +1,4 @@
-// vite.config.ts
 import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
 import dts from "vite-plugin-dts";
 
@@ -8,22 +6,16 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'org.eclipse.daanse.board.app.ui.vue.widgets',
-      fileName: 'org.eclipse.daanse.board.app.ui.vue.widgets',
+      name: 'lib.module1',
+      fileName: 'lib.module1',
     },
     rollupOptions: {
-      external: ['vue'],
-      output: {
-        globals: {
-          vue: 'Vue',
-        },
-      },
+      external: [],
     },
   },
   plugins: [
     dts({
         insertTypesEntry: true
-    }),
-    vue()
+    })
   ],
 });

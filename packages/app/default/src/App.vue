@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-// import { SampleWidget } from ""
+import { SampleWidget } from "org.eclipse.daanse.board.app.ui.vue.widgets"
+import { container } from "org.eclipse.daanse.board.app.lib.core"
+import { ref } from "vue";
+
+const string = ref('');
+
+const module1 = container.get('Default') as any;
+string.value = module1.getString();
+
+console.log(string);
+
 </script>
 
 <template>
@@ -10,12 +20,15 @@ import HelloWorld from './components/HelloWorld.vue'
 
     <div class="wrapper">
       <!-- <HelloWorld msg="You did it!" /> -->
-      <
+      <SampleWidget />
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
+      <div>
+        {{ string }}
+      </div>
     </div>
   </header>
 

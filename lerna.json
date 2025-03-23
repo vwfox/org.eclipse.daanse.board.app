@@ -12,5 +12,6 @@
       "push": false,
       "gitTagVersion": false
     }
-  }
+  },
+  "packages": ["packages/**"]
 }

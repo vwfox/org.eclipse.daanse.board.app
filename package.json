@@ -48,7 +48,7 @@
     "vue-tsc": "^2.1.6"
   },
   "workspaces": [
-    "packages/*"
+    "packages/**"
   ],
   "volta": {
     "node": "18.18.0"

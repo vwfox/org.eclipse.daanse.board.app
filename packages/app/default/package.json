@@ -1,8 +1,15 @@
 {
   "name": "org.eclipse.daanse.board.app.app.default",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "ssemenkoff <ssemenkoff@gmail.com>",
+  "homepage": "https://github.com/ssemenkoff/org.eclipse.daanse.board.app#readme",
+  "license": "ISC",
+  "main": "lib/test.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssemenkoff/org.eclipse.daanse.board.app.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
@@ -16,10 +23,16 @@
     "lint": "run-s lint:*",
     "format": "prettier --write src/"
   },
+  "bugs": {
+    "url": "https://github.com/ssemenkoff/org.eclipse.daanse.board.app/issues"
+  },
   "dependencies": {
     "pinia": "^3.0.1",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.0",
+    "org.eclipse.daanse.board.app.ui.vue.widgets": "1.0.0",
+    "org.eclipse.daanse.board.app.lib.core": "1.0.0",
+    "org.eclipse.daanse.board.app.lib.module1": "1.0.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.51.0",
@@ -45,7 +58,6 @@
     "vite": "^6.2.1",
     "vite-plugin-vue-devtools": "^7.7.2",
     "vitest": "^3.0.8",
-    "vue-tsc": "^2.2.8",
-    "org.eclipse.daanse.board.app.ui.vue.widgets": "1.0.0"
+    "vue-tsc": "^2.2.8"
   }
 }
