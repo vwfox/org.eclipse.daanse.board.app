@@ -6,13 +6,13 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-//import { register } from "org.eclipse.daanse.board.app.lib.module1";
-import { container, boot } from "org.eclipse.daanse.board.app.lib.core";
+import { init } from "org.eclipse.daanse.board.app.lib.module1";
+import { container } from "org.eclipse.daanse.board.app.lib.core";
 
 
+init(container);
 
 
-boot(['org.eclipse.daanse.board.app.lib.module1'])
 const app = createApp(App)
 
 app.use(createPinia())

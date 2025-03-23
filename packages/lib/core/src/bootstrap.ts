@@ -13,15 +13,14 @@
 
 
 import {container} from "./index";
-import {RootService} from "./RootService";
 
 const boot = async (listOfPackages:string[])=> {
 
 
     for (const pack of listOfPackages){
         try{
-          /* @vite-ignore */
-          let {init} = await import(pack);
+
+          let {init} = await import( /* @vite-ignore */ pack);
           await init(container);
 
         }catch (e){
@@ -29,9 +28,9 @@ const boot = async (listOfPackages:string[])=> {
             console.warn(e);
         }
     }
-    container.bind<RootService>(RootService).toSelf().inSingletonScope();
-    const rs = container.get<RootService>(RootService);
-    rs.activate();
+    //container.bind<RootService>(RootService).toSelf().inSingletonScope();
+    //const rs = container.get<RootService>(RootService);
+    //rs.activate();
 
 
 }
