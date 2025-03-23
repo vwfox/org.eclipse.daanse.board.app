@@ -8,10 +8,8 @@
     },
     "publish": {
       "forcePublish": true,
-      "registry": "https://registry.npmjs.org/",
-      "push": false,
-      "gitTagVersion": false
+      "skipGit": true,
+      "registry": "https://registry.npmjs.org/"
     }
-  },
-  "packages": ["packages/**"]
+  }
 }
