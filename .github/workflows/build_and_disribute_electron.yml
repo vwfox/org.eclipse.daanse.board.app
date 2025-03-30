@@ -23,12 +23,18 @@ jobs:
       - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
         with:
           node-version: 20.x
+      - name: Install Lerna
+        working-directory: .
+        run: yarn global add lerna
+
       - name: Install
-        #working-directory: ./packages/app/electron
+        working-directory: .
         run: yarn --skip-integrity-check --no-lockfile --network-timeout 100000
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build all Modules
+        working-directory: .
         run: lerna run build
         env:
           NODE_OPTIONS: --max_old_space_size=4096
@@ -39,6 +45,6 @@ jobs:
 
       - name: Publish Electron app
         working-directory: ./packages/app/electron
-        run: yarn run publish
+        run: yarn run publish@electron
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
