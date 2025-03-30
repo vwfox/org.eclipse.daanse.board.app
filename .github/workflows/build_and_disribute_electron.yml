@@ -24,11 +24,13 @@ jobs:
         with:
           node-version: 20.x
       - name: Install
-        #working-directory: ./packages/app/electron
+        working-directory: ./packages/app/electron
         run: yarn --skip-integrity-check --no-lockfile --network-timeout 100000
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build all Modules
+        working-directory: .
         run: lerna run build
         env:
           NODE_OPTIONS: --max_old_space_size=4096
@@ -39,6 +41,6 @@ jobs:
 
       - name: Publish Electron app
         working-directory: ./packages/app/electron
-        run: yarn run publish
+        run: yarn run publish@electron
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
