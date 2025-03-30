@@ -1,15 +1,15 @@
 {
   "name": "org.eclipse.daanse.board.app.electron",
   "productName": "DaanseDesktop",
-  "version": "0.0.1",
+  "version": "0.0.1-next.1",
   "description": "My Electron application description",
   "main": ".vite/build/main.js",
   "scripts": {
     "copy_app_files": "copyfiles -u 2 \"../default/dist/**/*\" pack/app/default",
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "start@electron": "electron-forge start",
+    "package@electron": "electron-forge package",
+    "make@electron": "electron-forge make",
+    "publish@electron": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx ."
   },
   "repository": {
@@ -50,5 +50,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "a3b1cf21a39c0ecbfd94d626c370f257b36ec28d"
 }
