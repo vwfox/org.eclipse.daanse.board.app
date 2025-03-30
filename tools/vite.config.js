@@ -1,4 +1,4 @@
-/**
+export const vite = (config)=>`/**
 Copyright (c) 2023 Contributors to the  Eclipse Foundation.
 This program and the accompanying materials are made
 available under the terms of the Eclipse Public License 2.0
@@ -16,8 +16,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'lib.core',
-      fileName: 'lib.core',
+      name: '${config.name}',
+      fileName: '${config.name}',
     },
     rollupOptions: {
       external: [],
@@ -28,4 +28,4 @@ export default defineConfig({
         insertTypesEntry: true
     })
   ],
-});
+});`

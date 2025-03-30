@@ -45,7 +45,9 @@
     "typescript": "~5.5.4",
     "vite": "6.2.3",
     "vitest": "^3.0.9",
-    "vue-tsc": "^2.1.6"
+    "vue-tsc": "^2.1.6",
+    "@topcli/prompts": "^2.2.0",
+    "cli-color": "^2.0.4"
   },
   "workspaces": [
     "packages/**"
