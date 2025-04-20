@@ -24,8 +24,10 @@ test('Test1', async ({ page },testInfo) => {
   await screenShotter.startStopWatch(page)
   await page.goto('/');
 
-  await screenShotter.takeScreenshot(page,'my_first_Screenshot',false);
-  await screenShotter.makeCuePoint(page,'my_firstCuePoint1',
+  await screenShotter.takeScreenshot(page,'before_click',false);
+  await page.locator("#animationstart").click();
+  await screenShotter.takeScreenshot(page,'after_click',false);
+  await screenShotter.makeCuePoint(page,'after_click',
     'a Cue living a long time ago form start',
     {
       x:20,
@@ -34,11 +36,15 @@ test('Test1', async ({ page },testInfo) => {
       h:100,
       margin:20
     })
+  await page.waitForTimeout(3000);
+  await screenShotter.takeScreenshot(page,'after_animation',false);
   await screenShotter.makeCuePoint(page,'my_secCuePoint2')
   await screenShotter.makeCuePoint(page,'my_terCuePoint3')
-
-
+  await page.locator("#animationstop").click();
+  await screenShotter.takeScreenshot(page,'after_click2',false);
+  await page.waitForTimeout(3000);
+  await screenShotter.takeScreenshot(page,'after_stop',false);
   await screenShotter.generateJsonSummery(page);
-  await expect(page.locator('#app_testable_h1')).toHaveText('You did it!');
+  await expect(page.locator('#w5')).not.toBeInViewport();
 })
 
