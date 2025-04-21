@@ -42,6 +42,7 @@ const register = (widgetRepository: WidgetRepository) => {
     })
 };
 
+
 export default {
     IconWidget,
     IconWidgetSettings,

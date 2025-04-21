@@ -12,14 +12,14 @@ Contributors:
 -->
 
 <script lang="ts" setup>
-// import { useI18n } from "vue-i18n";
+
 import { v4 } from 'uuid'
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import type { IImageSettings } from './index'
+import type {i18n} from "org.eclipse.daanse.board.app.lib.i18next"
 
-// const { t } = useI18n();
 
-const t = (key: string) => key
+const i118n:i18n|undefined = inject('i18n');
 
 const opened = ref({
   widgetSection: false,
@@ -48,7 +48,7 @@ const addNew = () => {
   <va-collapse v-model="opened.widgetSection" header="Image widget settings">
     <div class="settings-container">
       <va-button @click="addNew">
-        {{ t('ImageWidget.addButton') }}
+        {{ i118n?.t('image:ImageWidget.addButton') }}
       </va-button>
       <div class="image-list-container">
         <div
@@ -58,7 +58,7 @@ const addNew = () => {
         >
           <va-input
             v-model="image.url"
-            :label="t('ImageWidget.imageUrl')"
+            :label="i118n?.t('image:ImageWidget.imageUrl')"
             class="image-settings-remove-input"
           />
           <va-button
@@ -71,14 +71,14 @@ const addNew = () => {
       </div>
       <va-select
         v-model="widgetSettings.imagesSettings.fit"
-        :label="t('ImageWidget.imageFit')"
+        :label="i118n?.t('image:ImageWidget.imageFit')"
         :options="['none', 'contain', 'cover', 'fill', 'scale-down']"
         teleport=".settings-container"
       >
       </va-select>
       <va-input
         v-model="widgetSettings.imagesSettings.diashowInterval"
-        :label="t('ImageWidget.imageDiashowInterval')"
+        :label="i118n?.t('image:ImageWidget.imageDiashowInterval')"
       >
       </va-input>
     </div>

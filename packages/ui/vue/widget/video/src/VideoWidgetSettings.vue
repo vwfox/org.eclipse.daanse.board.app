@@ -13,12 +13,12 @@ Contributors:
 
 <script lang="ts" setup>
 // import { useI18n } from "vue-i18n";
-import { ref } from "vue";
+import { inject, ref } from 'vue'
 import type { IVideoSettings } from "./index";
+import type {i18n} from "org.eclipse.daanse.board.app.lib.i18next"
 
-
-// const { t } = useI18n();
-const t = (key:string) => key;
+const i18n:i18n|undefined = inject('i18n');
+const t = (key:string)=>(i18n)?i18n.t(key):key;
 
 const widgetSettings = defineModel<IVideoSettings>({ required: true });
 
@@ -29,16 +29,16 @@ const opened = ref({
 </script>
 
 <template>
-    <va-collapse v-model="opened.widgetSection" :header="t('VideoWidget.title')">
+    <va-collapse v-model="opened.widgetSection" :header="t('video:VideoWidget.title')">
         <div class="settings-container">
             <va-input
                 v-model="widgetSettings.videoUrl"
-                :label="t('VideoWidget.videoUrl')"
+                :label="t('video:VideoWidget.videoUrl')"
             />
             <va-select
                 class="mt-2"
                 v-model="widgetSettings.videoSettings.fit"
-                :label="t('VideoWidget.videoFit')"
+                :label="t('video:VideoWidget.videoFit')"
                 :options="['Cover', 'Contain', 'Stretch', 'Fill', 'None']"
                 teleport=".settings-container">
             </va-select>

@@ -29,7 +29,7 @@ export const pkg = (config)=>`
     "url": "https://github.com/eclipse-daanse/org.eclipse.daanse.board.app/issues"
   },
   "devDependencies": {
-    "inversify": "7.2.0",
+    "inversify": "7.5.1",
     "typescript": "^5.8.2",
     "vite": "^6.2.3",
     "vite-plugin-dts": "4.5.3"

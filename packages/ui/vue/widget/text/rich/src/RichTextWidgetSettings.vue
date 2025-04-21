@@ -12,7 +12,7 @@ Contributors:
 -->
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { inject, ref, watch } from 'vue'
 import StarterKit from "@tiptap/starter-kit";
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import Bold from "@tiptap/extension-bold";
@@ -26,11 +26,11 @@ import CodeBlock from "@tiptap/extension-code-block";
 import Blockquote from "@tiptap/extension-blockquote";
 import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import Underline from "@tiptap/extension-underline";
-// import { useI18n } from "vue-i18n";
 import type { IRichTextEditorSettings } from "./index";
+import type {i18n} from "org.eclipse.daanse.board.app.lib.i18next"
 
-// const { t } = useI18n();
-const t = (key:string) => key;
+const i18n:i18n|undefined = inject('i18n');
+const t = (key:string)=>(i18n)?i18n.t(key):key;
 const widgetSettings = defineModel<IRichTextEditorSettings>({ required: true });
 
 const opened = ref({
@@ -108,21 +108,21 @@ watch(
 </script>
 
 <template>
-    <va-collapse v-model="opened.widgetSection" :header="t('RichTextWidget.title')">
+    <va-collapse v-model="opened.widgetSection" :header="t('textRich:RichTextWidget.title')">
         <div class="settings-container">
             <div v-if="editor">
                 <va-button class="editor-btn" @click="editor.chain().focus().toggleBold().run()"
                     :disabled="!editor.can().chain().focus().toggleBold().run()"
                     :class="{ 'is-active': editor.isActive('bold') }"
                 >
-                    {{ t("RichTextWidget.bold") }}
+                    {{ t("textRich:RichTextWidget.bold") }}
                 </va-button>
                 <va-button
                     class="editor-btn" @click="editor.chain().focus().toggleItalic().run()"
                     :disabled="!editor.can().chain().focus().toggleItalic().run()"
                     :class="{ 'is-active': editor.isActive('italic') }"
                 >
-                    {{ t("RichTextWidget.italic") }}
+                    {{ t("textRich:RichTextWidget.italic") }}
                 </va-button>
                 <va-button
                 class="editor-btn"
@@ -130,7 +130,7 @@ watch(
                     :disabled="!editor.can().chain().focus().toggleStrike().run()"
                     :class="{ 'is-active': editor.isActive('strike') }"
                 >
-                    {{ t("RichTextWidget.strike") }}
+                    {{ t("textRich:RichTextWidget.strike") }}
                 </va-button>
                 <va-button
                     class="editor-btn"
@@ -138,7 +138,7 @@ watch(
                     :disabled="!editor.can().chain().focus().toggleUnderline().run()"
                     :class="{ 'is-active': editor.isActive('underline') }"
                 >
-                    {{ t("RichTextWidget.underline") }}
+                    {{ t("textRich:RichTextWidget.underline") }}
                 </va-button>
                 <va-button
                     class="editor-btn"
@@ -146,26 +146,26 @@ watch(
                     :disabled="!editor.can().chain().focus().toggleCode().run()"
                     :class="{ 'is-active': editor.isActive('code') }"
                 >
-                    {{ t("RichTextWidget.code") }}
+                    {{ t("textRich:RichTextWidget.code") }}
                 </va-button>
                 <va-button
                     class="editor-btn"
                     @click="editor.chain().focus().unsetAllMarks().run()"
                 >
-                    {{ t("RichTextWidget.clearMarks") }}
+                    {{ t("textRich:RichTextWidget.clearMarks") }}
                 </va-button>
                 <va-button
                     class="editor-btn"
                     @click="editor.chain().focus().clearNodes().run()"
                 >
-                    {{ t("RichTextWidget.clearNodes") }}
+                    {{ t("textRich:RichTextWidget.clearNodes") }}
                 </va-button>
                 <va-button
                     class="editor-btn"
                     @click="editor.chain().focus().setParagraph().run()"
                     :class="{ 'is-active': editor.isActive('paragraph') }"
                 >
-                    {{ t("RichTextWidget.paragraph") }}
+                    {{ t("textRich:RichTextWidget.paragraph") }}
                 </va-button>
                 <va-button
                     class="editor-btn"
@@ -213,53 +213,53 @@ watch(
                     @click="editor.chain().focus().toggleBulletList().run()"
                     :class="{ 'is-active': editor.isActive('bulletList') }"
                 >
-                    {{ t("RichTextWidget.bulletList") }}
+                    {{ t("textRich:RichTextWidget.bulletList") }}
                 </va-button>
                 <va-button class="editor-btn"
                     @click="editor.chain().focus().toggleOrderedList().run()"
                     :class="{ 'is-active': editor.isActive('orderedList') }"
                 >
-                    {{ t("RichTextWidget.orderedList") }}
+                    {{ t("textRich:RichTextWidget.orderedList") }}
                 </va-button>
                 <va-button
                     class="editor-btn"
                     @click="editor.chain().focus().toggleCodeBlock().run()"
                     :class="{ 'is-active': editor.isActive('codeBlock') }"
                 >
-                    {{ t("RichTextWidget.codeBlock") }}
+                    {{ t("textRich:RichTextWidget.codeBlock") }}
                 </va-button>
                 <va-button
                     class="editor-btn"
                     @click="editor.chain().focus().toggleBlockquote().run()"
                     :class="{ 'is-active': editor.isActive('blockquote') }"
                 >
-                    {{ t("RichTextWidget.blockQuote") }}
+                    {{ t("textRich:RichTextWidget.blockQuote") }}
                 </va-button>
                 <va-button
                     class="editor-btn"
                     @click="editor.chain().focus().setHorizontalRule().run()"
                 >
-                    {{ t("RichTextWidget.horizontalRule") }}
+                    {{ t("textRich:RichTextWidget.horizontalRule") }}
                 </va-button>
                 <va-button
                     class="editor-btn"
                     @click="editor.chain().focus().setHardBreak().run()"
                 >
-                    {{ t("RichTextWidget.hardBreak") }}
+                    {{ t("textRich:RichTextWidget.hardBreak") }}
                 </va-button>
                 <va-button
                     class="editor-btn"
                     @click="editor.chain().focus().undo().run()"
                     :disabled="!editor.can().chain().focus().undo().run()"
                 >
-                    {{ t("RichTextWidget.undo") }}
+                    {{ t("textRich:RichTextWidget.undo") }}
                 </va-button>
                 <va-button
                     class="editor-btn"
                     @click="editor.chain().focus().redo().run()"
                     :disabled="!editor.can().chain().focus().redo().run()"
                 >
-                    {{ t("RichTextWidget.redo") }}
+                    {{ t("textRich:RichTextWidget.redo") }}
                 </va-button>
             </div>
             <div class="editor">

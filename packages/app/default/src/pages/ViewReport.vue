@@ -13,6 +13,7 @@ Contributors:
 
 <script setup lang="ts">
 import { SampleWidget } from 'org.eclipse.daanse.board.app.ui.vue.widget.sample'
+
 </script>
 
 <template>
@@ -21,5 +22,6 @@ import { SampleWidget } from 'org.eclipse.daanse.board.app.ui.vue.widget.sample'
       :datasourceId="'test'"
       class="absolute left-[200px] top-[200px] w-[800px] h-[600px] overflow-auto"
     />
+    {{$t("common:PivotTableSettingsModal.pivotTableSettings")}}
   </div>
 </template>

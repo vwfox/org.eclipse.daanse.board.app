@@ -56,9 +56,47 @@ import {
   symbol as RestDatasourceIdentifier,
 } from 'org.eclipse.daanse.board.app.lib.datasource.rest'
 import {
-  WidgetRepository,
+  init as initI18next,
+  symbolForI18n,
+} from "org.eclipse.daanse.board.app.lib.i18next"
+
+import {
+  init as initCommonEn
+} from "org.eclipse.daanse.board.app.ui.vue.lang.common.en"
+
+import {
+  init as initI18nextVuePlugin,
+  I18nextVuePlugin
+} from "org.eclipse.daanse.board.app.ui.vue.plugins.i18next"
+
+import {
+  init as initLangEnIconWidget,
+} from "org.eclipse.daanse.board.app.ui.vue.lang.icon.en"
+import {
+  init as initLangEnIamgeWidget,
+} from "org.eclipse.daanse.board.app.ui.vue.lang.image.en"
+import {
+  init as initLangEnPrgressWidget,
+} from "org.eclipse.daanse.board.app.ui.vue.lang.progress.en"
+import {
+  init as initLangEnVideoWidget,
+} from "org.eclipse.daanse.board.app.ui.vue.lang.video.en"
+import {
+  init as initLangEnSvgBaseWidget,
+} from "org.eclipse.daanse.board.app.ui.vue.lang.svg.base.en"
+import {
+  init as initLangEnSvgRepeatWidget,
+} from "org.eclipse.daanse.board.app.ui.vue.lang.svg.repeat.en"
+import {
+  init as initLangEnTextRichWidget,
+} from "org.eclipse.daanse.board.app.ui.vue.lang.text.rich.en"
+import {
+  init as initLangEnTextPlainWidget,
+} from "org.eclipse.daanse.board.app.ui.vue.lang.text.plain.en"
+
+
+import {
   init as initWidgetRepo,
-  identifier as WidgetIdentifier,
 } from 'org.eclipse.daanse.board.app.lib.repository.widget'
 import { init as initSample } from
   'org.eclipse.daanse.board.app.ui.vue.widget.sample'
@@ -84,6 +122,11 @@ container.bind(identifiers.CONTAINER).toDynamicValue((ctx: any) => {
   return ctx
 })
 
+initI18next(container)
+
+initCommonEn(container)
+initI18nextVuePlugin(container)
+
 initConnection(container)
 initDatasource(container)
 initConnectionFactory(container)
@@ -100,6 +143,15 @@ initTextPlain(container)
 initTextRich(container)
 initSvgBase(container)
 initSvgRepeat(container)
+
+initLangEnIconWidget(container)
+initLangEnIamgeWidget(container)
+initLangEnPrgressWidget(container)
+initLangEnSvgBaseWidget(container)
+initLangEnSvgRepeatWidget(container)
+initLangEnTextRichWidget(container)
+initLangEnTextPlainWidget(container)
+initLangEnVideoWidget(container)
 
 const connectionRepository = container.get<ConnectionRepository>(ConnectionIdentifier)
 connectionRepository.registerConnectionType('rest', {
@@ -125,7 +177,7 @@ datasourceRepository.registerDatasource('test', 'rest', {
 })
 
 app.config.globalProperties.$container = container
-
+app.use(I18nextVuePlugin);
 app.use(createPinia())
 app.use(router)
 

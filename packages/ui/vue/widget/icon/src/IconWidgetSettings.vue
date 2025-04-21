@@ -12,7 +12,7 @@ Contributors:
 -->
 <script lang="ts" setup>
 import type { IIconSettings } from './index'
-import { computed, onMounted, ref, type Ref } from 'vue'
+import { computed, inject, onMounted, ref, type Ref } from 'vue'
 import MaterialIcons from './assets/output.json'
 
 // interface MaterialIcon {
@@ -26,10 +26,11 @@ import MaterialIcons from './assets/output.json'
 //     sizes_px?: number[];
 // }
 
-// import { useI18n } from "vue-i18n";
+import type {i18n} from "org.eclipse.daanse.board.app.lib.i18next"
 
-// const { t } = useI18n();
-const t = (key: string) => key
+const i18n:i18n|undefined = inject('i18n');
+const t = (key:string)=>(i18n)?i18n.t(key):key;
+
 const opened = ref({
   widgetSection: false,
   storeSection: false,
@@ -72,7 +73,7 @@ const iconStyle = computed(() => {
       <va-input
         v-model="searchQuery"
         placeholder="Search icon..."
-        :label="t('IconWidget.iconSearch')"
+        :label="t('icon:IconWidget.iconSearch')"
       />
       <div class="icons-container" :style="iconStyle">
         <span
@@ -87,11 +88,11 @@ const iconStyle = computed(() => {
       </div>
       <va-checkbox
         v-model="widgetSettings.isIconFilled"
-        :label="t('IconWidget.iconFilled')"
+        :label="t('icon:IconWidget.iconFilled')"
       />
       <va-color-input
         v-model="widgetSettings.iconColor"
-        :label="t('IconWidget.iconColor')"
+        :label="t('icon:IconWidget.iconColor')"
       />
       <va-slider
         class="slider"
@@ -101,7 +102,7 @@ const iconStyle = computed(() => {
         :min="10"
         :max="1000"
         :step="10"
-        :label="t('IconWidget.iconSize')"
+        :label="t('icon:IconWidget.iconSize')"
       />
       <va-slider
         class="slider"
@@ -111,7 +112,7 @@ const iconStyle = computed(() => {
         :min="100"
         :max="700"
         :step="100"
-        :label="t('IconWidget.strokeWeight')"
+        :label="t('icon:IconWidget.strokeWeight')"
       />
       <va-slider
         class="slider"
@@ -120,7 +121,7 @@ const iconStyle = computed(() => {
         track-label-visible
         :min="20"
         :max="48"
-        :label="t('IconWidget.opticSize')"
+        :label="t('icon:IconWidget.opticSize')"
       />
       <va-slider
         class="slider"
@@ -130,7 +131,7 @@ const iconStyle = computed(() => {
         :min="-25"
         :max="200"
         :step="15"
-        :label="t('IconWidget.grade')"
+        :label="t('icon:IconWidget.grade')"
       />
     </div>
   </va-collapse>
