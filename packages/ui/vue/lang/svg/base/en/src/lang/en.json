@@ -1,0 +1,7 @@
+{
+  "SvgWidget": {
+    "title": "SVG widget settings",
+    "svgSrc": "SVG src",
+    "addButton": "Add items"
+  }
+}

@@ -9,3 +9,4 @@ Contributors: Smart City Jena
 */
 
 /// <reference types="vite/client" />
+

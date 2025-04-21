@@ -1,0 +1,12 @@
+{
+  "ProgressWidget": {
+    "title": "Progress widget settings",
+    "progress": "Progress",
+    "fillColor": "Progress fill color",
+    "backgroundColor": "Progress background color",
+    "isVertical": "Vertical",
+    "isGradient": "Gradient",
+    "addButton": "Add color",
+    "rotation": "Rotation"
+  }
+}

@@ -13,11 +13,13 @@ Contributors:
 
 <script lang="ts" setup>
 // import { useI18n } from "vue-i18n";
-import { ref, watch } from "vue";
+import { inject, ref, watch } from 'vue'
 import type { Config, ISvgSettings } from "./index";
+import type {i18n} from "org.eclipse.daanse.board.app.lib.i18next"
 
-// const { t } = useI18n();
-const t = (key:string) => key;
+const i18n:i18n|undefined = inject('i18n');
+const t = (key:string)=>(i18n)?i18n.t(key):key;
+
 const widgetSettings = defineModel<ISvgSettings>({ required: true });
 
 const opened = ref({
@@ -59,11 +61,11 @@ watch(
 </script>
 
 <template>
-    <va-collapse v-model="opened.widgetSection" :header="t('SvgWidget.title')">
+    <va-collapse v-model="opened.widgetSection" :header="t('svgBase:SvgWidget.title')">
         <div class="settings-container">
-            <va-input v-model="widgetSettings.src" :label="t('SvgWidget.svgSrc')" />
+            <va-input v-model="widgetSettings.src" :label="t('svgBase:SvgWidget.svgSrc')" />
             <va-button class="add-button" @click="addItems">
-                {{ t("SvgWidget.addButton") }}
+                {{ t("svgBase:SvgWidget.addButton") }}
             </va-button>
             <va-data-table
                 class="table-config"

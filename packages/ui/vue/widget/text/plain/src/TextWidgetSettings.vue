@@ -13,8 +13,8 @@ Contributors:
 
 <script lang="ts" setup>
 import type { ITextSettings } from './index'
-import { ref } from 'vue'
-// import { useI18n } from "vue-i18n";
+import { inject, ref } from 'vue'
+import type {i18n} from "org.eclipse.daanse.board.app.lib.i18next"
 
 const opened = ref({
   widgetSection: false,
@@ -23,29 +23,31 @@ const opened = ref({
 
 const widgetSettings = defineModel<ITextSettings>({ required: true })
 
-// const { t } = useI18n();
-const t = (key: string) => key
+
+
+const i18n:i18n|undefined = inject('i18n');
+const t = (key:string)=>(i18n)?i18n.t(key):key;
 </script>
 
 <template>
-  <va-collapse v-model="opened.widgetSection" :header="t('TextWidget.title')">
+  <va-collapse v-model="opened.widgetSection" :header="t('textBase:TextWidget.title')">
     <div class="settings-container">
       <div class="settings-block">
         <va-input
           class="text-title"
-          :label="t('TextWidget.label')"
+          :label="t('textBase:TextWidget.label')"
           v-model="widgetSettings.text"
         />
         <va-input
           class="text-size"
-          :label="t('TextWidget.fontSize')"
+          :label="t('textBase:TextWidget.fontSize')"
           v-model="widgetSettings.fontSize"
         />
       </div>
       <div class="settings-block">
         <va-color-input
           class="text-color"
-          :label="t('TextWidget.fontColor')"
+          :label="t('textBase:TextWidget.fontColor')"
           v-model="widgetSettings.fontColor"
         />
         <div class="align-buttons-group align-buttons-group__format">

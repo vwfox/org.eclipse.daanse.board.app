@@ -13,8 +13,11 @@ Contributors:
 
 <script setup lang="ts">
 import type { IProgressSettings } from "./index";
-import { ref, watch } from "vue";
-// import { useI18n } from "vue-i18n";
+import { inject, onMounted, ref, watch } from 'vue'
+import type {i18n} from "org.eclipse.daanse.board.app.lib.i18next"
+
+const i18n:i18n|undefined = inject('i18n');
+const t = (key:string)=>(i18n)?i18n.t(key):key;
 
 interface GradientPart {
   color: string;
@@ -30,7 +33,7 @@ const gradientFields = ref<GradientPart[]>([]);
 const widgetSettings = defineModel<IProgressSettings>({ required: true });
 
 // const { t } = useI18n();
-const t = (key:string) => key;
+
 
 const addItem = () => {
   return gradientFields.value.push({
@@ -85,39 +88,39 @@ watch(
 <template>
 <va-collapse
         v-model="opened.widgetSection"
-        :header="t('ProgressWidget.title')"
+        :header="t('progress:ProgressWidget.title')"
     >
         <div class="settings-container">
             <va-input
                 v-model="widgetSettings.progress"
-                :label="t('ProgressWidget.progress')"
+                :label="t('progress:ProgressWidget.progress')"
             />
             <va-color-input
                 v-model="widgetSettings.fillColor"
-                :label="t('ProgressWidget.fillColor')"
+                :label="t('progress:ProgressWidget.fillColor')"
             />
             <va-color-input
                 v-model="widgetSettings.backgroundColor"
-                :label="t('ProgressWidget.backgroundColor')"
+                :label="t('progress:ProgressWidget.backgroundColor')"
             />
             <va-checkbox
                 v-model="widgetSettings.isVertical"
-                :label="t('ProgressWidget.isVertical')"
+                :label="t('progress:ProgressWidget.isVertical')"
             />
             <va-checkbox
                 v-model="widgetSettings.isGradient"
-                :label="t('ProgressWidget.isGradient')"
+                :label="t('progress:ProgressWidget.isGradient')"
             />
         </div>
         <div class="mt-3" v-if="widgetSettings.isGradient">
             <va-button class="add-btn" @click="addItem">
-                {{ t("ProgressWidget.addButton") }}
+                {{ t("progress:ProgressWidget.addButton") }}
             </va-button>
             <div>
                 <va-input
                     class="mt-2"
                     v-model="widgetSettings.rotation"
-                    :label="t('ProgressWidget.rotation')"
+                    :label="t('progress:ProgressWidget.rotation')"
                 />
                 <va-data-table
                     class="table-config"
