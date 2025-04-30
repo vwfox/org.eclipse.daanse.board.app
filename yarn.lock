@@ -2732,9 +2732,9 @@
   integrity sha512-NtoQw6PGijOAtXC6G+0Aq0/Z5wwEjPhNHs8nsjXogfWIgaj/aI4/zfBnA06eI3WT+emMYQTl0fTc4CUPnLVU8g==
 
 "@tiptap/pm@^2.11.2", "@tiptap/pm@^2.11.7":
-  version "2.11.7"
-  resolved "https://registry.yarnpkg.com/@tiptap/pm/-/pm-2.11.7.tgz#34e1dbe1f27ea978bc740c9144ae8195948609e3"
-  integrity sha512-7gEEfz2Q6bYKXM07vzLUD0vqXFhC5geWRA6LCozTiLdVFDdHWiBrvb2rtkL5T7mfLq03zc1QhH7rI3F6VntOEA==
+  version "2.11.9"
+  resolved "https://registry.yarnpkg.com/@tiptap/pm/-/pm-2.11.9.tgz#fc7c9be1998a2d32b1f138ce16a77bb50572d07e"
+  integrity sha512-hhonYVcL3fRkWyiCFJQ7HHXtmFviwnof8VDRFX1vm69GskGeqUTJUFR+1as2hZYekHe5rO4FZUm1dlETDWTnzQ==
   dependencies:
     prosemirror-changeset "^2.2.1"
     prosemirror-collab "^1.3.1"
