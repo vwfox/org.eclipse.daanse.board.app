@@ -1,5 +1,5 @@
 /**
-Copyright (c) 2023 Contributors to the  Eclipse Foundation.
+Copyright (c) 2025 Contributors to the  Eclipse Foundation.
 This program and the accompanying materials are made
 available under the terms of the Eclipse Public License 2.0
 which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -14,18 +14,19 @@ import dts from 'vite-plugin-dts'
 
 export default defineConfig({
   build: {
+    sourcemap: true,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'lib.core',
-      fileName: 'lib.core',
+      fileName: 'lib.core'
     },
     rollupOptions: {
-      external: [],
-    },
+      external: []
+    }
   },
   plugins: [
     dts({
-      insertTypesEntry: true,
-    }),
-  ],
+      insertTypesEntry: true
+    })
+  ]
 })

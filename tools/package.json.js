@@ -7,7 +7,7 @@
  *
  * Contributors: Smart City Jena
  */
-export const pkg = (config)=>`
+export const pkg = (config) => `
 {
   "name": "org.eclipse.daanse.board.app.${config.name}",
   "version": "${config.version}",

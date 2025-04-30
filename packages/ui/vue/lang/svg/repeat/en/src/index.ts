@@ -8,14 +8,14 @@ SPDX-License-Identifier: EPL-2.0
 Contributors: Smart City Jena
 */
 
-import type { Container } from "inversify";
-import {symbolForI18n} from "org.eclipse.daanse.board.app.lib.i18next";
-import type {i18n} from "org.eclipse.daanse.board.app.lib.i18next";
-import en from "./lang/en.json";
+import type { Container } from 'inversify'
+import { symbolForI18n } from 'org.eclipse.daanse.board.app.lib.i18next'
+import type { i18n } from 'org.eclipse.daanse.board.app.lib.i18next'
+import en from './lang/en.json'
 
 const init = (container: Container) => {
-  const i18n = container.get<i18n>(symbolForI18n);
-  i18n.addResourceBundle('en', 'svgRepeat', en);
+  const i18n = container.get<i18n>(symbolForI18n)
+  i18n.addResourceBundle('en', 'svgRepeat', en)
 }
 
 export {

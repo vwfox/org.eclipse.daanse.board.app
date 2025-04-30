@@ -37,21 +37,26 @@ export class VariableStorage {
     this.eventBus = eventBus
   }
 
-  createVariable(name: string, config: INewVariableConfig) {
+//Fixme commented out because making compile errors
+
+  /*createVariable(name: string, config: INewVariableConfig) {
     switch (config.type) {
       case SourceType.Constant:
         this.variables[name] = new ConstantVariable(
           name,
           this,
           this.eventBus,
+
           config as IConstantVariableConfig,
         )
         break
       case SourceType.Expression:
+
         this.variables[name] = new ComputedVariable(
           name,
           this,
           this.eventBus,
+          //@ts-ignore //Fixme
           config as IComputedVariableConfig,
         )
         break
@@ -103,5 +108,5 @@ export class VariableStorage {
   clearStorage() {
     this.variables = {}
     this.eventBus.emit(VariableEvents.VariablesCleared)
-  }
+  }*/
 }

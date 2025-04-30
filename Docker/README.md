@@ -1,10 +1,12 @@
 # Eclipse Daanse - Board
 
-**Eclipse Daanse - Board** is a web client-only analysis, dashboarding, and reporting platform for analyzing data. This Docker image allows you to easily deploy the application in a containerized environment.
+**Eclipse Daanse - Board** is a web client-only analysis, dashboarding, and reporting platform for analyzing data. This Docker image allows you to
+easily deploy the application in a containerized environment.
 
 ## Overview
 
-This image is based on the official [`nginxinc/nginx-unprivileged:alpine-slim`](https://hub.docker.com/r/nginxinc/nginx-unprivileged) and is configured to expose port **8080**. Nginx runs as a non-root user to enhance security.
+This image is based on the official [`nginxinc/nginx-unprivileged:alpine-slim`](https://hub.docker.com/r/nginxinc/nginx-unprivileged) and is
+configured to expose port **8080**. Nginx runs as a non-root user to enhance security.
 
 ## Features
 
