@@ -64,4 +64,19 @@ import Header from './components/common/Header.vue'
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+
+</style>
+<style>
+.va-modal{
+  z-index: 3700!important;
+  .va-dropdown__content{
+      z-index: 3800;
+  }
+}
+.va-dropdown__content{
+  z-index: 3800!important;
+}
+
+</style>

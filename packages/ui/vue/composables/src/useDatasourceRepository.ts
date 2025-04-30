@@ -16,7 +16,7 @@ import {
   identifier,
   DatasourceRepository,
 } from 'org.eclipse.daanse.board.app.lib.repository.datasource'
-import { onMounted, onUnmounted, type Ref, getCurrentInstance } from 'vue'
+import { onMounted, onUnmounted, type Ref, getCurrentInstance, reactive } from 'vue'
 import { watch, ref } from 'vue'
 
 export interface IVueDatasourceRepository {
@@ -53,8 +53,9 @@ export function useDatasourceRepository(
     }
 
     try {
-      const dataSource = datasourceRepository.getDatasource(dataSourceId.value)
-      data.value = await dataSource.getData(type)
+      const dataSource = datasourceRepository.getDatasource(dataSourceId.value);
+      const dataRaw = await dataSource.getData(type);
+      data.value = structuredClone(dataRaw);
     } catch (e) {
       data.value = null
       console.warn(e)
@@ -91,13 +92,21 @@ export function useDatasourceRepository(
   // )
 
   const update = (oldVal: string, newVal: string) => {
-    getData()
+    try {
+      getData()
+    }catch (e){
+      console.warn(e)
+    }
+
     try {
       const oldDataSource = datasourceRepository.getDatasource(oldVal)
       oldDataSource.unsubscribe(getData)
-
+    } catch (e) {
+      console.warn(e)
+    }
+    try {
       const dataSource = datasourceRepository.getDatasource(newVal)
-      dataSource.subscribe(getData)
+      dataSource.subscribe(()=>getData())
     } catch (e) {
       console.warn(e)
     }

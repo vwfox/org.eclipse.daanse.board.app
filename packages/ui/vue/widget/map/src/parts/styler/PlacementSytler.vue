@@ -22,6 +22,7 @@ const model: ModelRef<PlacementI> = defineModel<PlacementI>({
 </script>
 
 <template>
+  <div>
   <label id="input-label-240" aria-hidden="true"
           class="va-input-label va-input-wrapper__label va-input-wrapper__label--outer"
           style="color: var(--va-primary);">render within </label>
@@ -31,6 +32,8 @@ const model: ModelRef<PlacementI> = defineModel<PlacementI>({
     label="render within"
     type="radio"
   />
+  </div>
+  <div></div>
 </template>
 
 <style scoped>

@@ -14,7 +14,7 @@ import MapPreviewPoint from './../../parts/MapPreviewPoint.vue'
 import { type ModelRef, reactive } from 'vue'
 
 import { Comperator, type ICondition, type IPointAndAreaSettings, type IRenderer } from './../../api/Renderer'
-
+import {IconWidgetSettings,IconWidget}  from 'org.eclipse.daanse.board.app.ui.vue.widget.icon'
 
 const model: ModelRef<IPointAndAreaSettings> = defineModel<IPointAndAreaSettings>({
   default: () => {
@@ -111,8 +111,7 @@ const pointSelectorOptions = [
             <div class="pin icon">
               <div class="inner">
 
-                <IconWidget :config="model.point"
-                            :datasourceId="''"></IconWidget>
+                <IconWidget :config="model.point"></IconWidget>
               </div>
             </div>
 

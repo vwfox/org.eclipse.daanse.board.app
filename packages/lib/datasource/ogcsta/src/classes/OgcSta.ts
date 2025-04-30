@@ -47,7 +47,8 @@ export class OgcStaStore extends BaseDatasource implements OgcStaStoreI {
     } else {
       this.requestFlag = { key: FILTERRESET, params: params }
     }
-    this.notify()
+    //this.getData<string>('OGCSTAData');
+    this.notify();
   }
 
   destroy(): void {

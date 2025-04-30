@@ -24,7 +24,7 @@ const defaultConfig: IIconSettings = {
     strokeWeight: 100,
     opticSize: 48,
     grade: 48,
-    currentIcon: "",
+    currentIcon: "10k",
 };
 
 onMounted(() => {

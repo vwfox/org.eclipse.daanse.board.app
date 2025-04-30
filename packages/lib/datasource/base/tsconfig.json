@@ -4,7 +4,7 @@
     "declarationMap": true,
     "inlineSources": true,
     /* Language and Environment */
-    "target": "ESNext"
+    "target": "es2016"
     /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
     "experimentalDecorators": true
     /* Enable experimental support for legacy experimental decorators. */,
@@ -15,8 +15,7 @@
     /* Specify what module code is generated. */,
     /* Emit */
     "declaration": true
-    /* Generate .d.ts files from TypeScript and JavaScript files in your project. */,
-    "outDir": "./dist/types"
+    /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
     /* Specify an output folder for all emitted files. */,
     /* Interop Constraints */
     "esModuleInterop": true

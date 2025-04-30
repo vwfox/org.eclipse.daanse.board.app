@@ -171,7 +171,7 @@ watch(selectedType, (newType) => {
   background-color: #ecf0f1;
   padding: 1rem;
   border-radius: 8px;
-  z-index: 1000000;
+  z-index: 3500;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 </style>

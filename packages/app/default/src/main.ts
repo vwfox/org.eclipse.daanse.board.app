@@ -134,6 +134,7 @@ import { init as initSvgRepeat } from 'org.eclipse.daanse.board.app.ui.vue.widge
 import { init as initTableData } from 'org.eclipse.daanse.board.app.ui.vue.widget.table.data'
 import { init as initRestDatasourceUI } from 'org.eclipse.daanse.board.app.ui.vue.datasource.rest'
 import { init as initRestConnectionUI } from 'org.eclipse.daanse.board.app.ui.vue.connection.rest'
+import { init as initIconWidget } from 'org.eclipse.daanse.board.app.ui.vue.widget.icon'
 import { init as initXmlaConnectionUI } from 'org.eclipse.daanse.board.app.ui.vue.connection.xmla'
 import {
   init as initXmlaDatasourceUI
@@ -203,7 +204,9 @@ initTextPlain(container)
 initTextRich(container)
 initSvgBase(container)
 initSvgRepeat(container)
+initIconWidget(container)
 initWidgetMap(container)
+
 
 initLangEnIconWidget(container)
 initLangEnIamgeWidget(container)

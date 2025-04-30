@@ -9,7 +9,7 @@ Contributors: Smart City Jena
 
 -->
 <script lang="ts" setup>
-import { computed, onMounted, ref, toRaw, toRefs, watch } from 'vue'
+import { computed, onMounted, reactive, ref, toRaw, toRefs, watch } from 'vue'
 import type { IMapSettings } from './Settings'
 import 'leaflet/dist/leaflet.css'
 
@@ -17,7 +17,6 @@ import { LMap, LWmsTileLayer, LTileLayer, LGeoJson, LMarker, LIcon } from '@vue-
 import { useComparator } from './composables/comparator'
 import { useUtils } from './composables/utils'
 import { type BoxedDatastream } from 'org.eclipse.daanse.board.app.lib.datasource.ogcsta/dist/src/interfaces/OgcStaConfiguration'
-import type { FeatureCollection } from './api/FeatureCollection'
 import L, { PointExpression } from 'leaflet'
 import { ERefType, IRenderer } from './api/Renderer'
 import { resolve } from './utils/helpers'
@@ -31,7 +30,7 @@ import booleanContains from '@turf/boolean-contains'
 import { feature } from '@turf/helpers'
 import pointOnFeature from '@turf/point-on-feature'
 import { useDataPointRegistry } from './composables/datapointRegistry'
-
+import {IconWidget}  from 'org.eclipse.daanse.board.app.ui.vue.widget.icon'
 const props = defineProps<{ datasourceId: string, config: IMapSettings }>()
 const { datasourceId, config } = toRefs(props)
 
@@ -51,16 +50,15 @@ const { filterFeatureCollection, compareDatastream, compareThing } = useComparat
 const { isPoint, isFeatureCollection, transformToGeoJson, isFeature } = useUtils()
 
 
-//const { data,callEvent } = useDatasourceRepository(datasourceId, OGCSTAData);
-
-//const { datasourceId } = toRefs(props)
-const data = ref(null)
-
-watch(datasourceId, (oldVal, newVal) => {
-  update(oldVal, newVal)
+const data = ref<any>({})
+const { update, callEvent } = useDatasourceRepository(datasourceId, 'OGCSTAData', data)
+watch(datasourceId, (value, oldValue, onCleanup) => {
+  console.log(value)
+  console.log(oldValue)
+  update(oldValue, value)
 })
 
-const { update, callEvent } = useDatasourceRepository(datasourceId, 'OGCSTAData', data)
+
 
 const { getById } = useDataPointRegistry()
 const openThing = ref<{ [key: string]: boolean }>({})
@@ -80,7 +78,10 @@ onMounted(() => {
 
   if (mapDiv) resizeObserver.observe(mapDiv)
 })
-
+watch(data,(value, oldValue, onCleanup)=>{
+  console.log('data Changed')
+  console.log(value)
+},{deep:true})
 const locations = computed(() => {
   return (data.value as any)['locations'] ?? []
 })
@@ -97,7 +98,6 @@ const getStyle = computed(() => {
 const options = computed(() => {
   return {
     pointToLayer: (feature: any, latlng: any) => {
-      console.log(feature)
       return L.circleMarker(latlng, {
         radius: 0,
         fillColor: '#ff7800',
@@ -162,9 +162,14 @@ const loadObservationsInView = () => {
             }
           } else {
             if (dataStream.thing && dataStream.thing!.locations && dataStream.thing!.locations[0]) {
-              if (booleanContains(bboxFeature, transformToGeoJson(dataStream.thing!.locations[0].location))) {
-                taskListByTime[refreshtime].push(dataStream)
+              try{
+                if (booleanContains(bboxFeature, transformToGeoJson(dataStream.thing!.locations[0].location))) {
+                  taskListByTime[refreshtime].push(dataStream)
+                }
+              }catch (e){
+                console.log('FeatureCollection not supported')
               }
+
             }
 
             console.log(dataStream.Thing)
@@ -279,16 +284,6 @@ const getPointformArea = (PointOrFeature: any) => {
             <!-- </template>-->
           </template>
         </template>
-        <template v-if="wmsLayer.type == 'WFSLayer'">
-
-          <template v-for="styleID in wmsLayer.styleIds" :key="styleID">
-            <!--<template v-if="compareDatastream(wmsLayer.wfs_service?.geoJson as BoxedDatastream, config.styles.find(style=>style.id==styleID)!)">-->
-            <l-geo-json v-if="!isPoint(wmsLayer.wfs_service?.geoJson)" ref="thingsLayer"
-                        :geojson="filterFeatureCollection(wmsLayer.wfs_service?.geoJson as any,config.styles.find(style=>style.id==styleID)!)"
-                        :options-style="()=>config.styles.find(style=>style.id==styleID)?.renderer.area"></l-geo-json>
-            <!-- </template>-->
-          </template>
-        </template>
         <template v-if="wmsLayer.type=='OGCSTA'">
           <template v-for="renderer in config.OGCSstyles" :key="renderer.id">
 
@@ -310,8 +305,7 @@ const getPointformArea = (PointOrFeature: any) => {
                       <template v-if="renderer.renderer.point_render_as=='icon'">
                         <div :style="{background:renderer.renderer.pointPin.color}" class="pin icon">
                           <div class="inner">
-                            <!--<IconWidget currentIcon="add_location_alt"
-                                        v-bind="renderer.renderer.point"></IconWidget>-->
+                            <IconWidget :config="renderer.renderer.point"></IconWidget>
                           </div>
                         </div>
 
@@ -343,14 +337,14 @@ const getPointformArea = (PointOrFeature: any) => {
                               <div :style="{background:subrenderer.renderer.pointPin.color}"
                                     class="pin icon round">
                                 <div class="inner">
-                                  <!--<IconWidget
-                                      v-bind="subrenderer.renderer.point"></IconWidget>-->
+                                  <IconWidget :config="subrenderer.renderer.point"></IconWidget>
                                 </div>
                                 <template v-if="datastream.observations">
                                   <component
                                     :is="getById(subrenderer.observation?.component)?.component"
                                     v-if="getById(subrenderer.observation?.component)"
-                                    v-bind="{...subrenderer.observation?.setting,data:datastream.observations[0]?.result}"></component>
+                                    :config="subrenderer.observation.setting"
+                                    :data="datastream.observations[0]?.result"></component>
                                 </template>
                               </div>
                             </template>
@@ -364,7 +358,8 @@ const getPointformArea = (PointOrFeature: any) => {
                                   <component
                                     :is="getById(subrenderer.observation?.component)?.component"
                                     v-if="getById(subrenderer.observation?.component)"
-                                    v-bind="{...subrenderer.observation?.setting,data:datastream.observations[0]?.result}"></component>
+                                    :config="subrenderer.observation?.setting"
+                                    :data="datastream.observations[0]?.result"></component>
                                 </template>
                               </div>
                             </template>
@@ -373,7 +368,8 @@ const getPointformArea = (PointOrFeature: any) => {
                                 <component
                                   :is="getById(subrenderer.observation?.component)?.component"
                                   v-if="getById(subrenderer.observation?.component)"
-                                  v-bind="{...subrenderer.observation?.setting,data:datastream.observations[0]?.result}"></component>
+                                  :config="subrenderer.observation?.setting"
+                                  :data="datastream.observations[0]?.result"></component>
                               </template>
                             </template>
 
@@ -398,5 +394,95 @@ const getPointformArea = (PointOrFeature: any) => {
 </template>
 
 <style scoped>
+.text-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 1rem;
+  align-items: stretch;
+}
 
+.pin {
+  width: 45px;
+  height: 45px;
+  border-radius: 50% 50% 50% 0;
+
+
+  transform: rotate(-45deg);
+  left: 50%;
+  top: 50%;
+  margin: -15px 71px 0 -15px;
+  box-shadow: -4px -6px 8px #0000005c;
+
+  &.round {
+    border-radius: 50% 50% 50% 50%;
+  }
+
+  &.contain {
+    width: auto;
+    height: auto;
+    border-radius: 25%;
+    display: inline-block;
+    transform: rotate(0deg);
+    padding: 4px;
+    margin: 0px;
+
+    .inner {
+      width: auto;
+      height: auto;
+      margin: 0;
+      position: relative;
+      transform: rotate(0deg);
+      border-radius: 17%;
+      display: inline-block;
+      font-size: 13px;
+      padding: 3px;
+    }
+  }
+
+  .datapoint{
+    transform: rotate(45deg);
+    margin-top: 34px;
+    margin-left: -17px;
+  }
+
+  &.marker {
+    &::before {
+
+      content: " ";
+      width: 20px;
+      height: 20px;
+      display: block;
+      position: absolute;
+      transform: rotate(-45deg);
+      border-radius: 50% 50% 50% 0;
+      top: 14px;
+      left: 5px;
+      z-index: -24;
+
+    }
+  }
+
+  .inner {
+    padding: 5px 0 0 0;
+    width: 37px;
+    height: 37px;
+    margin: 3px 0 0 4px;
+    background: #fff;
+    position: absolute;
+    transform: rotate(45deg);
+    border-radius: 50%;
+  }
+}
+
+.component {
+  overflow: hidden;
+}
+
+.cmap_container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
 </style>

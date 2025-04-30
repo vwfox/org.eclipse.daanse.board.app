@@ -8556,7 +8556,7 @@ minimatch@^8.0.2:
   dependencies:
     brace-expansion "^2.0.1"
 
-minimatch@^9.0.0, minimatch@^9.0.3, minimatch@^9.0.4:
+minimatch@^9.0.0, minimatch@^9.0.1, minimatch@^9.0.3, minimatch@^9.0.4:
   version "9.0.5"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-9.0.5.tgz#d74f9dd6b57d83d8e98cfb82133b03978bc929e5"
   integrity sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow==
@@ -12026,6 +12026,13 @@ vite-plugin-inspect@0.8.9:
     perfect-debounce "^1.0.0"
     picocolors "^1.1.1"
     sirv "^3.0.0"
+
+vite-plugin-libcss@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/vite-plugin-libcss/-/vite-plugin-libcss-1.1.1.tgz#e0cf3addd19d7676b7f08cd7dbfd383c2108f4b3"
+  integrity sha512-WAk6U9iYWMbcu7cdw4wACpVebZiLHMyyE9KTcBzzkTt1cnXj3a7loIoIGNblx+xMb9quPpO3iRbNTOnIFDzgmg==
+  dependencies:
+    minimatch "^9.0.1"
 
 vite-plugin-monaco-editor@^1.1.0:
   version "1.1.0"
