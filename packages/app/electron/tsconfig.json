@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "declarationMap": true,
+    "inlineSources": true,
+    "declaration": true,
     "target": "ESNext",
     "module": "commonjs",
     "allowJs": true,

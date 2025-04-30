@@ -7,100 +7,103 @@
  *
  * Contributors: Smart City Jena
  */
-import {Page, TestInfo} from "@playwright/test";
-import {writeFileSync} from "node:fs";
-import path from 'node:path';
-import * as fs from "fs";
+import { Page, TestInfo } from '@playwright/test'
+import { writeFileSync } from 'node:fs'
+import path from 'node:path'
+import * as fs from 'fs'
 
-interface CuePoint{
-  name:string,
-  test:string,
-  time:number,
-  absTime:number,
-  description?:string,
-  bBox?:bBox
+interface CuePoint {
+  name: string,
+  test: string,
+  time: number,
+  absTime: number,
+  description?: string,
+  bBox?: bBox
 }
-interface bBox{
-  x:number,
-  y:number,
-  w:number,
-  h:number
-  margin:number
+
+interface bBox {
+  x: number,
+  y: number,
+  w: number,
+  h: number
+  margin: number
 }
-interface Screenshot{
-  path:string,
-  upload:boolean
+
+interface Screenshot {
+  path: string,
+  upload: boolean
 }
+
 export class ScreenShotter {
 
-  private screenshots:Screenshot[] = [];
-  private cuePoints:CuePoint[] = [];
+  private screenshots: Screenshot[] = []
+  private cuePoints: CuePoint[] = []
 
-  private name:string;
-  private prefix:string;
-  private suffix:string;
-  private path:string;
-  private startTime:number = 0;
+  private name: string
+  private prefix: string
+  private suffix: string
+  private path: string
+  private startTime: number = 0
 
-  constructor(testInfo:TestInfo,_path:string='/test_output') {
+  constructor(testInfo: TestInfo, _path: string = '/test_output') {
     console.log(testInfo.titlePath[0].split('.')[0])
-    this.prefix =testInfo.titlePath[0].split('.')[0]+'-';
-    this.name = testInfo.title.trim().replaceAll(' ','-');
-    this.suffix = '-'+testInfo.project.name;
-    this.path =  path.join(__dirname,'../../..', _path);
+    this.prefix = testInfo.titlePath[0].split('.')[0] + '-'
+    this.name = testInfo.title.trim().replaceAll(' ', '-')
+    this.suffix = '-' + testInfo.project.name
+    this.path = path.join(__dirname, '../../..', _path)
   }
 
-  async takeScreenshot(page:Page,name:string='',upload:boolean = true){
+  async takeScreenshot(page: Page, name: string = '', upload: boolean = true) {
     const shortPath = `${this.prefix}${this.name}${this.suffix}/${name}.png`
-    const fullPath = `${this.path}/${shortPath}`;
-    this.screenshots.push({path:shortPath,upload:upload});
+    const fullPath = `${this.path}/${shortPath}`
+    this.screenshots.push({ path: shortPath, upload: upload })
 
     await page.screenshot({
-      fullPage:true,
-      path:fullPath
+      fullPage: true,
+      path: fullPath
     })
   }
 
-  async startStopWatch(page:Page){
+  async startStopWatch(page: Page) {
     //this.startTime = await page.evaluate(() =>  new Date().getTime())
-    this.startTime = new Date().getTime();
-    await this.makeCuePoint(page,'start');
+    this.startTime = new Date().getTime()
+    await this.makeCuePoint(page, 'start')
   }
-  async makeCuePoint(page:Page ,name='',description?:string,bbox?:bBox){
+
+  async makeCuePoint(page: Page, name = '', description?: string, bbox?: bBox) {
     //const now = await page.evaluate(() =>  new Date().getTime())
-    const now = new Date().getTime();
-    const cue:CuePoint = {name:`${name}`,test:`${this.prefix}${this.name}${this.suffix}`,time:now-this.startTime,absTime:now};
-    if(description) cue.description= description
-    if(bbox) cue.bBox= bbox
+    const now = new Date().getTime()
+    const cue: CuePoint = { name: `${name}`, test: `${this.prefix}${this.name}${this.suffix}`, time: now - this.startTime, absTime: now }
+    if (description) cue.description = description
+    if (bbox) cue.bBox = bbox
 
     this.cuePoints.push(cue)
   }
 
-  async generateJsonSummery(page:Page,_path='/test_output/screenshots.json'){
+  async generateJsonSummery(page: Page, _path = '/test_output/screenshots.json') {
 
-    await this.makeCuePoint(page,'end');
-    let readFile:any;
+    await this.makeCuePoint(page, 'end')
+    let readFile: any
 
-    if (fs.existsSync(path.join(__dirname,'../../..', _path))) {
-      readFile = JSON.parse(fs.readFileSync(path.join(__dirname,'../../..', _path)).toString());
-      if(!readFile.screenshots){
-        readFile.screenshots = [];
+    if (fs.existsSync(path.join(__dirname, '../../..', _path))) {
+      readFile = JSON.parse(fs.readFileSync(path.join(__dirname, '../../..', _path)).toString())
+      if (!readFile.screenshots) {
+        readFile.screenshots = []
       }
-      if(!readFile.cuePoints){
-        readFile.cuePoints = [];
+      if (!readFile.cuePoints) {
+        readFile.cuePoints = []
       }
-    }
-    else {
+    } else {
       readFile = {
-        screenshots:[],
-        cuePoints:[]
+        screenshots: [],
+        cuePoints: []
       }
     }
-    readFile.cuePoints = readFile.cuePoints.concat(this.cuePoints);
-    readFile.screenshots = readFile.screenshots.concat(this.screenshots);
+    readFile.cuePoints = readFile.cuePoints.concat(this.cuePoints)
+    readFile.screenshots = readFile.screenshots.concat(this.screenshots)
 
-    writeFileSync(path.join(__dirname,'../../..', _path), JSON.stringify(readFile), {
-      flag: "w"
+    writeFileSync(path.join(__dirname, '../../..', _path), JSON.stringify(readFile), {
+      flag: 'w'
     })
   }
 }

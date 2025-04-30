@@ -1,9 +1,14 @@
 {
   "extends": "@tsconfig/node22/tsconfig.json",
-  "include": ["./**/*"],
+  "include": [
+    "./**/*"
+  ],
   "compilerOptions": {
+    "sourceMap": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "declaration": true,
     "module": "ESNext",
     "moduleResolution": "bundler"
   }
-
 }

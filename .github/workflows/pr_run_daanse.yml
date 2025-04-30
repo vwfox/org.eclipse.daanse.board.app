@@ -2,7 +2,7 @@ name: PR daanse Trigger
 
 on:
   issue_comment:
-    types: [created]
+    types: [ created ]
 
 permissions:
   issues: write

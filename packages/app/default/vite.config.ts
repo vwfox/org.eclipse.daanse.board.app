@@ -12,6 +12,7 @@ import {defineConfig, searchForWorkspaceRoot} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import tailwindcss from '@tailwindcss/vite'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
   base: './',
@@ -20,6 +21,11 @@ export default defineConfig({
     vue(),
     vueDevTools(),
     tailwindcss(),
+
+    dts({
+      insertTypesEntry: true
+    }),
+
   ],
   resolve: {
     alias:
