@@ -13,6 +13,11 @@ import { type WidgetRepository, identifier } from 'org.eclipse.daanse.board.app.
 import MapsWidget from './MapsWidget.vue'
 import MapsWidgetSettings from './MapsWidgetSettings.vue'
 import Icon from './assets/progress.svg'
+import { useDataPointRegistry } from './composables/datapointRegistry'
+import TLCDataLabelRendererDescription from './parts/dataLabelRenderer/TLCDataLabelRendererDescription'
+import ValueUnitDataLabelRendererDescription from './parts/dataLabelRenderer/ValueUnitDataLabelRendererDescription'
+
+
 
 const init = (container: Container) => {
   const widgetRepository = container.get<WidgetRepository>(identifier)
@@ -20,6 +25,8 @@ const init = (container: Container) => {
 
 }
 const register = (widgetRepository: WidgetRepository) => {
+  useDataPointRegistry().registerDataPointRenderer(new TLCDataLabelRendererDescription())
+  useDataPointRegistry().registerDataPointRenderer(new ValueUnitDataLabelRendererDescription())
   widgetRepository.registerWidget('MapWidget', {
     component: MapsWidget,
     settingsComponent: MapsWidgetSettings,

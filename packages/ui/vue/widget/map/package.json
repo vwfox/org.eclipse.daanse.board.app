@@ -7,6 +7,10 @@
   "license": "EPL-2.0",
   "main": "./dist/ui.vue.widget.map.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "dist/ui.vue.widget.map.css"
+  ],
   "type": "module",
   "repository": {
     "type": "git",
@@ -27,7 +31,8 @@
     "typescript": "^5.8.2",
     "vite": "^6.2.3",
     "vite-plugin-dts": "4.5.3",
-    "vue-tsc": "^2.2.8"
+    "vue-tsc": "^2.2.8",
+    "vite-plugin-libcss": "^1.1.1"
   },
   "peerDependencies": {
     "vue": "^3.5.13"
@@ -46,6 +51,7 @@
     "lodash": "^4.17.21",
     "org.eclipse.daanse.board.app.lib.datasource.ogcsta": "^0.0.1-next.1",
     "org.eclipse.daanse.board.app.ui.vue.composables": "^0.0.1-next.1",
+    "org.eclipse.daanse.board.app.ui.vue.widget.icon": "^0.0.1-next.1",
     "vue-leaflet": "^0.1.0",
     "vuedraggable-es": "^4.1.1"
   }

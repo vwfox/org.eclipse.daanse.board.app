@@ -15,7 +15,8 @@ import IconWidget from "./IconWidget.vue";
 import IconWidgetSettings from "./IconWidgetSettings.vue";
 import { type WidgetRepository, identifier } from "org.eclipse.daanse.board.app.lib.repository.widget";
 import Icon from "./assets/icon.svg";
-import { Container } from 'inversify'
+import { Container } from 'inversify';
+
 
 const init = (container: Container) => {
   const widgetRepository = container.get<WidgetRepository>(identifier)
@@ -43,7 +44,7 @@ const register = (widgetRepository: WidgetRepository) => {
 };
 
 
-export default {
+export {
     IconWidget,
     IconWidgetSettings,
     init,

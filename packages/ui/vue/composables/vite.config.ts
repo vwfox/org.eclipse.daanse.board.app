@@ -11,8 +11,16 @@ Contributors: Smart City Jena
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
+import vue from '@vitejs/plugin-vue'
 
+
+const rootPath = resolve(__dirname, '../../../../') // ← ggf. anpassen
 export default defineConfig({
+  resolve: {
+    alias: {
+      vue: resolve(rootPath, 'node_modules/vue') // ⬅️ Vue nur aus dem Root laden
+    }
+  },
   build: {
     sourcemap: true,
     lib: {
@@ -27,6 +35,8 @@ export default defineConfig({
   plugins: [
     dts({
       insertTypesEntry: true
-    })
+    }),
+    //@ts-ignore
+    vue()
   ]
 })

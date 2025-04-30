@@ -150,18 +150,8 @@ const services = computedAsync(async () => {
 
     const id = widgetSettings.value.datasourceId
     //Todo: How can i get The name of the store;
-
-
-    console.log(instance)
-    const container2 = instance?.appContext.config.globalProperties.$container as Container
-    console.log(container2)
-
-    console.log(container)
-    //const {dataSources} = useDataSourcesStore();
     const datasourceRepository = container.get<DatasourceRepository>(identifier)
-    console.log(datasourceRepository)
-    const listofIdentifiers = datasourceRepository.getDatasourceIdentifiers('ogcsta')
-    console.log(listofIdentifiers)
+
     try {
       const OGCStore = datasourceRepository.getDatasource(widgetSettings.value.datasourceId)
 

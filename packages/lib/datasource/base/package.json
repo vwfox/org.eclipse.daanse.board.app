@@ -5,8 +5,7 @@
   "author": "ssemenkoff <ssemenkoff@gmail.com>",
   "homepage": "https://github.com/eclipse-daanse/org.eclipse.daanse.board.app#readme",
   "license": "ISC",
-  "main": "./dist/lib.core.umd.cjs",
-  "module": "./dist/lib.core.js",
+  "main": "./dist/lib.core.js",
   "types": "./dist/index.d.ts",
   "type": "module",
   "repository": {

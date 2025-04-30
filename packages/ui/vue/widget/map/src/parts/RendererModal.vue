@@ -378,13 +378,15 @@ watch(showModal, (val) => {
             class="scroller"
             vertical
           >
-            <div v-if="tabNo != 0" class="rowlayout">
+            <div v-if="tabNo == 1 || tabNo == 2" class="rowlayout">
               <PointStyler v-if="tabNo==1" v-model="(selection as IDSRenderer).renderer"></PointStyler>
               <AreaStyler v-if="tabNo==2" v-model="selection.renderer.area"></AreaStyler>
-              <div v-if="tabNo==3">
+            </div>
+            <div v-if="tabNo ==3" class="full rowlayout">
+
                 <PlacementSytler v-model="(selection as IDSRenderer&PlacementI)as PlacementI"></PlacementSytler>
                 <OberservationsStyler v-model="(selection as IDSRenderer)"></OberservationsStyler>
-              </div>
+
             </div>
             <div v-else class="full">
               <template v-if="layerModel?.type =='OGCSTA' && selection.thing">
@@ -416,6 +418,9 @@ watch(showModal, (val) => {
 </template>
 
 <style scoped>
+.full{
+  position:relative;
+}
 .tree_detail {
   display: flex;
   flex-direction: row;

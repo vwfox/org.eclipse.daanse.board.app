@@ -9,11 +9,12 @@ Contributors: Smart City Jena
 -->
 <script lang="ts" setup>
 
-import { ERefType, type IDSRenderer } from './../../api/Renderer'
+import { ERefType, type IDSRenderer } from '../../api/Renderer'
 import { computed, type ModelRef, reactive, ref } from 'vue'
-import { useDataPointRegistry } from './../../composables/datapointRegistry'
+import { useDataPointRegistry } from '../../composables/datapointRegistry'
 import { LIcon, LMarker } from '@vue-leaflet/vue-leaflet'
 import MapPreviewPoint from './../../parts/MapPreviewPoint.vue'
+import {IconWidget}  from 'org.eclipse.daanse.board.app.ui.vue.widget.icon'
 
 const model: ModelRef<IDSRenderer> = defineModel<IDSRenderer>({ required: true })
 
@@ -50,18 +51,21 @@ const value = computed({
       text-by="name"
       value-by="id"
     />
-  </div>
+
 
   <template v-if="dataPointcomponentDesc">
 
 
     <div class="flex flex-col md6 pa-3">
-
+      <template v-if="dataPointcomponentDesc.setupComponent">
+        <component :is="dataPointcomponentDesc.setupComponent"
+          v-model="(model.observation as any).setting"></component>
+      </template>
 
     </div>
-    <div class="row">
+  </template>
       <div class="flex flex-col md6 pa-3">
-        <MapPreviewPoint ref="MapPrev2">
+        <MapPreviewPoint ref="MapPrev3" id="mapf">
 
           <l-marker
             :lat-lng="[50.92828047934907,11.587408017353823]">
@@ -88,25 +92,34 @@ const value = computed({
                 </div>
               </template>
 
-
+              <template v-if="dataPointcomponentDesc">
               <component :is="dataPointcomponentDesc.component" ref="valuedatalabelrenderer"
                           :config="(model.observation as any).setting"
                           :data="dataPointcomponentDesc.example"></component>
+              </template>
             </l-icon>
           </l-marker>
         </MapPreviewPoint>
       </div>
-      <div class="flex flex-col md6 pa-3">
-        <template v-if="dataPointcomponentDesc.setupComponent">
-          <component :is="dataPointcomponentDesc.setupComponent"
-                      v-model="(model.observation as any).setting"></component>
-        </template>
-      </div>
 
-    </div>
-  </template>
+  </div>
+  <div></div>
+
+
 </template>
 
-<style scoped>
+<style>
+#mapf{
+  position: absolute;
+  right: 15px;
+  width: 250px;
+  top: 5px;
+}
+#map_t{
+  min-height: 250px;
+}
+#map_t{
+  min-height: 250px;
+}
 
 </style>
