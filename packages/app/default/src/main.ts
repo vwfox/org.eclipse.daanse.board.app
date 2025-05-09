@@ -118,7 +118,9 @@ import {
 import {
   init as initLangEnTextPlainWidget,
 } from "org.eclipse.daanse.board.app.ui.vue.lang.text.plain.en"
-
+import {
+  init as initLangEnWidgetWrapper,
+} from 'org.eclipse.daanse.board.app.ui.vue.lang.wrapper.en'
 
 import {
   init as initWidgetRepo,
@@ -166,6 +168,8 @@ import {
 import { init as initConstantVariable } from "org.eclipse.daanse.board.app.ui.vue.variable.constant"
 import { init as initComputedVariable } from "org.eclipse.daanse.board.app.ui.vue.variable.computed"
 
+import {init as initWrapper} from "org.eclipse.daanse.board.app.ui.vue.widget.wrapper";
+
 const app = createApp(App)
 
 init(container)
@@ -195,7 +199,7 @@ initXmlaDatasource(container)
 initWidgetRepo(container)
 initDatasourceFactory(container)
 initOGcStaDatasource(container)
-
+initWrapper(container)
 initSample(container)
 initImage(container)
 initProgress(container)
@@ -207,7 +211,7 @@ initSvgRepeat(container)
 initIconWidget(container)
 initWidgetMap(container)
 
-
+initLangEnWidgetWrapper(container)
 initLangEnIconWidget(container)
 initLangEnIamgeWidget(container)
 initLangEnPrgressWidget(container)
@@ -239,7 +243,7 @@ variableRepository.registerVariable('test', 'constant', {
 variableRepository.registerVariable('testComputed', 'computed', {
   expression: '$test + 123',
 })
-
+//@ts-ignore
 window.test = function (value) {
   const testVar = variableRepository.getVariable('test')
   testVar.value = value

@@ -9,11 +9,25 @@ Contributors: Smart City Jena
 */
 
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
+import vue from '@vitejs/plugin-vue'
+import libCss from 'vite-plugin-libcss'
 
+const rootPath = resolve(__dirname, '../../../../../../') // ← ggf. anpassen
 export default defineConfig({
+  resolve: {
+    alias: {
+      vue: resolve(rootPath, 'node_modules/vue') // ⬅️ Vue nur aus dem Root laden
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler'
+      }
+    }
+  },
   build: {
     sourcemap: true,
     lib: {
@@ -35,6 +49,7 @@ export default defineConfig({
       insertTypesEntry: true
     }),
     //@ts-ignore
-    vue()
+    vue(),
+    libCss()
   ]
 })

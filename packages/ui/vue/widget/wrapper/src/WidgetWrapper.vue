@@ -123,28 +123,7 @@ const getShadowColor = computed(() => {
 
 <template>
   <div
-    class="flex relative flex-col w-full h-full"
-    :class="[
-      'border-solid',
-      'shadow-[' +
-        widget.wrapperConfig.shadowX +
-        'px_' +
-        widget.wrapperConfig.shadowY +
-        'px_' +
-        widget.wrapperConfig.shadowBlur +
-        'px_' +
-        '#' +
-        getShadowColor +
-        ']',
-    ]"
-    :style="{
-      backgroundColor: getBackground,
-      borderColor: borderColor,
-      borderWidth: borderSize + 'px',
-      borderRadius: borderRadius + 'px',
-      opacity: transparency,
-    }"
-  >
+    class="flex relative flex-col w-full h-full wrapper-container">
     <div
       v-if="widget.wrapperConfig.title"
       class="p-2 font-semibold capitalize"
@@ -192,3 +171,17 @@ const getShadowColor = computed(() => {
     </div>
   </div>
 </template>
+<style>
+.wrapper-container {
+
+  background-color: v-bind(getBackground);
+  border-color: v-bind(borderColor);
+  border-width: v-bind(borderSize + "px");
+  border-style: solid;
+  border-radius: v-bind(borderRadius + "px");
+  width: 100%;
+  height: 100%;
+  box-Shadow: v-bind(getShadow);
+  opacity: v-bind(transparency);
+}
+</style>
