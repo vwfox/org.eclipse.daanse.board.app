@@ -9,5 +9,14 @@ Contributors: Smart City Jena
 */
 
 import WidgetWrapper from './WidgetWrapper.vue'
+import WidgetWrapperSettings from './WidgetWrapperSettings.vue'
+import { Container } from 'inversify'
 
-export { WidgetWrapper }
+
+
+const init = (container: Container) => {
+  console.log('WidgetWrapper initialized')
+
+}
+
+export { WidgetWrapper, WidgetWrapperSettings ,init}

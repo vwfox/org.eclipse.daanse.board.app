@@ -11,7 +11,7 @@ Contributors:
     Smart City Jena
 -->
 <script setup lang="ts">
-// import WidgetWrapperSettings from "@/plugins/widgets/Wrapper/WidgetWrapperSettings.vue";
+import {WidgetWrapperSettings} from "org.eclipse.daanse.board.app.ui.vue.widget.wrapper";
 import { useDataSourcesStore } from '@/stores/DatasourcePinia'
 import { ref, getCurrentInstance } from 'vue'
 // import { useI18n } from "vue-i18n";
@@ -40,7 +40,7 @@ const t = (key: string) => {
   <div class="widget_settings_window">
     <h3>Widget Settings</h3>
     <div class="content" v-if="widget">
-      <!-- <WidgetWrapperSettings v-model="widget.wrapperConfig" /> -->
+      <WidgetWrapperSettings v-model="widget.wrapperConfig" />
       <component
         :is="availableWidgetsSettings[widget.type]?.settingsComponent"
         v-model="widget.config"
