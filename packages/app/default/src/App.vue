@@ -16,7 +16,7 @@ import Header from './components/common/Header.vue'
 </script>
 
 <template>
-  <div class="flex flex-col h-full w-full">
+  <div class="flex flex-col h-full w-full bg-blue-200">
     <Header />
     <div class="flex-grow flex overflow-hidden h-full">
       <va-sidebar hoverable minimized-width="58px" class="colored-sidebar">
@@ -69,6 +69,7 @@ import Header from './components/common/Header.vue'
 
 </style>
 <style>
+@import "./assets/main.css";
 .va-modal{
   z-index: 3700!important;
   .va-dropdown__content{

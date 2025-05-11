@@ -11,12 +11,12 @@
  *   Smart City Jena
  **********************************************************************/
 
-import './assets/main.css'
+
 import { createVuestic } from 'vuestic-ui'
 import 'vuestic-ui/styles/essential.css'
 import 'vuestic-ui/styles/typography.css'
-import 'org.eclipse.daanse.board.app.ui.vue.datasource.ogcsta/dist/ui.vue.datasource.ogcsta.css'
-import 'org.eclipse.daanse.board.app.ui.vue.widget.map/dist/ui.vue.widget.map.css'
+
+
 
 import { createApp } from 'vue'
 import { createPinia, setActivePinia } from 'pinia'
@@ -218,6 +218,7 @@ import { init as initConstantVariable } from "org.eclipse.daanse.board.app.ui.vu
 import { init as initComputedVariable } from "org.eclipse.daanse.board.app.ui.vue.variable.computed"
 
 import {init as initWrapper} from "org.eclipse.daanse.board.app.ui.vue.widget.wrapper";
+/*import {init as initSytles } from 'org.eclipse.daanse.board.app.ui.vue.styles.daanse';*/
 
 import {init as initSparqlDataSourceUI} from "org.eclipse.daanse.board.app.ui.vue.datasource.sparql"
 import {init as initEndpointfinderPlugin}
@@ -237,7 +238,7 @@ app.provide('container',container);
 const symbolForApp = Symbol.for('App');
 container.bind('App').toConstantValue(app);
 initI18next(container)
-
+//initSytles(container)
 initCommonEn(container)
 initI18nextVuePlugin(container)
 

@@ -18,6 +18,23 @@
 @source inline("grid grid-cols-2 grid-rows-4");
 @source inline("row-span-4 col-span-1 overflow-auto");
 
+@theme {
+  --color-white: #fff;
+  --color-daanse_blue: #3f3cbb;
+  --color-primary: #154EC2;
+  --color-secondary: #767C88;
+  --color-success: #3D9209;
+  --color-info: #158DE3;
+  --color-danger: #E42222;
+  --color-warning: #FFD43A;
+  --color-backgroundPrimary: #f6f6f6;
+  --color-backgroundSecondary: #FFFFFF;
+  --color-backgroundElement: #ECF0F1;
+  --color-backgroundBorder: #DEE5F2;
+  --color-textPrimary: #262824;
+  --color-textInverted: #FFFFFF
+}
+
 :root .daans {
   --va-button-font-weight: 400;
 }
