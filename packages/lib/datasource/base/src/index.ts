@@ -21,6 +21,9 @@ import { UsesComputedVariable } from "org.eclipse.daanse.board.app.lib.variables
 
 export interface IBaseConnectionConfiguration {
   [key: string]: any;
+  name:string,
+  type:string,
+  uid:string
 }
 
 // export default abstract class BaseDatasource extends UsesComputedVariable implements IDataRetrieveable {
@@ -32,8 +35,16 @@ export abstract class BaseDatasource extends UsesComputedVariable {
   private pollingIntervalId: number | null = null;
   protected pollingEnabled!: boolean;
 
+  public readonly name:string;
+  public readonly type:string;
+  public readonly uid:string;
+
   protected constructor(configuration: IBaseConnectionConfiguration, container: Container) {
     super(container);
+
+    this.type = configuration.type;
+    this.name = configuration.name;
+    this.uid = configuration.uid;
 
     this.setUpdateCb(() => {
       console.log("Test notify");

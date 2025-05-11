@@ -11,7 +11,8 @@ Contributors:
     Smart City Jena
 -->
 <script setup lang="ts">
-import { useConnectionsStore } from '@/stores/ConnectionsPinia'
+import { useConnectionsStore } from 'org.eclipse.daanse.board.app.ui.vue.stores.connection'
+
 
 const { connections, createConnection, removeConnection } = useConnectionsStore()
 

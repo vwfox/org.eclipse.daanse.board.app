@@ -17,8 +17,8 @@ import {
   DatasourceRepository,
   identifier,
 } from 'org.eclipse.daanse.board.app.lib.repository.datasource'
-import { useDataSourcesStore } from '@/stores/DatasourcePinia'
-import { useConnectionsStore } from '@/stores/ConnectionsPinia'
+import { useDataSourcesStore } from 'org.eclipse.daanse.board.app.ui.vue.stores.datasouce'
+import { useConnectionsStore } from 'org.eclipse.daanse.board.app.ui.vue.stores.connection'
 import { cloneDeep } from 'lodash'
 
 const props = defineProps({

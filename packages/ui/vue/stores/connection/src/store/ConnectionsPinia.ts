@@ -17,6 +17,7 @@ import {
   ConnectionRepository,
   identifier,
 } from 'org.eclipse.daanse.board.app.lib.repository.connection'
+import {type BaseConnectionConfig} from 'org.eclipse.daanse.board.app.lib.connection.base'
 
 interface ConnectionDTO {
   uid: string
@@ -47,7 +48,9 @@ export const useConnectionsStore = defineStore('connections', () => {
   const createConnection = (type: any, config: any = {}) => {
     const uid = Math.random().toString(36).substring(7)
     const name = 'Connection ' + uid
-
+    config['name'] = name;
+    config['type'] = type;
+    config['uid'] = uid;
     connectionRepository.registerConnection(uid, type, config)
     connections.value.push({ uid, type, name, config })
   }
@@ -69,8 +72,11 @@ export const useConnectionsStore = defineStore('connections', () => {
     connection.type = connectionProxy.type
     connection.name = connectionProxy.name
     connection.config = connectionProxy.config
+    connection.config['name'] = connectionProxy.name
+    connection.config['type'] =connectionProxy.type
+    connection.config['uid'] =connectionProxy.uid
 
-    connectionRepository.registerConnection(connectionId, connection.type, connection.config)
+    connectionRepository.registerConnection(connectionId, connection.type, connection.config as BaseConnectionConfig)
     console.log(connectionRepository)
   }
 
@@ -79,10 +85,14 @@ export const useConnectionsStore = defineStore('connections', () => {
     connectionProxies.forEach((connectionProxy) => {
       connections.value.push(connectionProxy)
 
+      connectionProxy.config['name'] = connectionProxy.name
+      connectionProxy.config['type'] =connectionProxy.type
+      connectionProxy.config['uid'] =connectionProxy.uid
+
       connectionRepository.registerConnection(
         connectionProxy.uid,
         connectionProxy.type,
-        connectionProxy.config,
+        connectionProxy.config as BaseConnectionConfig,
       )
     })
   }

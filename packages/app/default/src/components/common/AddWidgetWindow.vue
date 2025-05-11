@@ -12,7 +12,7 @@ Contributors:
 -->
 
 <script setup lang="ts">
-import { useDataSourcesStore } from '@/stores/DatasourcePinia'
+import { useDataSourcesStore } from 'org.eclipse.daanse.board.app.ui.vue.stores.datasouce'
 import { WidgetRepository, identifier } from 'org.eclipse.daanse.board.app.lib.repository.widget'
 import { ref, computed, watch, getCurrentInstance } from 'vue'
 import Draggable from 'vuedraggable'

@@ -24,6 +24,9 @@ interface DataSourceDTO {
   type: string
   config?: {
     [key: string]: any
+    name?:string
+    type?:string
+    uid?:string
   }
 }
 
@@ -38,7 +41,7 @@ export const useDataSourcesStore = defineStore('datasource', () => {
       type: 'rest',
       config: {
         resourceUrl: 'posts',
-        connection: 'test',
+        connection: 'test'
       },
     },
   ] as DataSourceDTO[])
@@ -47,7 +50,9 @@ export const useDataSourcesStore = defineStore('datasource', () => {
   const createDataSource = (type: any, config: any = {}) => {
     const uid = Math.random().toString(36).substring(7)
     const name = 'DataSource ' + uid
-
+    config['name'] = name;
+    config['type'] = type;
+    config['uid'] = uid;
     datasourceRepository.registerDatasource(uid, type, config)
     dataSources.value.push({ uid, type, name, config })
   }
@@ -69,7 +74,11 @@ export const useDataSourcesStore = defineStore('datasource', () => {
     dataSource.uid = dataSourceProxy.uid
     dataSource.type = dataSourceProxy.type
     dataSource.name = dataSourceProxy.name
-    dataSource.config = dataSourceProxy.config
+    dataSource.config = dataSourceProxy.config??{}
+
+    dataSource.config['name'] = dataSourceProxy.name
+    dataSource.config['type'] =dataSourceProxy.type
+    dataSource.config['uid'] =dataSourceProxy.uid
 
     datasourceRepository.registerDatasource(dataSourceId, dataSource.type, dataSource.config)
     console.log(datasourceRepository)
@@ -79,6 +88,10 @@ export const useDataSourcesStore = defineStore('datasource', () => {
     dataSources.value.splice(0)
     dataSourceProxies.forEach((dataSourceProxy) => {
       dataSources.value.push(dataSourceProxy)
+      if(!dataSourceProxy.config)dataSourceProxy.config = {};
+      dataSourceProxy.config['name'] = dataSourceProxy.name
+      dataSourceProxy.config['type'] =dataSourceProxy.type
+      dataSourceProxy.config['uid'] =dataSourceProxy.uid
 
       datasourceRepository.registerDatasource(
         dataSourceProxy.uid,
