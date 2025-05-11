@@ -11,7 +11,7 @@ Contributors:
     Smart City Jena
 -->
 <script setup lang="ts">
-import { useDataSourcesStore } from '@/stores/DatasourcePinia'
+import { useDataSourcesStore } from 'org.eclipse.daanse.board.app.ui.vue.stores.datasouce'
 
 const { dataSources, createDataSource, removeDataSource } = useDataSourcesStore()
 

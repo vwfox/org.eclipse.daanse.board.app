@@ -12,7 +12,7 @@ Contributors:
 -->
 <script setup lang="ts">
 import {WidgetWrapperSettings} from "org.eclipse.daanse.board.app.ui.vue.widget.wrapper";
-import { useDataSourcesStore } from '@/stores/DatasourcePinia'
+import { useDataSourcesStore } from 'org.eclipse.daanse.board.app.ui.vue.stores.datasouce'
 import { ref, getCurrentInstance } from 'vue'
 // import { useI18n } from "vue-i18n";
 import { type IWidget } from '@/stores/WidgetsPinia'

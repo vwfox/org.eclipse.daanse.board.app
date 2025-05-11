@@ -19,13 +19,19 @@ export interface IRequestParams {
 }
 
 export interface BaseConnectionConfig {
-    url: string
+    url: string,
+    name:string,
+    type:string,
+    uid:string
 }
 
 // export default abstract class BaseConnection extends UsesComputedVariable implements IConnection {
 export abstract class BaseConnection {
   abstract fetch(config: IRequestParams): Promise<any>
   abstract setConfig(config: any): void
+  public readonly name:string;
+  public readonly type:string;
+  public readonly uid:string;
 
   constructor(configuration: BaseConnectionConfig) {
     // super(configuration);
@@ -33,6 +39,9 @@ export abstract class BaseConnection {
     //   console.log('Update', this);
     //   this.notify();
     // });
+    this.type = configuration.type;
+    this.name = configuration.name;
+    this.uid = configuration.uid;
   }
 
   private subscribers: any[] = []

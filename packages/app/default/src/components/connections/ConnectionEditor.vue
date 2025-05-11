@@ -17,7 +17,7 @@ import {
   ConnectionRepository,
   identifier,
 } from 'org.eclipse.daanse.board.app.lib.repository.connection'
-import { useConnectionsStore } from '@/stores/ConnectionsPinia'
+import { useConnectionsStore } from 'org.eclipse.daanse.board.app.ui.vue.stores.connection'
 
 const props = defineProps({
   itemId: {
