@@ -69,7 +69,7 @@ const loadStateFromStorage = async () => {
 </script>
 
 <template>
-  <va-navbar color="primary" class="header">
+  <va-navbar color="primary" class="header bg-success!">
     <template #left>
       <va-navbar-item class="logo">
         <!-- <div class="white triangle"></div>
