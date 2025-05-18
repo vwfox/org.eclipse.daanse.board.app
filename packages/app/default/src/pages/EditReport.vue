@@ -16,11 +16,12 @@ import Moveable from 'vue3-moveable'
 import Draggable from 'vuedraggable'
 import { useMoveableLayout, type ILayoutItem } from '@/composables/useMovableLayout'
 
-import { WidgetWrapper } from 'org.eclipse.daanse.board.app.ui.vue.widget.wrapper'
+import { WidgetWrapper,defaultConfig } from 'org.eclipse.daanse.board.app.ui.vue.widget.wrapper'
 import { useWidgetsStore, type IWidget } from 'org.eclipse.daanse.board.app.ui.vue.stores.widgets'
 import { useLayoutStore } from 'org.eclipse.daanse.board.app.ui.vue.stores.layout'
 import AddWidgetWindow from '@/components/common/AddWidgetWindow.vue'
 import WidgetSettingsWindow from '@/components/common/WidgetSettingsWindow.vue'
+import { cloneDeep } from 'lodash'
 
 const widgetConfig = ref()
 const widgetSettingsOpenedId = ref('')
@@ -68,7 +69,7 @@ watch(
 const addWidget = (type: string, datasourceId: string, dropX: number, dropY: number) => {
   const uid = `widget_${Math.random().toString(36).substring(7)}`
   const config = { datasourceId, settings: {} }
-  const newWidget: IWidget = { uid, type, config, wrapperConfig: {} }
+  const newWidget: IWidget = { uid, type, config,wrapperConfig:cloneDeep(defaultConfig)}
 
   innerWidgets.value.push(newWidget)
 
@@ -88,7 +89,8 @@ const addWidget = (type: string, datasourceId: string, dropX: number, dropY: num
 }
 
 const openWidgetSettings = (id: string) => {
-  widgetSettingsOpenedId.value = id
+  widgetSettingsOpenedId.value = id;
+  widgetSelectorVisible.value = false;
 }
 
 const saveLayout = () => {
@@ -166,7 +168,7 @@ const change = (e: any) => {
 </script>
 
 <template>
-  <div class="report-container">
+  <div class="report-container dottet">
     <draggable
       :list="widgetsTmp"
       :group="{ name: 'widgets' }"
@@ -244,7 +246,7 @@ const change = (e: any) => {
         </Moveable>
       </template>
     </div>
-    <div class="add_widget-button">
+    <div class="add_widget-button ice p-2.5 z-mx">
       <VaButton
         icon="check"
         @click="saveLayout"
@@ -297,12 +299,35 @@ const change = (e: any) => {
 </style>
 
 <style scoped>
+.dottet{
+  background: #fafafa;
+  background-image: radial-gradient(#b8b8b8 1px, transparent 0);
+  background-size: 10px 10px;
+  background-position: -19px -19px;
+  animation: fadeDots 1.2s ease-out forwards;
+  background-repeat: repeat;
+  opacity: 0;
+}
+@keyframes fadeDots {
+  0% {
+    background-size: 10px 10px;
+    opacity: 0;
+  }
+  50% {
+    background-size: 50px 50px;
+    opacity: 0.5;
+  }
+  100% {
+    background-size: 40px 40px;
+    opacity: 1;
+  }
+}
 .ghost-placeholder {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   border: 2px dashed #ccc;
-  z-index: 1000;
+  z-index: 100000;
   pointer-events: none;
 }
 

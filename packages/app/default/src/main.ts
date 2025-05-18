@@ -225,7 +225,23 @@ import {init as initEndpointfinderPlugin}
   from "org.eclipse.daanse.board.app.ui.vue.plugins.endpointfinder"
 
 const app = createApp(App)
-app.use(createVuestic())
+app.use(createVuestic({
+  config: {
+    colors: {
+      presets: {
+        light: {
+          primary: '#606060',
+          lightPrim:'#cbcbcb',
+          orange:'#c29803',
+          //active:"rgba(255,201,132,0.25)",
+          active:"rgba(147,147,147,0.25)",
+          /*secondary: '#E79542',*/
+          textPrimary: '#3a3a3a',
+        }
+      }
+    }
+  },
+}))
 init(container)
 container.bind(identifiers.CONTAINER).toDynamicValue((ctx: any) => {
   return ctx

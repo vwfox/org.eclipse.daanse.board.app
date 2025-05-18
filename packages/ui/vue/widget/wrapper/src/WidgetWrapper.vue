@@ -25,7 +25,8 @@ import {
 } from 'org.eclipse.daanse.board.app.lib.repository.widget'
 import { Container } from 'inversify'
 
-const { widget } = defineProps<{ widget: any; editEnabled: boolean }>()
+const { widget } =  defineProps<{ widget: any; editEnabled: boolean }>();
+
 const emit = defineEmits(['openSettings', 'removeWidget'])
 
 const instance = getCurrentInstance()
@@ -94,8 +95,8 @@ const borderRadius = computed(() => {
 })
 
 const transparency = computed(() => {
-  return widget.wrapperConfig.backgroundColorTransparence
-    ? widget.wrapperConfig.backgroundColorTransparence / 255
+  return widget.wrapperConfig.transparency
+    ? widget.wrapperConfig.transparency / 255
     : 1
 })
 
@@ -135,7 +136,7 @@ const getShadowColor = computed(() => {
       {{ widget.wrapperConfig.title }}
     </div>
     <template v-if="isWidgetRegistered">
-      <div class="w-full h-full box-border cursor-pointer overflow-hidden">
+      <div class="w-full h-full box-border cursor-pointer overflow-hidden sub">
         <VaScrollContainer color="#133370" vertical horizontal>
           <component
             :is="availableWidgets[widget.type].component"
@@ -171,17 +172,24 @@ const getShadowColor = computed(() => {
     </div>
   </div>
 </template>
-<style>
+<style scoped>
+.absolute{
+  position:absolute;
+}
 .wrapper-container {
 
   background-color: v-bind(getBackground);
   border-color: v-bind(borderColor);
   border-width: v-bind(borderSize + "px");
   border-style: solid;
-  border-radius: v-bind(borderRadius + "px");
+
   width: 100%;
   height: 100%;
   box-Shadow: v-bind(getShadow);
   opacity: v-bind(transparency);
+  border-radius: v-bind(borderRadius + "px");
+}
+.sub{
+  border-radius: v-bind(borderRadius + "px");
 }
 </style>

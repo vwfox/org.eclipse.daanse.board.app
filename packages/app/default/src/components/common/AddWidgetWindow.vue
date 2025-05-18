@@ -106,7 +106,7 @@ watch(selectedType, (newType) => {
 </script>
 
 <template>
-  <div class="add_widget_window">
+  <div class="add_widget_window ice z-mx p-6 shadow-sm">
     <h1>Add Widget</h1>
     <VaSelect
       label="Datasource type"
@@ -132,12 +132,12 @@ watch(selectedType, (newType) => {
       itemKey="type"
     >
       <template #item="{ element }">
-        <div class="widgets_grid-item" draggable="true" @dragstart="(event) => onDragStart(event)">
-          <!-- <div style="height: 100px; width: 100px;
-          background-image: url(https://via.assets.so/img.jpg?w=100&h=100&tc=black&bg=silver);">
-        </div> -->
-          <!-- <VaIcon class="material-icons mt-4" size="4rem">{{ element.icon }}</VaIcon> -->
-          <img class="m-2" :src="element.icon" />
+        <div
+          class="widgets_grid-item shadow-xs"
+          draggable="true"
+          @dragstart="(event) => onDragStart(event)"
+        >
+          <img class="m-2" :src="element.icon" style="height: 50px"/>
           <span>{{ element.type }}</span>
         </div>
       </template>
@@ -158,7 +158,8 @@ watch(selectedType, (newType) => {
   align-items: center;
   justify-content: center;
   /* gap: 1rem; */
-  border: 1px solid gray;
+  /*border: 1px solid gray;*/
+  background-color: #f4f4f4;
   border-radius: 5px;
 }
 
@@ -166,12 +167,12 @@ watch(selectedType, (newType) => {
   position: absolute;
   height: calc(100% - 100px);
   width: 400px;
-  right: 20px;
-  top: 20px;
-  background-color: #ecf0f1;
+  right: 0px;
+  top: 1px;
+  /*background-color: #ecf0f1;
   padding: 1rem;
   border-radius: 8px;
   z-index: 3500;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
 }
 </style>

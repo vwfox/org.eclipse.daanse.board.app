@@ -69,13 +69,13 @@ const loadStateFromStorage = async () => {
 </script>
 
 <template>
-  <va-navbar color="primary" class="header bg-success!">
+  <!--<va-navbar color="primary" class="header bg-daanse_grey!">
     <template #left>
       <va-navbar-item class="logo">
-        <!-- <div class="white triangle"></div>
+        <div class="white triangle"></div>
         <div class="small logo daanse" id="logo"></div>
         <div class="small logo daanse" id="claim"></div>  -->
-        PLACE FOR A LOGO (WILL REPLACE SCSS CODE WITH A CSS MODULE)
+        <!-- <img src="@/assets/Daanse%20Logo%20Vektor.svg" class="h-8">
       </va-navbar-item>
     </template>
     <template #right>
@@ -84,7 +84,7 @@ const loadStateFromStorage = async () => {
         <VaButton class="mr-2" @click="loadStateFromStorage" icon="download">Load</VaButton>
       </va-navbar-item>
     </template>
-  </va-navbar>
+  </va-navbar>-->
   <Teleport to="body">
     <!-- <SaveModal ref="loadsaveModal" /> -->
     <LoadModal ref="loadModalRef" />
