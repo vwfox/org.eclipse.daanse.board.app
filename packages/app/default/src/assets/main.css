@@ -10,7 +10,8 @@
  * Contributors:
  *   Smart City Jena
  **********************************************************************/
-
+@import
+url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import 'tailwindcss';
 @source inline("top-[-25px] right-0");
 @source inline("object-contain object-cover object-fill object-scale-down");
@@ -21,6 +22,7 @@
 @theme {
   --color-white: #fff;
   --color-daanse_blue: #3f3cbb;
+  --color-daanse_grey: #2E2E2E;
   --color-primary: #154EC2;
   --color-secondary: #767C88;
   --color-success: #3D9209;
@@ -34,7 +36,73 @@
   --color-textPrimary: #262824;
   --color-textInverted: #FFFFFF
 }
+@layer components {
+  .ice_gray {
 
+    padding: var(--spacing-6);
+    background: rgb(232 232 232 / 35%) !important;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    box-shadow: var(--shadow-xl);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    /* border: 1px solid #cecece; */
+    filter: saturate(2);
+
+
+  }
+  .ice {
+
+    padding: var(--spacing-6);
+    background: rgb(232 232 232 / 35%) !important;
+    border-radius: 16px;
+
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    /*border: 1px solid #d5d5d5*/
+  }
+  .z-mx{
+    z-index: 30000;
+  }
+}
+body{
+  --va-sidebar-z-index:30000;
+  --moveable-color:#b9b9b9!important;
+  font-family: "Roboto", sans-serif;
+  --va-font-family:"Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+.rCS1w3zcxh {
+  --moveable-color:#e5e4e4!important;
+  .moveable-line {
+    width: 1px;
+    height: 1px;
+    /* background: #4af; */
+    /* background: var(--moveable-color); */
+    background:none!important;
+    border-bottom: 2px dashed #e5e4e4 !important;
+    transform-origin: 0px 50%;
+  }
+}
+.va-modal__overlay{
+  opacity: 1!important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: rgb(204 204 204 / 55%) !important;
+
+}
+.va-modal {
+  z-index: 30000!important;
+
+}
 :root .daans {
   --va-button-font-weight: 400;
+}
+:root{
+
 }

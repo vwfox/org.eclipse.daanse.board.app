@@ -31,7 +31,7 @@ defineEmits(['openEditor'])
 </script>
 
 <template>
-  <div class="flex flex-col border border-gray-300 rounded-lg overflow-hidden w-full h-full">
+  <div class="flex flex-col border border-gray-300 rounded-lg overflow-hidden w-full h-full ice">
     <div class="flex gap-4 w-full border-b border-gray-300 px-4 py-2 items-center">
       <h4 class="flex-grow text-sm font-semibold">Connections</h4>
       <VaButton @click="addConnection()" icon="add" size="small"></VaButton>

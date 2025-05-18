@@ -250,7 +250,22 @@ const finish = () => {
 
   if(selectedWidgets.value.length>0){
     selectedWidgets.value.forEach((widget,index)=>{
-      const id= createWidget(widget.type,{datasourceId:store.value?.uid},{})
+      const id= createWidget(widget.type,{datasourceId:store.value?.uid},
+        { title: '',
+        backgroundColor: '#fff',
+        backgroundColorTransparence: 255,
+        titleColor: '#7c7c7c',
+        titleFontSize: 15,
+        borderSize: 0,
+        borderColor: '#ccc',
+        borderRadius: 15,
+        fullscreen: false,
+        shadowColor: '#333',
+        shadowBlur: 12,
+        shadowX: 5,
+        shadowY: 5,
+        shadowTransparence: 25,
+        transparency: 255})
       const slayout:ILayoutItem={
         id: id,
         x: 50 +(index*300),
@@ -303,6 +318,7 @@ defineExpose({
       </va-button>
       <va-card-content class="no-padding">
         <VaStepper
+          color="#c29803"
           v-model="step"
           :steps="steps"
           controlsHidden
@@ -481,6 +497,9 @@ defineExpose({
 
 <style lang="scss">
 .infobox {
+  .va-modal__dialog{
+    max-width: 40%!important;
+  }
   .footer, .va-modal__footer {
 
     background: #f7f7f7;

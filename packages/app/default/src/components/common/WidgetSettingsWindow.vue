@@ -37,7 +37,7 @@ const t = (key: string) => {
 </script>
 
 <template>
-  <div class="widget_settings_window">
+  <div class="widget_settings_window ice z-mx p-6 shadow-sm">
     <h3>Widget Settings</h3>
     <div class="content" v-if="widget">
       <WidgetWrapperSettings v-model="widget.wrapperConfig" />
@@ -46,7 +46,7 @@ const t = (key: string) => {
         v-model="widget.config"
         :key="widget.uid"
       />
-      <va-collapse v-model="storeSection" :header="t('Widgets.storeSettingsTitle')">
+      <va-collapse v-model="storeSection" :header="t('Widgets.storeSettingsTitle')" icon="store">
         <VaSelect
           label="Datasource ID"
           class="mx-3 my-3"

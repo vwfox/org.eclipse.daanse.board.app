@@ -39,7 +39,7 @@ const closeEditor = () => {
 }
 </script>
 <template>
-  <div class="flex flex-row w-full p-4 gap-4 h-full">
+  <div class="flex flex-row w-full p-4 gap-4 h-full pl-18 ">
     <div class="flex flex-shrink-0 w-[300px] h-full gap-4 grid grid-cols-1 grid-rows-2">
       <div class="h-full flex-grow-0">
         <DatasourceList @openEditor="openEditor" :activeItemId="activeItemId" />

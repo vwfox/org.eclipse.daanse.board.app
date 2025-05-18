@@ -11,7 +11,7 @@ Contributors: Smart City Jena
 import WidgetWrapper from './WidgetWrapper.vue'
 import WidgetWrapperSettings from './WidgetWrapperSettings.vue'
 import { Container } from 'inversify'
-
+import {defaultConfig} from './default/wrapperConfig'
 
 
 const init = (container: Container) => {
@@ -19,4 +19,4 @@ const init = (container: Container) => {
 
 }
 
-export { WidgetWrapper, WidgetWrapperSettings ,init}
+export { WidgetWrapper, WidgetWrapperSettings,defaultConfig ,init}

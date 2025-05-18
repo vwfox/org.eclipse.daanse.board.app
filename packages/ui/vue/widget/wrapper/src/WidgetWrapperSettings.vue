@@ -15,7 +15,7 @@ import type {i18n} from "org.eclipse.daanse.board.app.lib.i18next"
 
 
 
-const wrapperSettings = defineModel<IWrapperSettings>({ required: true });
+const wrapperSettings = defineModel<IWrapperSettings>({ required: true});
 const i118n:i18n|undefined = inject('i18n');
 const  t  = (i118n)?(key:string)=>i118n.t('wrapper:'+key):(s:string)=>{};
 
@@ -30,7 +30,7 @@ const fontColor = computed(() => {
 <template>
     <va-collapse v-model="opened" header="Widget wrapper settings" icon="style">
         <div class="settings-container">
-            <VaDivider class="pad_bottom" orientation="left">
+            <VaDivider class="pad_bottom" orientation="center">
                 <span class="px-2">{{ t("WidgetWrapper.title") }}</span>
             </VaDivider>
             <va-input
@@ -61,13 +61,13 @@ const fontColor = computed(() => {
                 :label="t('WidgetWrapper.backgroundColorTrancparency')"
                 :labelColor="fontColor"
                 :min="0"
-                :max="255"
+                :max="256"
             >
                 <template #append>
                     <VaCounter
                         v-model="wrapperSettings.backgroundColorTransparence"
                         :min="0"
-                        :max="255"
+                        :max="256"
                         class="w-[110px]"
                     />
                 </template>
@@ -89,14 +89,8 @@ const fontColor = computed(() => {
                 v-model="wrapperSettings.borderRadius"
                 :label="t('WidgetWrapper.borderRadius')"
             />
-            <VaDivider class="pad_bottom" orientation="left">
-                <span class="px-2">{{ t("WidgetWrapper.fullScreen") }}</span>
-            </VaDivider>
-            <va-checkbox
-                v-model="wrapperSettings.fullscreen"
-                :label="t('WidgetWrapper.showFullScreen')"
-            />
-            <VaDivider class="pad_bottom" orientation="left">
+
+            <VaDivider class="pad_bottom" orientation="center">
                 <span class="px-2">{{ t("WidgetWrapper.shadow") }}</span>
             </VaDivider>
             <va-input
@@ -113,14 +107,14 @@ const fontColor = computed(() => {
             />
             <va-color-input
                 autofocus
-                :label="t('WidgetWrapper.shadowColorTransparency')"
+                :label="t('WidgetWrapper.shadowColor')"
                 class="color-fill"
                 v-model="wrapperSettings.shadowColor"
             />
             <VaSlider
                 :labelColor="fontColor"
                 v-model="wrapperSettings.shadowTransparence"
-                :label="t('WidgetWrapper.showFullScreen')"
+                :label="t('WidgetWrapper.shadowTransparence')"
                 :min="0"
                 :max="255"
             >
@@ -133,7 +127,7 @@ const fontColor = computed(() => {
                     />
                 </template>
             </VaSlider>
-            <VaDivider class="pad_bottom" orientation="left">
+            <VaDivider class="pad_bottom" orientation="center">
                 <span class="px-2">{{ t("WidgetWrapper.transparence") }}</span>
             </VaDivider>
             <VaSlider
