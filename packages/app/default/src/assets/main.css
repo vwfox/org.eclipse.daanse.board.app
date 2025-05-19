@@ -54,7 +54,7 @@ url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100.
   .ice {
 
     padding: var(--spacing-6);
-    background: rgb(247 243 243 / 55%) !important;
+    background: rgb(247 243 243 / 85%) !important;
     border-radius: 16px;
 
 
@@ -105,4 +105,9 @@ body{
 }
 :root{
 
+}
+
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

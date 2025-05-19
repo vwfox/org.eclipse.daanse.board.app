@@ -327,7 +327,7 @@ const change = (e: any) => {
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   border: 2px dashed #ccc;
-  z-index: 100000;
+  z-index: 1000000;
   pointer-events: none;
 }
 

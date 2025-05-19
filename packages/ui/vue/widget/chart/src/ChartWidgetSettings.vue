@@ -14,6 +14,6 @@ Contributors:
 <script lang="ts" setup></script>
 
 <template>
-  <div>Settings should be here</div>
+
 </template>
 <style scoped></style>

@@ -31,7 +31,8 @@ const register = (widgetRepository: WidgetRepository) => {
     component: MapsWidget,
     settingsComponent: MapsWidgetSettings,
     supportedDSTypes: ['ogcsta'],
-    icon: Icon
+    icon: Icon,
+    name: 'Map'
   })
 }
 export {

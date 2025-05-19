@@ -44,6 +44,7 @@ const register = (widgetRepository: WidgetRepository) => {
     settingsComponent: ImageWidgetSettings,
     supportedDSTypes: [],
     icon: Icon,
+    name:'Image'
   })
 }
 

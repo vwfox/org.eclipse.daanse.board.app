@@ -6,7 +6,7 @@
     "fontColor": "Font Color",
     "background": "Background",
     "backgroundColor": "Background Color",
-    "backgroundColorTrancparency": "Shadow Color Transparency",
+    "backgroundColorTrancparency": "Background Color Transparency",
     "border": "Border",
     "borderSize": "Border Size",
     "borderColor": "Border Color",
@@ -17,8 +17,11 @@
     "shadowX": "Shadow x",
     "shadowY": "Shadow y",
     "shadowBlur": "Shadow blur",
-    "shadowColorTransparency": "Shadow Color Transparency",
+    "shadowTransparence": "Shadow Color Transparency",
+    "shadowColor": "Shadow Color",
     "transparence": "Transparence",
-    "transparency": "Transparency"
+    "transparency": "Transparency",
+    "padding": "Padding",
+    "blur": "Blur"
   }
 }

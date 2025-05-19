@@ -68,8 +68,8 @@ const iconStyle = computed(() => {
 </script>
 
 <template>
-  <va-collapse v-model="opened.widgetSection" :header="t('IconWidget.title')">
-    <div class="settings-container bg-blue-200">
+  <va-collapse v-model="opened.widgetSection" icon="settings" :header="t('IconWidget.title')">
+    <div class="settings-container">
       <va-input
         v-model="searchQuery"
         placeholder="Search icon..."

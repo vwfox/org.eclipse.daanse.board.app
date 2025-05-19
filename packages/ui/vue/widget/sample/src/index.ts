@@ -29,6 +29,7 @@ const register = (widgetRepository: WidgetRepository) => {
     settingsComponent: SampleWidgetSettings,
     supportedDSTypes: ['csv'],
     icon: Icon,
+    name: 'Sample'
   })
 }
 

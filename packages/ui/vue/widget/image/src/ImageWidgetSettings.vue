@@ -45,7 +45,7 @@ const addNew = () => {
 </script>
 
 <template>
-  <va-collapse v-model="opened.widgetSection" header="Image widget settings">
+  <va-collapse v-model="opened.widgetSection" icon="settings" header="Image widget settings">
     <div class="settings-container">
       <va-button @click="addNew">
         {{ i118n?.t('image:ImageWidget.addButton') }}

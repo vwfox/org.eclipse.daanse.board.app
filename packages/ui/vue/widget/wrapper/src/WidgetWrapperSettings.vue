@@ -45,6 +45,25 @@ const fontColor = computed(() => {
                 v-model="wrapperSettings.titleColor"
                 :label="t('WidgetWrapper.fontColor')"
             />
+          <VaDivider class="pad_bottom" orientation="center">
+          <span class="px-2">{{ t("WidgetWrapper.padding") }}</span>
+          </VaDivider>
+          <VaSlider
+            :labelColor="fontColor"
+            v-model="wrapperSettings.padding"
+            :label="t('WidgetWrapper.padding')"
+            :min="0"
+            :max="20"
+          >
+            <template #append>
+              <VaCounter
+                v-model="wrapperSettings.padding"
+                :min="0"
+                :max="20"
+                class="w-[110px]"
+              />
+            </template>
+          </VaSlider>
 
             <VaDivider class="pad_bottom" orientation="center">
                 <span class="px-2">{{ t("WidgetWrapper.background") }}</span>
@@ -61,7 +80,7 @@ const fontColor = computed(() => {
                 :label="t('WidgetWrapper.backgroundColorTrancparency')"
                 :labelColor="fontColor"
                 :min="0"
-                :max="256"
+                :max="255"
             >
                 <template #append>
                     <VaCounter
@@ -72,6 +91,22 @@ const fontColor = computed(() => {
                     />
                 </template>
             </VaSlider>
+          <VaSlider
+            v-model="wrapperSettings.blur"
+            :label="t('WidgetWrapper.blur')"
+            :labelColor="fontColor"
+            :min="0"
+            :max="10"
+          >
+            <template #append>
+              <VaCounter
+                v-model="wrapperSettings.blur"
+                :min="0"
+                :max="10"
+                class="w-[110px]"
+              />
+            </template>
+          </VaSlider>
             <VaDivider class="pad_bottom" orientation="center">
                 <span class="px-2">{{ t("WidgetWrapper.border") }}</span>
             </VaDivider>
@@ -135,13 +170,14 @@ const fontColor = computed(() => {
                 v-model="wrapperSettings.transparency"
                 :label="t('WidgetWrapper.transparency')"
                 :min="0"
-                :max="1"
+                :max="255"
                 :step="1"
             >
                 <template #append>
                     <VaCounter
                         v-model="wrapperSettings.transparency"
                         :min="0"
+                        :step="1"
                         :max="255"
                         class="w-[110px]"
                     />

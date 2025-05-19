@@ -43,12 +43,17 @@ watch(tempStore, async () => {
 
 <template>
   <div v-if="tempStore && data" class="flex flex-col h-full w-full gap-4">
-    <div class="h-1/2 overflow-hidden">
+    <div class="h50 overflow-hidden">
       <VaDataTable :items="data.items" :stickyHeader="true" style="height: 100%;" />
     </div>
-    <div class="h-1/2">
+    <div class="h50">
       <Bar id="my-chart-id" v-if="chartData && chartOptions"
         :options="chartOptions" :data="chartData" />
     </div>
   </div>
 </template>
+<style scoped>
+.h50{
+  height: 50%;
+}
+</style>

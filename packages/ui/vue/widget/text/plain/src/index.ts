@@ -40,6 +40,7 @@ const register = (widgetRepository: WidgetRepository) => {
     settingsComponent: TextWidgetSettings,
     supportedDSTypes: [],
     icon: Icon,
+    name: 'Text'
   })
 }
 

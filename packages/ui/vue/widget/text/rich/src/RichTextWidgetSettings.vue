@@ -108,7 +108,7 @@ watch(
 </script>
 
 <template>
-    <va-collapse v-model="opened.widgetSection" :header="t('textRich:RichTextWidget.title')">
+    <va-collapse v-model="opened.widgetSection" icon="settings" :header="t('textRich:RichTextWidget.title')">
         <div class="settings-container">
             <div v-if="editor">
                 <va-button class="editor-btn" @click="editor.chain().focus().toggleBold().run()"
@@ -376,7 +376,7 @@ watch(
 }
 
 .is-active {
-    border: 2px solid rgb(22, 253, 22) !important;
+    border: 2px solid rgb(236, 156, 29) !important;
 }
 
 .loading {

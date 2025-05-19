@@ -29,6 +29,7 @@ const register = (widgetRepository: WidgetRepository) => {
     settingsComponent: RssWidgetSettings,
     supportedDSTypes: [],
     icon: Icon,
+    name: 'RSS'
   })
 }
 

@@ -48,7 +48,7 @@ const registeredWidgets = container.get<WidgetRepository>(identifier)
 console.log(registeredWidgets.getAllWidgets())
 const availableWidgets = Object.entries(registeredWidgets.getAllWidgets())
   .filter(([_, widget]) => widget.icon)
-  .map(([name, widget]) => ({ type: name, icon: widget.icon }))
+  .map(([name, widget]) => ({ type: name,name:widget.name ,icon: widget.icon }))
 
 const computedWidgets = computed(() => {
   return availableWidgets
@@ -107,8 +107,8 @@ watch(selectedType, (newType) => {
 
 <template>
   <div class="add_widget_window ice z-mx p-6 shadow-sm">
-    <h1>Add Widget</h1>
-    <VaSelect
+    <span class="center font-normal text-center text-lg"><h3>Add Widget</h3></span>
+    <!--<VaSelect
       label="Datasource type"
       class="mx-3 my-3"
       v-model="selectedType"
@@ -124,7 +124,7 @@ watch(selectedType, (newType) => {
       text-by="uid"
       value-by="uid"
       teleport=".add_widget_window"
-    />
+    />-->
     <draggable
       class="widgets_grid"
       :list="computedWidgets"
@@ -138,7 +138,7 @@ watch(selectedType, (newType) => {
           @dragstart="(event) => onDragStart(event)"
         >
           <img class="m-2" :src="element.icon" style="height: 50px"/>
-          <span>{{ element.type }}</span>
+          <span class="font-normal">{{ element.name }}</span>
         </div>
       </template>
     </draggable>
@@ -149,7 +149,8 @@ watch(selectedType, (newType) => {
 .widgets_grid {
   display: grid;
   grid-template-columns: repeat(2, 50%);
-  gap: 1rem;
+  /*gap: 1rem;*/
+  /*padding: 0 2px;*/
 }
 
 :deep() .widgets_grid-item {
@@ -159,14 +160,16 @@ watch(selectedType, (newType) => {
   justify-content: center;
   /* gap: 1rem; */
   /*border: 1px solid gray;*/
-  background-color: #f4f4f4;
+  background-color: #f4f4f491;
   border-radius: 5px;
+  margin:12px;
+  cursor: pointer;
 }
 
 .add_widget_window {
   position: absolute;
   height: calc(100% - 100px);
-  width: 400px;
+  width: 350px;
   right: 0px;
   top: 1px;
   /*background-color: #ecf0f1;

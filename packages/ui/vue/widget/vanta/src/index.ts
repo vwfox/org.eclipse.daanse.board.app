@@ -29,6 +29,7 @@ const register = (widgetRepository: WidgetRepository) => {
     settingsComponent: VantaWidgetSettings,
     supportedDSTypes: [],
     icon: Icon,
+    name: 'Vanta'
   })
 }
 

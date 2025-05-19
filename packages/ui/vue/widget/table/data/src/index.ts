@@ -29,6 +29,7 @@ const register = (widgetRepository: WidgetRepository) => {
     settingsComponent: DataTableWidgetSettings,
     supportedDSTypes: ['csv','rest'],
     icon: Icon,
+    name: 'DataTable'
   })
 }
 

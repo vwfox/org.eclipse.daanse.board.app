@@ -28,7 +28,7 @@ const defaultConfig: IVideoSettings = {
     videoSettings: {
         fit: "Cover",
     },
-    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+    videoUrl: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4"
 };
 
 onMounted(() => {

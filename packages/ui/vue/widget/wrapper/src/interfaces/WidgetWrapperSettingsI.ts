@@ -13,10 +13,12 @@ export interface IWrapperSettings {
   backgroundColor: string;
   backgroundColorTransparence: number;
   titleColor: string;
+  padding:number;
   titleFontSize: number;
   borderSize: number;
   borderColor: string;
   borderRadius: number;
+  blur:number;
   fullscreen: boolean;
   shadowColor: string;
   shadowBlur: number;

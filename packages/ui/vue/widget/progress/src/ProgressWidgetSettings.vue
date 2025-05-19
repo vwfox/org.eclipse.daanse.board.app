@@ -89,6 +89,7 @@ watch(
 <va-collapse
         v-model="opened.widgetSection"
         :header="t('progress:ProgressWidget.title')"
+        icon="settings"
     >
         <div class="settings-container">
             <va-input

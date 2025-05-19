@@ -30,7 +30,7 @@ const t = (key:string)=>(i18n)?i18n.t(key):key;
 </script>
 
 <template>
-  <va-collapse v-model="opened.widgetSection" :header="t('textBase:TextWidget.title')">
+  <va-collapse v-model="opened.widgetSection" icon="settings" :header="t('textBase:TextWidget.title')">
     <div class="settings-container">
       <div class="settings-block">
         <va-input
@@ -57,7 +57,7 @@ const t = (key:string)=>(i18n)?i18n.t(key):key;
             size="small"
             icon-color="#000000"
             :color="
-              widgetSettings.fontWeight === 'bold' ? '#5983d4' : '#fafafa'
+              widgetSettings.fontWeight === 'bold' ? '#606060' : '#fafafa'
             "
             @click="
               widgetSettings.fontWeight === 'bold'
@@ -71,7 +71,7 @@ const t = (key:string)=>(i18n)?i18n.t(key):key;
             size="small"
             icon-color="#000000"
             :color="
-              widgetSettings.fontStyle === 'italic' ? '#5983d4' : '#fafafa'
+              widgetSettings.fontStyle === 'italic' ? '#606060' : '#fafafa'
             "
             @click="
               widgetSettings.fontStyle === 'italic'
@@ -86,7 +86,7 @@ const t = (key:string)=>(i18n)?i18n.t(key):key;
             icon-color="#000000"
             :color="
               widgetSettings.textDecoration === 'underline'
-                ? '#5983d4'
+                ? '#606060'
                 : '#fafafa'
             "
             @click="
@@ -107,7 +107,7 @@ const t = (key:string)=>(i18n)?i18n.t(key):key;
               icon-color="#000000"
               :color="
                 widgetSettings.horizontalAlign === 'Left'
-                  ? '#5983d4'
+                  ? '#606060'
                   : '#fafafa'
               "
               @click="widgetSettings.horizontalAlign = 'Left'"
@@ -119,7 +119,7 @@ const t = (key:string)=>(i18n)?i18n.t(key):key;
               icon-color="#000000"
               :color="
                 widgetSettings.horizontalAlign === 'Center'
-                  ? '#5983d4'
+                  ? '#606060'
                   : '#fafafa'
               "
               @click="widgetSettings.horizontalAlign = 'Center'"
@@ -131,7 +131,7 @@ const t = (key:string)=>(i18n)?i18n.t(key):key;
               icon-color="#000000"
               :color="
                 widgetSettings.horizontalAlign === 'Right'
-                  ? '#5983d4'
+                  ? '#606060'
                   : '#fafafa'
               "
               @click="widgetSettings.horizontalAlign = 'Right'"
@@ -144,7 +144,7 @@ const t = (key:string)=>(i18n)?i18n.t(key):key;
               size="small"
               icon-color="#000000"
               :color="
-                widgetSettings.verticalAlign === 'Top' ? '#5983d4' : '#fafafa'
+                widgetSettings.verticalAlign === 'Top' ? '#606060' : '#fafafa'
               "
               @click="widgetSettings.verticalAlign = 'Top'"
             />
@@ -155,7 +155,7 @@ const t = (key:string)=>(i18n)?i18n.t(key):key;
               icon-color="#000000"
               :color="
                 widgetSettings.verticalAlign === 'Center'
-                  ? '#5983d4'
+                  ? '#606060'
                   : '#fafafa'
               "
               @click="widgetSettings.verticalAlign = 'Center'"
@@ -167,7 +167,7 @@ const t = (key:string)=>(i18n)?i18n.t(key):key;
               icon-color="#000000"
               :color="
                 widgetSettings.verticalAlign === 'Bottom'
-                  ? '#5983d4'
+                  ? '#606060'
                   : '#fafafa'
               "
               @click="widgetSettings.verticalAlign = 'Bottom'"

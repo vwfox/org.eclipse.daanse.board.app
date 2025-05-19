@@ -30,7 +30,7 @@ const opened = ref({
 </script>
 
 <template>
-    <va-collapse v-model="opened.widgetSection" :header="t('svgRepeat:RepeatableSvgWidget.title')">
+    <va-collapse v-model="opened.widgetSection" icon="settings" :header="t('svgRepeat:RepeatableSvgWidget.title')">
         <div class="settings-container">
             <va-input v-model="widgetSettings.src" :label="t('svgRepeat:RepeatableSvgWidget.svgSrc')" />
             <va-input v-model="widgetSettings.repeations" :label="t('svgRepeat:RepeatableSvgWidget.repeations')" />

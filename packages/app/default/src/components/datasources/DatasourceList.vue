@@ -47,7 +47,7 @@ defineEmits(['openEditor'])
         :key="index"
         class="text-sm border-b border-gray-300 border-dashed
         last:border-none px-4 py-2 cursor-pointer"
-        :class="{ 'bg-blue-200': dataSource.uid === activeItemId }"
+        :class="{ 'bg-gray-200': dataSource.uid === activeItemId }"
         @click="$emit('openEditor', { type: 'DataSource', itemId: dataSource.uid })"
       >
         <VaListItemSection>
