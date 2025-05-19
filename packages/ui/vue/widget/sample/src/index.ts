@@ -27,7 +27,7 @@ const register = (widgetRepository: WidgetRepository) => {
   widgetRepository.registerWidget('SampleWidget', {
     component: SampleWidget,
     settingsComponent: SampleWidgetSettings,
-    supportedDSTypes: [],
+    supportedDSTypes: ['csv'],
     icon: Icon,
   })
 }

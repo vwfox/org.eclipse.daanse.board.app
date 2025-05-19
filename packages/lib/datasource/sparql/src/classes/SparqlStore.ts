@@ -103,6 +103,9 @@ export default class SparqlStore extends BaseDatasource {
 
       }return { heders:[],items: [], rows:[] };
     }
+    if(type == 'string'){
+      return JSON.stringify(this.data);
+    }
     return  this.data;
   }
 

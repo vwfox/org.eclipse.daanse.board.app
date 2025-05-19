@@ -39,7 +39,7 @@ const formRef = ref()
 const connectionForm = ref()
 
 const { connections, createConnection } = useConnectionsStore()
-const { dataSources, createDataSource } = useDataSourcesStore()
+const { dataSources, createDataSource,updateDataSource } = useDataSourcesStore()
 const {createWidget} = useWidgetsStore();
 const {updateLayout,layout} = useLayoutStore();
 const registeredWidgets = container.get<WidgetRepository>(widgetRepoIdentifier)
@@ -157,7 +157,7 @@ watch(step, (val) => {
       if (!ds.value) throw new Error('connection not found')
       const id = ds.value?.uid
       if (!id) throw new Error('id not found')
-      store.value = createStoreFromFormat(selectedItemsEmitted.value?.format?.value, id, uri!.pathname)
+      store.value = reactive(createStoreFromFormat(selectedItemsEmitted.value?.format?.value, id, uri!.pathname))
     } catch (e) {
       console.log(e)
     }
@@ -210,30 +210,28 @@ const createStoreFromFormat = (format: string, aconnection: string, aresourceUri
   switch ('<' + format + '>') {
     case Formats.CSV:
 
-      const uid = createDataSource('csv', { connection: aconnection, resourceUrl: aresourceUri })
-      store = dataSources.find((ds: DataSourceDTO) => ds.uid === uid)
-
-
-      break
+      const uid = createDataSource('csv', { connection: aconnection, resourceUrl: aresourceUri,separators:';' })
+      return dataSources.find((ds: DataSourceDTO) => ds.uid === uid)
+    
     case Formats.JSON:
       const uid_rest = createDataSource('rest', { connection: aconnection, resourceUrl: aresourceUri })
-      store = dataSources.find((ds: DataSourceDTO) => ds.uid === uid_rest)
+      return dataSources.find((ds: DataSourceDTO) => ds.uid === uid_rest)
 
-      break
+
     case Formats.REST:
       const uid_rest2 = createDataSource('rest', { connection: aconnection, resourceUrl: aresourceUri })
-      store = dataSources.find((ds: DataSourceDTO) => ds.uid === uid_rest2)
-      break
+      return dataSources.find((ds: DataSourceDTO) => ds.uid === uid_rest2)
+
     case Formats.OGCSTA:
       const uid_ogcsta = createDataSource('ogcsta', { connection: aconnection, resourceUrl: aresourceUri })
-      store = dataSources.find((ds: DataSourceDTO) => ds.uid === uid_ogcsta)
-      break
+      return dataSources.find((ds: DataSourceDTO) => ds.uid === uid_ogcsta)
+
     case Formats.XMLA:
       const uid_xmla = createDataSource('xmla', { connection: aconnection, resourceUrl: aresourceUri })
-      store = dataSources.find((ds: DataSourceDTO) => ds.uid === uid_xmla)
-      break
+      return dataSources.find((ds: DataSourceDTO) => ds.uid === uid_xmla)
+
   }
-  return store
+  return null
 }
 
 
@@ -295,6 +293,10 @@ const finish = () => {
   connectionForm.value?.resetValidation()
   toogle.value = false
 }
+watch(()=>store.value?.config,(config)=>{
+  console.log(config)
+  //updateDataSource(config.uid,store)
+},{deep:true})
 
 defineExpose({
   run
@@ -498,7 +500,7 @@ defineExpose({
 <style lang="scss">
 .infobox {
   .va-modal__dialog{
-    max-width: 40%!important;
+    max-width: 80%!important;
   }
   .footer, .va-modal__footer {
 
@@ -582,7 +584,7 @@ defineExpose({
 }
 
 .padd {
-  max-height: 400px;
+  max-height: 75vh;
   padding: 15px 25px;
 }
 

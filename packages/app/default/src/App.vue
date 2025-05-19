@@ -84,11 +84,11 @@ import Header from './components/common/Header.vue'
 .va-modal{
   /*z-index: 3700!important;*/
   .va-dropdown__content{
-      z-index: 3800;
+      z-index: 38000;
   }
 }
 .va-dropdown__content{
-  z-index: 3800!important;
+  z-index: 38000!important;
 }
 .orange{
   background: linear-gradient(rgba(231, 149, 66, 0.24) 0%, rgba(79, 79, 79, 0) 18%);

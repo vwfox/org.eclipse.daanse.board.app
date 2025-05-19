@@ -107,7 +107,7 @@ onMounted(async () => {
     <VaSelect v-model="config.separators" label="Separators"
         :options="[
             { label: 'Comma (,)', value: ',' },
-            { label: 'Semicolon (;)', value: ';',  },
+            { label: 'Semicolon (;)', value: ';'  },
             { label: 'Tab', value: '\\t' },
             { label: 'Pipe (|)', value: '|' },
             { label: 'Colon (:)', value: ':' },

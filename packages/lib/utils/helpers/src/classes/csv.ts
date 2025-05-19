@@ -468,10 +468,10 @@ export class CSV {
       )
 
     const [header, ...rows] = resultArray
-
+    const validRows = rows.filter(row => row.length === header.length)
     return {
       header,
-      rows,
+      rows: validRows,
       mappedRows: rows.map(row => CSV.toHashMap(row, header)),
     }
   }

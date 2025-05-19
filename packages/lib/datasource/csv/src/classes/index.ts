@@ -96,13 +96,19 @@ export class CsvStore extends BaseDatasource {
     if (!req.ok) return null
     const text = await req.text()
     const data: ICsvParseResult = helpers.csv.parse(text, this.parseOptions);
+    console.log(data)
     if (type === 'DataTable') {
       return {
         headers: data.header,
         items: data.mappedRows,
         rows: data.rows,
       };
-    } else {
+    }
+    if(type == 'string'){
+      return JSON.stringify(data);
+    }
+
+    else {
       console.warn('Invalid data type')
       return null
     }
