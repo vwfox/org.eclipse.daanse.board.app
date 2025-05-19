@@ -40,6 +40,7 @@ const register = (widgetRepository: WidgetRepository) => {
         settingsComponent: IconWidgetSettings,
         supportedDSTypes: [],
         icon: Icon,
+        name: 'Icon'
     })
 };
 

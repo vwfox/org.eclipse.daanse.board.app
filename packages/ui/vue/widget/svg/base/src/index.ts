@@ -44,6 +44,7 @@ const register = (widgetRepository: WidgetRepository) => {
     settingsComponent: SvgWidgetSettings,
     supportedDSTypes: [],
     icon: Icon,
+    name: 'SVG'
   })
 }
 

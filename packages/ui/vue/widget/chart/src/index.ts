@@ -29,6 +29,7 @@ const register = (widgetRepository: WidgetRepository) => {
     settingsComponent: ChartWidgetSettings,
     supportedDSTypes: [],
     icon: Icon,
+    name:'Chart'
   })
 }
 

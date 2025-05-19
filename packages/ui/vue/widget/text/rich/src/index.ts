@@ -33,6 +33,7 @@ const register = (widgetRepository: WidgetRepository) => {
     settingsComponent: RichTextWidgetSettings,
     supportedDSTypes: [],
     icon: Icon,
+    name: 'RichText'
   })
 }
 

@@ -37,6 +37,7 @@ const register = (widgetRepository: WidgetRepository) => {
     settingsComponent: PivotTableWidgetSettings,
     supportedDSTypes: [],
     icon: Icon,
+    name: 'PivotTable'
   })
 }
 

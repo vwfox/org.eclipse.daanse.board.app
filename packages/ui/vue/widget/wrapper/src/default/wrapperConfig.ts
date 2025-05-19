@@ -22,6 +22,8 @@ export const defaultConfig = {
   shadowBlur: 12,
   shadowX: 5,
   shadowY: 5,
+  blur:0,
+  padding:0,
   shadowTransparence: 25,
   transparency: 255,
 }

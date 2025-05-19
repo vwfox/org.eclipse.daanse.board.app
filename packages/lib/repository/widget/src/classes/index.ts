@@ -16,18 +16,19 @@ export interface WidgetConfig {
   settingsComponent?: any
   supportedDSTypes: string[]
   icon: string
+  name: string
   datasource?: string
 }
 
 export class WidgetRepository {
   private availableWidgets: Record<string, WidgetConfig> = {}
 
-  registerWidget(name: string, config: WidgetConfig) {
-    this.availableWidgets[name] = config
+  registerWidget(typename: string, config: WidgetConfig) {
+    this.availableWidgets[typename] = config
   }
 
-  getWidget(name: string): WidgetConfig {
-    return this.availableWidgets[name]
+  getWidget(typename: string): WidgetConfig {
+    return this.availableWidgets[typename]
   }
 
   getAllWidgets(): Record<string, WidgetConfig> {

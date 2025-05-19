@@ -29,7 +29,7 @@ const widgetSettings = defineModel<IVantaSettings>({ required: true })
 </script>
 
 <template>
-  <va-collapse v-model="opened" header="Vanta widget settings">
+  <va-collapse v-model="opened" header="Vanta widget settings" icon="settings">
     <div class="settings-container">
       <div>If no settings is specified, the default value will be used</div>
       <VaSelect

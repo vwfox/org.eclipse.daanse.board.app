@@ -224,7 +224,12 @@ import {init as initWrapper} from "org.eclipse.daanse.board.app.ui.vue.widget.wr
 import {init as initSparqlDataSourceUI} from "org.eclipse.daanse.board.app.ui.vue.datasource.sparql"
 import {init as initEndpointfinderPlugin}
   from "org.eclipse.daanse.board.app.ui.vue.plugins.endpointfinder"
-
+window.addEventListener('load', () => {
+  const preloader = document.getElementById('preloader');
+  if (preloader) {
+    preloader.style.display = 'none';
+  }
+});
 const app = createApp(App)
 app.use(createVuestic({
   config: {

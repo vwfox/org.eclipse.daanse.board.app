@@ -38,6 +38,7 @@ const register = (widgetRepository: WidgetRepository) => {
     settingsComponent: VideoWidgetSettings,
     supportedDSTypes: [],
     icon: Icon,
+    name: 'Video'
   })
 }
 

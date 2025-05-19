@@ -43,6 +43,7 @@ const register = (widgetRepository: WidgetRepository) => {
     settingsComponent: RepeatableSvgWidgetSettings,
     supportedDSTypes: [],
     icon: Icon,
+    name: 'RepeatableSVG'
   })
 }
 

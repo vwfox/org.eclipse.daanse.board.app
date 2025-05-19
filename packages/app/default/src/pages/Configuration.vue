@@ -11,7 +11,7 @@ Contributors:
     Smart City Jena
 -->
 <template>
-    <div class="configuration w-full h-full flex flex-col p-6">
+    <div class="configuration w-full h-full flex flex-col p-6  pl-18 ">
         <h1 class="text-2xl font-bold mb-6">Runtime Variables</h1>
 
         <!-- Search and control bar -->

@@ -53,7 +53,7 @@ const openSettings = (id: string): void => {
 
 const getShadow = computed(() => {
   let post = ''
-  if (widget.wrapperConfig.shadowTransparence) {
+  if (isByte(widget.wrapperConfig.shadowTransparence)) {
     post = widget.wrapperConfig.shadowTransparence.toString(16)
   }
   let color = (widget.wrapperConfig.shadowColor || '#FFFFFF').replace('#', '')
@@ -67,7 +67,7 @@ const getShadow = computed(() => {
 
 const getBackground = computed(() => {
   let post = ''
-  if (widget.wrapperConfig.backgroundColorTransparence) {
+  if (isByte(widget.wrapperConfig.backgroundColorTransparence)) {
     post = widget.wrapperConfig.backgroundColorTransparence.toString(16)
   }
   let color = (widget.wrapperConfig.backgroundColor || '#FFFFFF').replace(
@@ -95,7 +95,7 @@ const borderRadius = computed(() => {
 })
 
 const transparency = computed(() => {
-  return widget.wrapperConfig.transparency
+  return isByte(widget.wrapperConfig.transparency)
     ? widget.wrapperConfig.transparency / 255
     : 1
 })
@@ -115,16 +115,28 @@ const getShadowColor = computed(() => {
   }
   return (
     color +
-    (widget.wrapperConfig.shadowTransparence
+    (isByte(widget.wrapperConfig.shadowTransparence)
       ? widget.wrapperConfig.shadowTransparence.toString(16)
       : '')
   )
 })
+function isByte(value: unknown): value is number {
+  return typeof value === 'number' && Number.isInteger(value) && value >= 0 && value <= 255;
+}
+const getBlur= computed(()=>{
+  return (isByte(widget.wrapperConfig.blur))?
+  widget.wrapperConfig.blur:''
+})
+const getpadding= computed(()=>{
+  return (isByte(widget.wrapperConfig.padding))?
+    widget.wrapperConfig.padding:0
+})
+
 </script>
 
 <template>
   <div
-    class="flex relative flex-col w-full h-full wrapper-container">
+    class="flex relative flex-col w-full h-full wrapper-container" :style="{ '--blur-amount': getBlur + 'px' }">
     <div
       v-if="widget.wrapperConfig.title"
       class="p-2 font-semibold capitalize"
@@ -140,7 +152,7 @@ const getShadowColor = computed(() => {
         class="w-full h-full box-border cursor-pointer overflow-hidden sub"
         style="position: relative;"
       >
-        <VaScrollContainer color="#133370" vertical horizontal>
+        <VaScrollContainer color="#cbcbcb" vertical horizontal>
           <component
             :is="availableWidgets[widget.type].component"
             :config="widget.config"
@@ -186,13 +198,16 @@ const getShadowColor = computed(() => {
   border-width: v-bind(borderSize + "px");
   border-style: solid;
 
+
   width: 100%;
   height: 100%;
   box-Shadow: v-bind(getShadow);
   opacity: v-bind(transparency);
   border-radius: v-bind(borderRadius + "px");
+  backdrop-filter: blur(var(--blur-amount));
 }
 .sub{
   border-radius: v-bind(borderRadius + "px");
+  padding: v-bind(getpadding + "px");
 }
 </style>

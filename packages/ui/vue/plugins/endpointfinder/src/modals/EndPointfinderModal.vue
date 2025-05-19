@@ -210,9 +210,9 @@ const createStoreFromFormat = (format: string, aconnection: string, aresourceUri
   switch ('<' + format + '>') {
     case Formats.CSV:
 
-      const uid = createDataSource('csv', { connection: aconnection, resourceUrl: aresourceUri,separators:';' })
+      const uid = createDataSource('csv', { connection: aconnection, resourceUrl: aresourceUri,separators:',' })
       return dataSources.find((ds: DataSourceDTO) => ds.uid === uid)
-    
+
     case Formats.JSON:
       const uid_rest = createDataSource('rest', { connection: aconnection, resourceUrl: aresourceUri })
       return dataSources.find((ds: DataSourceDTO) => ds.uid === uid_rest)
@@ -256,6 +256,8 @@ const finish = () => {
         titleFontSize: 15,
         borderSize: 0,
         borderColor: '#ccc',
+        padding:0,
+        blur:0,
         borderRadius: 15,
         fullscreen: false,
         shadowColor: '#333',

@@ -61,7 +61,7 @@ watch(
 </script>
 
 <template>
-    <va-collapse v-model="opened.widgetSection" :header="t('svgBase:SvgWidget.title')">
+    <va-collapse v-model="opened.widgetSection" icon="settings" :header="t('svgBase:SvgWidget.title')">
         <div class="settings-container">
             <va-input v-model="widgetSettings.src" :label="t('svgBase:SvgWidget.svgSrc')" />
             <va-button class="add-button" @click="addItems">

@@ -39,6 +39,7 @@ const register = (widgetRepository: WidgetRepository) => {
     settingsComponent: ProgressWidgetSettings,
     supportedDSTypes: [],
     icon: Icon,
+    name:'Progress'
   })
 }
 

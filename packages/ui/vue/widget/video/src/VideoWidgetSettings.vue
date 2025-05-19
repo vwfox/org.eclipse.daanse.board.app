@@ -29,7 +29,7 @@ const opened = ref({
 </script>
 
 <template>
-    <va-collapse v-model="opened.widgetSection" :header="t('video:VideoWidget.title')">
+    <va-collapse v-model="opened.widgetSection" icon="settings" :header="t('video:VideoWidget.title')">
         <div class="settings-container">
             <va-input
                 v-model="widgetSettings.videoUrl"

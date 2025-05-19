@@ -24,7 +24,7 @@ const opened = ref(false)
 </script>
 
 <template>
-  <va-collapse v-model="opened" header="Data Table Settings">
+  <va-collapse v-model="opened" header="Data Table Settings" icon="settings">
     <div class="settings-container">
       <va-color-input
           class="text-color"
