@@ -1,0 +1,35 @@
+{
+  "name": "org.eclipse.daanse.board.app.lib.persistence.git",
+  "version": "0.0.1-next.1",
+  "description": "",
+  "author": "undefined",
+  "homepage": "",
+  "license": "EPL-2.0",
+  "main": "./dist/lib.persistence.git.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eclipse-daanse/org.eclipse.daanse.board.app.git"
+  },
+  "scripts": {
+    "build": "vite build",
+    "gitea_api:build": "npx @openapitools/openapi-generator-cli generate -i ./src/git_api/generated/gitea/definition/swagger_short.json --type-mappings AnyType=any,UNKNOWN_BASE_TYPE=object,enumPropertyNaming=original  -g typescript-axios -o ./src/git_api/generated/gitea --additional-properties withInterfaces=true,enumPropertyNaming=original,withDocs=false --global-property apiDocs=false,modelDocs=false,apiTests=false,modelTests=false"
+  },
+  "bugs": {
+    "url": "https://github.com/eclipse-daanse/org.eclipse.daanse.board.app/issues"
+  },
+  "devDependencies": {
+    "inversify": "7.5.1",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.3",
+    "vite-plugin-dts": "4.5.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "octokit": "^4.0.2",
+    "octokit-commit-multiple-files": "^5.0.2"
+  }
+}
