@@ -4,12 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
-    "preview": "vite preview",
-    "test:unit": "vitest",
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
     "test:e2e": "playwright test",
-    "build-only": "lerna run build --stream",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --fix",
     "lint:ci": "yarn lint --output-file eslint_report.json --format json",
@@ -23,6 +22,7 @@
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
+    "turbo": "^2.5.4",
     "@playwright/test": "^1.48.0",
     "@tsconfig/node20": "^20.1.4",
     "@types/jsdom": "^21.1.7",
