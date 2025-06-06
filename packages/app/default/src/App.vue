@@ -58,6 +58,16 @@ import Header from './components/common/Header.vue'
             </va-sidebar-item-title>
           </va-sidebar-item-content>
         </va-sidebar-item>
+
+          <va-sidebar-item :active="$route.name === 'save'"
+                            @click="$router.push('/save')" class="pointer ">
+            <va-sidebar-item-content class="">
+              <va-icon name="cloud_sync" />
+              <va-sidebar-item-title class="font-normal">
+                Store and Restore
+              </va-sidebar-item-title>
+            </va-sidebar-item-content>
+          </va-sidebar-item>
         <!-- <va-sidebar-item
           :active="$route.name === 'test'"
           @click="$router.push('/test')"

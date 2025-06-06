@@ -234,7 +234,7 @@ import {init as initPersistenceReopLoader}
 import {init as initPersistenceHelper} from "org.eclipse.daanse.board.app.lib.persistence.util"
 import {init as initPersistenceRest} from "org.eclipse.daanse.board.app.lib.persistence.rest"
 import {init as initPersistenceGit} from "org.eclipse.daanse.board.app.lib.persistence.git"
-
+import {init as initPersistenceGitUI} from "org.eclipse.daanse.board.app.ui.vue.persistence.git"
 
 window.addEventListener('load', () => {
   const preloader = document.getElementById('preloader');
@@ -339,7 +339,7 @@ initPresitenceRepos(container)
 initPesistaneceLocal(container)
 initPersistenceRest(container)
 initPersistenceGit(container)
-
+initPersistenceGitUI(container)
 initPersistenceReopLoader(container)
 // const variableFactory = container.get<VariableFactory>(variableFactoryIdentifier)
 const variableRepository = container.get<VariableRepository>(variablerepositoryIdentifier)

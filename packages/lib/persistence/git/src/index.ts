@@ -13,8 +13,10 @@ import { Repository, RepositoryRegistryI, identifier as persistenceIdentifieer }
 
 import GitRepositoryImpl from './GitRepository/GitRepositoryImpl'
 import { Container } from 'inversify'
-
+import type {GitWritableRepository} from './git_api/api/GitWritableRepsitory';
+import {AuthentificationError} from "./git_api/services/common/CastError";
 const identifier = Symbol.for('GitRepository')
+const type = GitRepositoryImpl.type;
 const init = (container: Container) => {
   container.bind<Repository>(identifier).to(GitRepositoryImpl)
   const repoRegistry = container.get<RepositoryRegistryI>(persistenceIdentifieer)
@@ -29,5 +31,8 @@ const init = (container: Container) => {
 
 export {
   init,
-  identifier
+  identifier,
+  GitWritableRepository,
+  type,
+  AuthentificationError
 }

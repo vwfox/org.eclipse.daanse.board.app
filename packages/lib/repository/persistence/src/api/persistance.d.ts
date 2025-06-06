@@ -21,9 +21,9 @@ export interface RepositoryRegistryI {
     findRepositoryByUri(uri:URL):Promise<Repository|undefined>;
     unregister(url:URL):void;
     registerRepoType(type:string,symbol:Symbol):void;
-    registerViewForRepoType(aclass:typeof BaseRepository,component:Component):void;
-    getViewForRepoType(aclass:Repository):Component|undefined;
-    isViewForRepoType(aclass:Repository):boolean;
+    registerViewForRepoType(type:string,component:Component):void;
+    getViewForRepoType(type:string):Component|undefined;
+    isViewForRepoType(type:string):boolean;
 }
 export interface Repository{
     readonly name:string;
