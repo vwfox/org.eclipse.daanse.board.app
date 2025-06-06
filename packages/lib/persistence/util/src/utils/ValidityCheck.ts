@@ -15,7 +15,7 @@ import { ValidityCheckI } from '../api/ValidityCheckI'
 export default class ValidityCheck implements ValidityCheckI {
   checkContent(json: any): boolean {
     const keys = Object.keys(json)
-    if (keys.includes('layout') && keys.includes('stores') && keys.includes('datasources') && keys.includes('widgets')) {
+    if (keys.includes('layout') && keys.includes('datasources') && keys.includes('conections') && keys.includes('widgets')) {
       return true
     }
     return false

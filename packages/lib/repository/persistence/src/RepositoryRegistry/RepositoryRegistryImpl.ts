@@ -14,45 +14,32 @@ import { type Component } from 'vue'
 import type { BaseRepository } from '../api/BaseRepository'
 import { Container, inject, injectable, optional, ServiceIdentifier } from 'inversify'
 import { identifier, SettingsManagerI } from 'org.eclipse.daanse.board.app.lib.settings.manager'
+import { RepositoryObserver, RepositoryObserverPatternInterface } from '../api/RepositoryObserverI'
 
 
 @injectable()
-export class RepositoryRegistry implements RepositoryRegistryI {
+export class RepositoryRegistry implements RepositoryRegistryI,RepositoryObserverPatternInterface {
 
   private availableRepos = new Map<string, Repository>()
   private availableRepoTypes = new Map<string, Symbol>()
   private availableRepoTypesViews = new Map<string, Component>()
   private init:boolean =  false;
 
-  /*constructor(@inject(identifier) @optional()
-              public readonly settingsManager:SettingsManagerI,
-              @inject(Container) private readonly container: Container
-              ) {
-    if(!this.init){
-      console.info('RepoRepository started');
-      if(!settingsManager){
-        console.info('SettingsManager not installed');
-        this.init = true;
-        return;
-      }
-      let persirepos = settingsManager.getSettings(['persistanceRepositories']);
-      for (let [type,instances] of Object.entries(persirepos)){
-        let baseclass = this.availableRepoTypes.get(type);
-        const aclass = this.container.get(baseclass as ServiceIdentifier)
-        if(aclass){
-          for (let entitysetting of (instances as any[])){
-            if(entitysetting.name && entitysetting.url){
-              const instanceOfBaseRepo = new (aclass as any)(new URL(entitysetting.url),entitysetting.name,entitysetting) as Repository;
-              this.register(instanceOfBaseRepo);
-            }
-          }
-        }else {
-          console.warn('found no RepositoryType for:',type)
-        }
-      }
-      this.init = true;
+  private observers: RepositoryObserver[] = []
+
+  addObserver(observer: RepositoryObserver): void {
+    this.observers.push(observer)
+  }
+
+  removeObserver(observer: RepositoryObserver): void {
+    this.observers = this.observers.filter(o => o !== observer)
+  }
+
+  private notify(event: 'register' | 'unregister', repo: Repository): void {
+    for (const observer of this.observers) {
+      observer.update(event, repo)
     }
-  }*/
+  }
   async findRepositoryByName(name: string): Promise<Repository | undefined> {
     return await Array.from(this.availableRepos.values()).find(repo => repo.name == name)
   }
@@ -68,48 +55,32 @@ export class RepositoryRegistry implements RepositoryRegistryI {
   register(repo: Repository): void {
     this.availableRepos.set(repo.uri.toString(), repo)
     console.info('registered Repo from Type:' + Object.getPrototypeOf(repo).constructor.type + ' under ' + repo.uri.toString())
+    this.notify('register', repo)
   }
 
   registerRepoType(type:string,symbol:Symbol) {
     this.availableRepoTypes.set(type, symbol)
   }
 
-  registerViewForRepoType(aclass: typeof BaseRepository, component: Component) {
-    this.availableRepoTypesViews.set(aclass.type, component)
+  registerViewForRepoType(type:string, component: Component) {
+    this.availableRepoTypesViews.set(type, component)
   }
 
-  getViewForRepoType(aclass: Repository): Component | undefined {
-    return this.availableRepoTypesViews.get(Object.getPrototypeOf(aclass).constructor.type)
+  getViewForRepoType(type:string): Component | undefined {
+    return this.availableRepoTypesViews.get(type)
   }
 
-  isViewForRepoType(aclass: Repository) {
-    return this.availableRepoTypesViews.has(Object.getPrototypeOf(aclass).constructor.type)
+  isViewForRepoType(type:string) {
+    return this.availableRepoTypesViews.has(type)
   }
 
   unregister(url: URL): void {
-    this.availableRepos.delete(url.toString())
+    const repo = this.availableRepos.get(url.toString())
+    if (repo) {
+      this.availableRepos.delete(url.toString())
+      this.notify('unregister', repo)
+    }
   }
 
-  /*onMounted(() => {
-      if(!init){
-          console.info('RepoRepository started');
-          let persirepos = useApplicationSettingsManager().getSettings(['persistanceRepositories']);
-          for (let [type,instances] of Object.entries(persirepos)){
-              let baseclass = this.availableRepoTypes.value.get(type);
-              if(baseclass){
-                  for (let entitysetting of (instances as any[])){
-                      if(entitysetting.name && entitysetting.url){
-                          const instanceOfBaseRepo = new (baseclass as any)(new URL(entitysetting.url),entitysetting.name,entitysetting) as Repository;
-                          register(instanceOfBaseRepo);
-                      }
-                  }
-              }else {
-                  console.warn('found no RepositoryType for:',type)
-              }
-          }
-          init = true;
-      }
-
-  })*/
 
 }

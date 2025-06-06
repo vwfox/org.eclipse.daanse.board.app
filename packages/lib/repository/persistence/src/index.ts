@@ -12,6 +12,7 @@ import type { Container } from 'inversify'
 import type { RepositoryRegistryI,WritableRepository,Entity,Repository } from './api/persistance'
 import {BaseRepository} from './api/BaseRepository'
 import { RepositoryRegistry } from './RepositoryRegistry/RepositoryRegistryImpl'
+import type {RepositoryObserver} from './api/RepositoryObserverI';
 const identifier = Symbol.for('RepositoryRegistry')
 const identifierInternalContainer = Symbol.for('InternalContainer')
 const init = (container: Container) => {
@@ -29,6 +30,7 @@ export {
   BaseRepository,
   WritableRepository,
   Entity,
-  Repository
+  Repository,
+  RepositoryObserver
 
 }
