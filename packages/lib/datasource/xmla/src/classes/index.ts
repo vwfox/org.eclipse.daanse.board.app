@@ -14,7 +14,7 @@
 import { getMdxRequest } from '../utils/MdxRequestConstructor'
 import { parseMdxRequest, parseRequestToTable } from '../utils/MdxRequestHelper'
 import { DrilldownHandler, DrilldownPayload } from './DrilldownHandler'
-import { BaseDatasource } from 'org.eclipse.daanse.board.app.lib.datasource.base'
+import { BaseDatasource, IBaseConnectionConfiguration } from 'org.eclipse.daanse.board.app.lib.datasource.base'
 import { Container } from 'inversify'
 import {
   identifier,
@@ -22,7 +22,7 @@ import {
   ConnectionRepository,
 } from 'org.eclipse.daanse.board.app.lib.repository.connection'
 
-export interface IXmlaStoreConfiguration {
+export interface IXmlaStoreConfiguration extends IBaseConnectionConfiguration {
   connection: string
   requestParams: XMLARequestParams
   useVisualEditor: boolean

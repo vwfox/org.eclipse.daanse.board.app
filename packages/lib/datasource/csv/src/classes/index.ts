@@ -14,7 +14,7 @@
 // import { extractDataByPath } from "@/utils/helpers";
 import { Container } from 'inversify'
 import {
-  BaseDatasource,
+  BaseDatasource, IBaseConnectionConfiguration
 } from 'org.eclipse.daanse.board.app.lib.datasource.base'
 import {
   identifier,
@@ -25,13 +25,10 @@ import { ComputedStoreParameter } from 'org.eclipse.daanse.board.app.lib.variabl
 import helpers from 'org.eclipse.daanse.board.app.lib.utils.helpers'
 import { ParseOptions } from 'org.eclipse.daanse.board.app.lib.utils.helpers'
 
-export interface ICsvStoreConfiguration  {
+export interface ICsvStoreConfiguration extends IBaseConnectionConfiguration{
   resourceUrl: string
   connection: string
   pollingInterval?: number
-  type: string
-  name: string
-  uid: string
   separators: string[]
 }
 

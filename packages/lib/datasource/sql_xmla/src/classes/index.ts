@@ -10,14 +10,14 @@
  * Contributors:
  *   Smart City Jena
  **********************************************************************/
-import { BaseDatasource } from 'org.eclipse.daanse.board.app.lib.datasource.base'
+import { BaseDatasource, IBaseConnectionConfiguration } from 'org.eclipse.daanse.board.app.lib.datasource.base'
 import {
   identifier,
   ConnectionRepository,
 } from 'org.eclipse.daanse.board.app.lib.repository.connection'
 import { Container } from 'inversify'
 
-export interface ISqlXmlaStoreConfiguration {
+export interface ISqlXmlaStoreConfiguration extends IBaseConnectionConfiguration {
   connection: string
   sql: string
   pollingInterval?: number
