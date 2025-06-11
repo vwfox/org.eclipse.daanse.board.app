@@ -37,7 +37,7 @@ jobs:
 
       - name: Build all Modules
         working-directory: .
-        run: lerna run build
+        run: yarn run build
         env:
           NODE_OPTIONS: --max_old_space_size=4096
 
