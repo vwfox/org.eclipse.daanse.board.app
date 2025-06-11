@@ -12,7 +12,9 @@
     "sourceMap": true,
     "baseUrl": "./src",
     "outDir": "dist",
-    "moduleResolution": "node",
-    "resolveJsonModule": true
-  }
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+
+  },
+
 }

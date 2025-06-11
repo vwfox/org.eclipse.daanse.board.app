@@ -11,8 +11,8 @@
  *   Smart City Jena
  **********************************************************************/
 import { defineConfig } from 'vite';
-
 // https://vitejs.dev/config
 export default defineConfig({
+  publicDir: 'pack/app/default/dist',
 
 });

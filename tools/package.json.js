@@ -31,7 +31,7 @@ export const pkg = (config) => `
   "devDependencies": {
     "inversify": "7.5.1",
     "typescript": "^5.8.2",
-    "vite": "^6.2.3",
+
     "vite-plugin-dts": "4.5.3"
   },
   "publishConfig": {

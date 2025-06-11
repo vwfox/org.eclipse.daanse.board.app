@@ -14,12 +14,14 @@ import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config
 export default defineConfig({
+  outDir: 'out',
   build:{
     assetsDir:'pack/app/default/dist',
     rollupOptions:{
       input:{
         app:'pack/app/default/dist/index.html'
       }
-    }
+    },
+    emptyOutDir: true
   }
 });

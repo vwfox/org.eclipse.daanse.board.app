@@ -31,7 +31,7 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@', replacement: '/src' },
-      { find: 'vue', replacement: 'vue/dist/vue.runtime.esm-bundler.js' },
+
     ],
   },
   css: {

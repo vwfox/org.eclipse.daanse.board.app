@@ -25,7 +25,7 @@ const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
     executableName: "org.eclipse.daanse.board.app.electron",
-    icon: './icon',
+    icon: './icon'
   },
   rebuildConfig: {},
   makers: [
@@ -63,11 +63,11 @@ const config: ForgeConfig = {
         },
       ],
       renderer: [
-        {
+        /*{
           name: 'main_window',
           config: 'vite.renderer.config.ts',
-        },
-      ],
+        },*/
+      ]
     }),
     // Fuses are used to enable/disable various Electron functionality
     // at package time, before code signing the application
