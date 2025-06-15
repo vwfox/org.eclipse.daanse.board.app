@@ -110,7 +110,7 @@ const override = async (e: Entity) => {
       override(e)
     }
   } finally {
-    emts('close')
+    //emts('close')
   }
 }
 const save = async (e: Entity) => {
@@ -139,7 +139,8 @@ const save = async (e: Entity) => {
     }
 
   } finally {
-    emts('close')
+    await getFiles()
+    //emts('close')
   }
 }
 const auth = () => {

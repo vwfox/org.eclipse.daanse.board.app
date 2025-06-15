@@ -16,13 +16,14 @@ import { SettingsManagerI } from '../interfaces/SettingsManagerI'
 export class SettingsManager implements SettingsManagerI{
 
   private ext_loaded = false;
-
+  private path = '/config.json'
   constructor() {
 
   }
   async loadData(){
     try{
-      const data = await fetch('config.json');
+
+      const data = await fetch(this.path);
       const jsonData = await data.json();
       if(!(globalThis as any).__env) {
         (globalThis as any).__env = { settings: null }
