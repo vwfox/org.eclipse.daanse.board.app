@@ -35,6 +35,10 @@ import {
 import { computedAsync } from '@vueuse/core'
 import type { Container } from 'inversify'
 import Default from '@/components/saveLoad/Default.vue'
+import { type ConnectionRepository, identifier as ConnectionRepoId }
+  from 'org.eclipse.daanse.board.app.lib.repository.connection'
+import { type DatasourceRepository, identifier as DsRepoId }
+  from 'org.eclipse.daanse.board.app.lib.repository.datasource'
 
 
 const releaseEndPointUrl = ref<String>('')
@@ -46,6 +50,11 @@ if (window && (window as any)['__env'] && (window as any)['__env'].settings
 const container = inject<Container>('container')
 const repoManager: RepositoryRegistryI | undefined =
   container?.get<RepositoryRegistryI>(RepoManagerId)
+const connectionRepository:ConnectionRepository|undefined =
+  container?.get<ConnectionRepository>(ConnectionRepoId)
+const dsRepository:DatasourceRepository|undefined =
+  container?.get<DatasourceRepository>(DsRepoId)
+
 repoManager.addObserver({
   update: async (event, repo) => {
     console.log('repos updated')
@@ -143,10 +152,24 @@ const loadData = (dataraw: any) => {
   const widgets = useWidgetsStore()
 
   console.log(data)
-  if (data.layout) layoutStore.layout = data.layout
-  if (data.datasources) stores.dataSources = data.datasources
   if (data.conections) conections.connections = data.conections
+  for(const connection of data.conections) {
+    if(connectionRepository)(connectionRepository as ConnectionRepository)
+      .registerConnection(connection.uid, connection.type, connection.config)
+  }
+
+
+  if (data.datasources) stores.dataSources = data.datasources
+  for(const datasource of data.datasources) {
+    if(dsRepository)(dsRepository as DatasourceRepository)
+      .registerDatasource(datasource.uid, datasource.type, datasource.config)
+  }
+  if (data.layout) layoutStore.layout = data.layout
+
   if (data.widgets) widgets.widgets = data.widgets
+
+
+
 
 }
 const type = computed(() => {

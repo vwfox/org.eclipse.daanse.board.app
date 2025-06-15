@@ -95,7 +95,9 @@ const save = async (e: Entity) => {
   e.data = props.context!.state
   try {
     await (props.repo as WritableRepository).create(e)
+
     notify({ message: 'File saved', color: '#dee5f2', position: 'bottom-right', duration: 2000 })
+    await reload();
   } catch (ee) {
     notify({
       title: 'Error on saving File', message: ee, color: '#d23a1f',
@@ -103,7 +105,7 @@ const save = async (e: Entity) => {
     })
     console.log(e)
   } finally {
-    emts('close')
+    //emts('close')
   }
 }
 
@@ -156,6 +158,14 @@ const sdelete = async () => { //@Todo check if Repo is WritableRepository
     await (props.repo as WritableRepository).delete(deleteFile.value as Entity)
   }
   cancel()
+  await reload()
+}
+
+const getRowClass = (item: any) => {
+  if (!selectedRow.value) return ''
+  return item.name === selectedRow.value.item.name ? { class: ['selected bg-gray-200'] } : ''
+}
+const  reload = async()=>{
   try {
     isTableLoading.value = true
     savedData.value = await (props.repo as Repository).findAll()
@@ -164,11 +174,6 @@ const sdelete = async () => { //@Todo check if Repo is WritableRepository
   } finally {
     isTableLoading.value = false
   }
-}
-
-const getRowClass = (item: any) => {
-  if (!selectedRow.value) return ''
-  return item.name === selectedRow.value.item.name ? { class: ['selected bg-gray-200'] } : ''
 }
 </script>
 
