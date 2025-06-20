@@ -39,6 +39,7 @@ import { type ConnectionRepository, identifier as ConnectionRepoId }
   from 'org.eclipse.daanse.board.app.lib.repository.connection'
 import { type DatasourceRepository, identifier as DsRepoId }
   from 'org.eclipse.daanse.board.app.lib.repository.datasource'
+import { parse, stringify } from 'flatted'
 
 
 const releaseEndPointUrl = ref<String>('')
@@ -141,34 +142,39 @@ const getData = () => {
     conections: conections.connections,
     widgets: widgets.widgets
   }
-  return JSON.stringify(data)
+  return stringify(data)
 }
 
-const loadData = (dataraw: any) => {
-  const data = JSON.parse(dataraw)
-  const layoutStore = useLayoutStore()
-  const stores = useDataSourcesStore()
-  const conections = useConnectionsStore()
-  const widgets = useWidgetsStore()
+const loadData = (content: any) => {
 
-  console.log(data)
-  if (data.conections) conections.connections = data.conections
-  for(const connection of data.conections) {
-    if(connectionRepository)(connectionRepository as ConnectionRepository)
-      .registerConnection(connection.uid, connection.type, connection.config)
+  if(content){
+    let data = JSON.parse(content)
+    if(Array.isArray(data)){ //false format serialized be flatted ?
+      data = parse(content)
+    }
+
+    const layoutStore = useLayoutStore()
+    const stores = useDataSourcesStore()
+    const conections = useConnectionsStore()
+    const widgets = useWidgetsStore()
+
+    console.log(data)
+    if (data.conections) conections.connections = data.conections
+    for(const connection of data.conections) {
+      if(connectionRepository)(connectionRepository as ConnectionRepository)
+        .registerConnection(connection.uid, connection.type, connection.config)
+    }
+
+
+    if (data.datasources) stores.dataSources = data.datasources
+    for(const datasource of data.datasources) {
+      if(dsRepository)(dsRepository as DatasourceRepository)
+        .registerDatasource(datasource.uid, datasource.type, datasource.config)
+    }
+    if (data.layout) layoutStore.layout = data.layout
+
+    if (data.widgets) widgets.widgets = data.widgets
   }
-
-
-  if (data.datasources) stores.dataSources = data.datasources
-  for(const datasource of data.datasources) {
-    if(dsRepository)(dsRepository as DatasourceRepository)
-      .registerDatasource(datasource.uid, datasource.type, datasource.config)
-  }
-  if (data.layout) layoutStore.layout = data.layout
-
-  if (data.widgets) widgets.widgets = data.widgets
-
-
 
 
 }

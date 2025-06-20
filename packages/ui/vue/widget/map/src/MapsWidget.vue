@@ -30,7 +30,8 @@ import booleanContains from '@turf/boolean-contains'
 import { feature } from '@turf/helpers'
 import pointOnFeature from '@turf/point-on-feature'
 import { useDataPointRegistry } from './composables/datapointRegistry'
-import {IconWidget}  from 'org.eclipse.daanse.board.app.ui.vue.widget.icon'
+import { IconWidget } from 'org.eclipse.daanse.board.app.ui.vue.widget.icon'
+
 const props = defineProps<{ datasourceId: string, config: IMapSettings }>()
 const { datasourceId, config } = toRefs(props)
 
@@ -43,7 +44,8 @@ const defaultConfig: IMapSettings = {
   layers: [],
   styles: [],
   OGCSstyles: [],
-  services: []
+  services: [],
+  fixed: true
 }
 
 const { filterFeatureCollection, compareDatastream, compareThing } = useComparator()
@@ -59,7 +61,6 @@ watch(datasourceId, (value, oldValue, onCleanup) => {
 })
 
 
-
 const { getById } = useDataPointRegistry()
 const openThing = ref<{ [key: string]: boolean }>({})
 let mounted = false
@@ -67,6 +68,7 @@ let mounted = false
 onMounted(() => {
   if (config.value) {
     Object.assign(config.value, { ...defaultConfig, ...config.value })
+    console.log(config.value)
   }
 
   const mapDiv = document.getElementById('mapholder')
@@ -76,12 +78,42 @@ onMounted(() => {
     }
   })
 
-  if (mapDiv) resizeObserver.observe(mapDiv)
+  if (mapDiv) {
+    resizeObserver.observe(mapDiv)
+  }
+
 })
-watch(data,(value, oldValue, onCleanup)=>{
+watch(data, (value, oldValue, onCleanup) => {
   console.log('data Changed')
-  console.log(value)
-},{deep:true})
+  loadObservationsInView()
+
+}, { deep: true, once: true })
+
+const setFixed = ()=>{
+  try {
+    const map3 = ((map.value as any).leafletObject as L.Map)
+    if (config.value.fixed) {
+      map3.dragging.disable()
+      map3.scrollWheelZoom.disable()
+      map3.doubleClickZoom.disable()
+      map3.touchZoom.disable()
+      map3.keyboard.disable()
+      map3.zoomControl.remove()
+    } else {
+      map3.dragging.enable()
+      map3.scrollWheelZoom.enable()
+      map3.doubleClickZoom.disable()
+      map3.touchZoom.enable()
+      map3.keyboard.enable()
+      map3.zoomControl.addTo(map3)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+watch(() => config.value.fixed, (value, oldValue, onCleanup) => {
+  setFixed();
+})
 const locations = computed(() => {
   return (data.value as any)['locations'] ?? []
 })
@@ -112,7 +144,10 @@ const options = computed(() => {
 
 
 const maploaded = () => {
-  mounted = true
+  mounted = true,
+    console.log('map ready')
+    setFixed();
+  //loadObservationsInView();
 }
 const rev = (arr: any) => {
   return {
@@ -162,11 +197,11 @@ const loadObservationsInView = () => {
             }
           } else {
             if (dataStream.thing && dataStream.thing!.locations && dataStream.thing!.locations[0]) {
-              try{
+              try {
                 if (booleanContains(bboxFeature, transformToGeoJson(dataStream.thing!.locations[0].location))) {
                   taskListByTime[refreshtime].push(dataStream)
                 }
-              }catch (e){
+              } catch (e) {
                 console.log('FeatureCollection not supported')
               }
 
@@ -247,18 +282,28 @@ const getPointformArea = (PointOrFeature: any) => {
     }
   }
 }
-
+const zoomUpdated = (zoom: any) => {
+  config.value.zoom = zoom
+}
+const centerUpdated = (center: any) => {
+  config.value.center = center
+}
 </script>
 
 <template>
 
   <div id="mapholder" class="holder" style="height: 100%">
     <l-map v-if="config.baseMapUrl" id="map" ref="map"
-            :center="config.center as PointExpression" :max-zoom="21" :use-global-leaflet="false"
+            :center="config.center as PointExpression"
+            :max-zoom="21"
+            :use-global-leaflet="false"
             :zoom="config.zoom"
             style="height: 100%"
             @move="mapmove"
             @ready="maploaded"
+            @update:zoom="zoomUpdated"
+            @update:center="centerUpdated"
+            :dragging="!config.fixed"
     >
       <l-tile-layer :attribution="config.attribution" :options="{maxNativeZoom:19,
         maxZoom:25}" :url="config.baseMapUrl"></l-tile-layer>
@@ -441,7 +486,7 @@ const getPointformArea = (PointOrFeature: any) => {
     }
   }
 
-  .datapoint{
+  .datapoint {
     transform: rotate(45deg);
     margin-top: 34px;
     margin-left: -17px;

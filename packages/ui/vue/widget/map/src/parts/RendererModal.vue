@@ -202,6 +202,9 @@ watch(showModal, (val) => {
     selection.value = undefined
   }
 })
+watch(selection,()=>{
+  tabNo.value = 0
+})
 </script>
 
 <template>

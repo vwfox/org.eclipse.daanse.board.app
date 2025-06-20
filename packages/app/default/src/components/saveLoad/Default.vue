@@ -17,6 +17,7 @@ import type {
 } from 'org.eclipse.daanse.board.app.lib.repository.persistence'
 import SaveInput from './SaveInput.vue'
 import { useToast } from 'vuestic-ui'
+import { stringify } from 'flatted'
 
 //Uses
 const { init, notify, closeAll } = useToast()
@@ -133,7 +134,7 @@ const load = async () => {
   try {
     let entity = await (props.repo as Repository).getEntityByUri(row.item.uri)
     if (entity && entity.data) {
-      emts('close', JSON.stringify(entity?.data) as any)
+      emts('close',entity?.data as any)
     }
     notify({ message: 'File loaded', color: '#dee5f2', position: 'bottom-right', duration: 2000 })
 

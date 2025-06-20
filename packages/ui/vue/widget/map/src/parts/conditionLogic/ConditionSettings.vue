@@ -119,11 +119,14 @@ const addContition = () => {
     :items="model"
     class="table-crud ds prop"
     striped
+    id="proptableConditions"
   >
     <template #headerAppend>
       <tr class="table-crud__slot">
         <th class="p-1">
           <VaSelect
+
+            width="230px"
             v-model="newCreateProp"
             :options="thingsPropOptions"
             :track-by="(option:any) => option.selector"
@@ -137,6 +140,7 @@ const addContition = () => {
         </th>
         <th class="p-1">
           <VaSelect
+            width="230px"
             v-model="newCreateComperator"
             :options="ComperatorOptions"
             :track-by="(option:any) => option.selector"
@@ -145,6 +149,7 @@ const addContition = () => {
         <th class="p-1">
           <template v-if="thingsPropOptions.find(s=>s.selector == newCreateProp?.selector)?.suggestions">
             <VaSelect
+              width="230px"
               v-model="newCreateValue"
               :options="thingsPropOptions.find(s=>s.selector == newCreateProp?.selector)?.suggestions"
               :track-by="(option:any) => option.selector"
@@ -156,6 +161,7 @@ const addContition = () => {
             />
           </template>
           <VaInput v-else v-model="newCreateValue"
+                    width="230px"
                     placeholder="Enter value"
           />
         </th>
@@ -205,6 +211,7 @@ const addContition = () => {
                                 }"
           />
           <span
+            v-else
             :class="doShowInput.value ? 'table-inline__item--hidden' : ''"
             class="table-inline__item"
             @click="doShowInput.value = true"
@@ -228,6 +235,7 @@ const addContition = () => {
                                 }"
           />
           <span
+            v-else
             :class="doShowInput.value ? 'table-inline__item--hidden' : ''"
             class="table-inline__item"
             @click="doShowInput.value = true"
@@ -251,6 +259,7 @@ const addContition = () => {
                                 }"
           />
           <span
+            v-else
             :class="doShowInput.value ? 'table-inline__item--hidden' : ''"
             class="table-inline__item"
             @click="doShowInput.value = true"
@@ -272,4 +281,14 @@ const addContition = () => {
   min-width: 0;
   flex-direction: row;
 }
+.table-inline__cell{
+  padding: 0;
+}
+#proptableConditions{
+  .va-data-table__table-td{
+    padding: 0;
+    margin: 7px 0px 7px 0;
+  }
+}
+
 </style>
