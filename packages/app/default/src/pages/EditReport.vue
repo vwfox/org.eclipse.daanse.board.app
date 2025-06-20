@@ -22,6 +22,7 @@ import { useLayoutStore } from 'org.eclipse.daanse.board.app.ui.vue.stores.layou
 import AddWidgetWindow from '@/components/common/AddWidgetWindow.vue'
 import WidgetSettingsWindow from '@/components/common/WidgetSettingsWindow.vue'
 import { cloneDeep } from 'lodash'
+import {stringify} from 'flatted';
 
 const widgetConfig = ref()
 const widgetSettingsOpenedId = ref('')
@@ -60,8 +61,8 @@ const {
 watch(
   () => ({ widgets, layout }),
   ({ widgets: newWidgets, layout: newLayout }) => {
-    innerWidgets.value = JSON.parse(JSON.stringify(newWidgets))
-    innerlayoutItems.value = JSON.parse(JSON.stringify(newLayout))
+    innerWidgets.value =cloneDeep(newWidgets);
+    innerlayoutItems.value =cloneDeep(newLayout);
   },
   { deep: true, immediate: true },
 )
@@ -99,14 +100,14 @@ const saveLayout = () => {
 }
 
 const resetLayout = () => {
-  innerWidgets.value = JSON.parse(JSON.stringify(widgets))
-  innerlayoutItems.value = JSON.parse(JSON.stringify(layout))
+  innerWidgets.value = cloneDeep(widgets)
+  innerlayoutItems.value = cloneDeep(layout)
 }
 
 const isSaveResetDisabled = computed(() => {
   return (
-    JSON.stringify(innerlayoutItems.value) === JSON.stringify(layout) &&
-    JSON.stringify(innerWidgets.value) === JSON.stringify(widgets)
+    stringify(innerlayoutItems.value) === stringify(layout) &&
+    stringify(innerWidgets.value) === stringify(widgets)
   )
 })
 

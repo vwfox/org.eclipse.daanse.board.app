@@ -30,7 +30,8 @@ const opened = ref({
   widgetSectionLayer: true,
   widgetSection: false,
   widgetServiceSection: true,
-  storeSection: false
+  storeSection: false,
+  widgetMapSection: false
 })
 
 const widgetSettings = defineModel<IMapSettings>({ required: true })
@@ -340,19 +341,48 @@ const modelswitch = computed(() => {
 
   </va-collapse>
 
+  <va-collapse v-model="opened.widgetMapSection" class="bottomframe" header="Services" icon="map">
+    <template #header="{ value, attrs, iconAttrs, text }">
+      <div id="header-va-4" aria-controls="panel-va-4" aria-disabled="false" aria-expanded="false" class="va-collapse__header" role="button"
+            style="color: currentcolor;" tabindex="0">
+
+        <VaIcon
+          class="material-icons"
+        >map
+        </VaIcon>
+        <div class="va-collapse__header__text">Map</div>
+
+        <VaIcon
+          :class="value ? 'rotate-[-180deg]':''"
+          name="va-arrow-down"
+          v-bind="iconAttrs"
+        />
+      </div>
+    </template>
+
+    <template #body>
+
+      <div class="settings-container">
+        <va-checkbox
+          v-model="widgetSettings.fixed"
+          label="Map fixed"
+        />
+      </div>
+
+    </template>
+
+  </va-collapse>
+
 
 </template>
 <style scoped>
-
-.settings-container {
-  /*padding: 15px;*/
-}
 
 
 .settings-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding: 15px;
 }
 
 .list-group-item {

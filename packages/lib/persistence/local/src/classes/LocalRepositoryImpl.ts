@@ -15,7 +15,7 @@ import { BaseRepository } from 'org.eclipse.daanse.board.app.lib.repository.pers
 import { identifier, ValidityCheckI } from 'org.eclipse.daanse.board.app.lib.persistence.util'
 
 import { injectable, optional, inject } from 'inversify'
-
+import {parse} from 'flatted';
 
 @injectable()
 export default class LocalRepositoryImpl extends BaseRepository implements WritableRepository {
@@ -37,6 +37,9 @@ export default class LocalRepositoryImpl extends BaseRepository implements Writa
     Object.keys(localStorage).forEach((e, key) => {
       try {
         let content = JSON.parse(localStorage.getItem(e) ?? '')
+        if(Array.isArray(content)){ //false format serialized be flatted ?
+          content = parse(localStorage.getItem(e) ?? '')
+        }
         if (this.ValidityCheck.checkContent(content)) {
           let copyBaseUri = new URL(this.uri ?? '')
           copyBaseUri.pathname = e + '.json'
@@ -63,13 +66,16 @@ export default class LocalRepositoryImpl extends BaseRepository implements Writa
     let ret: Entity[] = []
     if (Object.keys(localStorage).includes(pathname)) {
       let content = JSON.parse(localStorage.getItem(pathname) ?? '')
+      if(Array.isArray(content)){ //false format serialized be flatted ?
+        content = parse(localStorage.getItem(pathname) ?? '')
+      }
       if (this.ValidityCheck.checkContent(content)) {
         let copyBaseUri = new URL(this.uri ?? '')
         copyBaseUri.pathname = pathname + '.json'
         ret.push({
           name: pathname,
           uri: copyBaseUri,
-          data: content
+          data: localStorage.getItem(pathname)
         } as Entity)
       }
     }

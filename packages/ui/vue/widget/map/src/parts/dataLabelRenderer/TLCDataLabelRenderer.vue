@@ -30,14 +30,13 @@ const { config, data } = toRefs(props)
 <style scoped>
 .tlc {
   position: absolute;
-  border: 1px solid #ccc;
-  background: #fff;
+  border: 1px solid #746f6f;
+  background: #6a6a6a;
   padding: 4px;
-  border-radius: 21px;
+  border-radius: 6px;
   text-wrap: nowrap;
-  /* box-shadow: 3px 14px 15px 0px rgba(0, 0, 0, 0.43); */
   font-size: 16px;
-  margin: 22px 0px;
+  margin: 22px 0;
   transform: rotate(-90deg);
 
 }
