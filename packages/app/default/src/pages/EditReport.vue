@@ -106,8 +106,8 @@ const openWidgetSettings = (id: string) => {
 }
 
 const saveLayout = () => {
-  updateLayout(innerlayoutItems.value)
-  updateWidgets(innerWidgets.value)
+  updateLayout(cloneDeep(innerlayoutItems.value))
+  updateWidgets(cloneDeep(innerWidgets.value))
 }
 
 const resetLayout = () => {

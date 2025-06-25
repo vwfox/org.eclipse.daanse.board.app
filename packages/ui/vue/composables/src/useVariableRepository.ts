@@ -107,14 +107,21 @@ export function useVariableRepository() {
   ): Record<string, any> => {
     const wrappedParameters: Record<string, any> = {}
     for (const [key, value] of Object.entries(parameters)) {
-      console.log(value)
-      const computedValue = computed(() => {
-        updateTimestamp.value
-        if(value && value.value)
-          return calculateValue(value.value + '')
-        else return undefined
-      })
-      wrappedParameters[key] = computedValue
+      try{
+        const computedValue = computed(() => {
+          updateTimestamp.value
+          if (value){
+            return calculateValue(value.value + '')
+          }else {
+            return value
+          }
+
+        })
+        wrappedParameters[key] = computedValue
+      }catch (r){
+        console.log(r);
+      }
+
     }
     return wrappedParameters
   }

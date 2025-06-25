@@ -202,14 +202,23 @@ const loadData = (content: any) => {
     }
 
 
-    if (data.datasources) stores.dataSources = data.datasources
+
     for(const datasource of data.datasources) {
-      if(dsRepository)(dsRepository as DatasourceRepository)
-        .registerDatasource(datasource.uid, datasource.type, datasource.config)
+      if(dsRepository && !['chart','datatable'].includes(datasource.type)){
+        (dsRepository as DatasourceRepository)
+          .registerDatasource(datasource.uid, datasource.type, datasource.config)
+      }
+    }
+    for(const datasource of data.datasources) {
+      if(dsRepository && ['chart','datatable'].includes(datasource.type)){
+        (dsRepository as DatasourceRepository)
+          .registerDatasource(datasource.uid, datasource.type, datasource.config)
+      }
     }
 
     variableWrapperFactroy?.initilazeVariableWrappers(data.widgets)
     console.log(data.widgets)
+    if (data.datasources) stores.dataSources = data.datasources
     if (data.layout) layoutStore.layout = data.layout
 
     if (data.widgets) widgets.widgets = data.widgets
