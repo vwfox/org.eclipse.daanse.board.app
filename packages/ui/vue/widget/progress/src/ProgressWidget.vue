@@ -11,144 +11,196 @@ Contributors:
     Smart City Jena
 -->
 
+
 <script setup lang="ts">
-import type { IProgressSettings } from './index';
-import { computed, toRefs, onMounted, ref, watch } from "vue";
+import type { IProgressSettings } from './index'
+import { computed, toRefs, onMounted, ref, watch } from 'vue'
 import { useDatasourceRepository } from 'org.eclipse.daanse.board.app.ui.vue.composables'
 import helpers from 'org.eclipse.daanse.board.app.lib.utils.helpers'
 
-const props = defineProps<{ datasourceId: string, config: IProgressSettings }>();
-const { datasourceId, config } = toRefs(props);
+const props = defineProps<{ datasourceId: string, config: IProgressSettings }>()
+const { datasourceId, config } = toRefs(props)
 
-const data = ref(null as any);
-const { update } = useDatasourceRepository(datasourceId, "object", data);
+const data = ref(null)
+const { update } = useDatasourceRepository(datasourceId, "object", data)
 
 watch(datasourceId, (newVal, oldVal) => {
-    update(newVal, oldVal);
+  update(newVal, oldVal)
 })
 
 const defaultConfig: IProgressSettings = {
-    progress: "",
-    fillColor: "#00FF00",
-    gradientColor: "",
-    backgroundColor: "#D3D3D3",
-    isGradient: false,
-    isVertical: false,
-    rotation: 90,
-};
+  progress: "",
+  fillColor: "#00FF00",
+  gradientColor: "",
+  backgroundColor: "#D3D3D3",
+  isGradient: false,
+  isVertical: false,
+  rotation: 90,
+  valueAlign: 'center',
+  valueJustify: 'center',
+}
 
 onMounted(() => {
-    if (config.value) {
-        Object.assign(config.value, { ...defaultConfig, ...config.value });
-    };
-});
+  if (config.value) {
+    Object.assign(config.value, { ...defaultConfig, ...config.value })
+  }
+})
 
-const backgroundColor = computed(() => {
-    return config.value.backgroundColor;
-});
+const backgroundColor = computed(() => config.value.backgroundColor)
+const backgroundProgressColor = computed(() =>
+  config.value.isGradient
+    ? `linear-gradient(${config.value.rotation}deg, ${config.value.gradientColor})`
+    : config.value.fillColor
+)
 
-const backgroundProgressColor = computed(() => {
-    return config.value.isGradient
-        ? `linear-gradient(${config.value.rotation}deg, ${config.value.gradientColor})`
-        : `${config.value.fillColor}`;
-});
+const transition = computed(() =>
+  config.value.isVertical ? "height .7s ease" : "width .7s ease"
+)
 
-const transition = computed(() => {
-    return config.value.isVertical ? "height .7s ease" : "width .7s ease";
-});
+const verticalPositionFiller = computed(() =>
+  config.value.isVertical && parsedProgress.value
+    ? `${(parsedProgress.value / (config.value.max ?? 100)) * 100}%`
+    : "35px"
+)
 
-const verticalPositionFiller = computed(() => {
-    if (parsedProgress.value) {
-        return config.value.isVertical
-            ? `${parsedProgress.value}%`
-            : "35px";
-    }
-});
+const horizontalPositionFiller = computed(() =>
+  !config.value.isVertical && parsedProgress.value
+    ? `${(parsedProgress.value / (config.value.max ?? 100)) * 100}%`
+    : "35px"
+)
+const verticalPositionWrapper = computed(() =>
+  config.value.isVertical && parsedProgress.value
+    ? `35px`
+    : "100%"
+)
 
-const horizontalPositionFiller = computed(() => {
-    if (parsedProgress.value) {
-        return !config.value.isVertical
-            ? `${parsedProgress.value}%`
-            : "35px";
-    }
-});
+const horizontalPositionWrapper= computed(() =>
+  !config.value.isVertical && parsedProgress.value
+    ? `35px`
+    : "100%"
+)
 
-const verticalPositionBackground = computed(() => {
-    return config.value.isVertical ? "35px" : "100%";
-});
-
-const horizontalPositionBackground = computed(() => {
-    return !config.value.isVertical ? "35px" : "100%";
-});
+const barRadius = computed(() => config.value.borderRadius || "10px")
 
 const parsedProgress = computed(() => {
-    if (!config.value.progress) {
-        return null;
-    }
+  if (!config.value.progress) return null
 
-    const { parts } = helpers.widget.extractValuesAndFullObject(config.value.progress);
-    let result = "";
+  const { parts } = helpers.widget.extractValuesAndFullObject(config.value.progress)
+  let result = ""
 
-    for (const part of parts) {
-        if (part.path || part.path === null) {
-            const value = helpers.widget.getValueByPath(data.value, part.path);
-            result += value !== undefined ? value : part.text;
-        } else {
-            result += part.text;
-        }
-    }
+  for (const part of parts) {
+    const value = part.path || part.path === null
+      ? helpers.widget.getValueByPath(data.value, part.path)
+      : undefined
+    result += value !== undefined ? value : part.text
+  }
 
-    return parseFloat(result);
-});
+  const numeric = parseFloat(result)
+  if (isNaN(numeric)) return null
+
+  const min = config.value.min ?? 0
+  const max = config.value.max ?? 100
+  return Math.max(min, Math.min(max, numeric))
+})
+
+const horizontalAlignClass = computed(() => {
+  switch (config.value?.valueAlign) {
+    case "left": return "align-left"
+    case "right": return "align-right"
+    default: return "align-center"
+  }
+})
+const textColor = computed(() => config.value.textColor || "#000000")
+
+const verticalAlignClass = computed(() => {
+  switch (config.value?.valueJustify) {
+    case "top": return "justify-top"
+    case "bottom": return "justify-bottom"
+    default: return "justify-center"
+  }
+})
 </script>
 
 <template>
-    <div class="container">
-        <div class="progress">
-            <span>
-                {{ parsedProgress }}%
-            </span>
-            <div class="progress-percent"></div>
-        </div>
+  <div class="container">
+    <div class="grid-layout" :class="{ vertical: config.isVertical }">
+      <div
+        class="progress-value"
+        :class="[verticalAlignClass, horizontalAlignClass]"
+      >
+        {{ parsedProgress !== null ? parsedProgress : 'n/a' }}
+      </div>
+      <div class="progress-bar">
+        <div class="progress-percent"></div>
+      </div>
     </div>
+  </div>
 </template>
 
 <style scoped>
 .container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.progress {
-    width: v-bind(verticalPositionBackground);
-    height: v-bind(horizontalPositionBackground);
-    background: v-bind(backgroundColor);
-    border-radius: 10px;
-    display: flex;
-    align-items: end;
-    position: relative;
+.grid-layout {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows:  1fr auto 1fr;
+
+  gap: 0.5em;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.grid-layout.vertical {
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* Zentrale Progressbar */
+.progress-bar {
+  grid-column: 2;
+  grid-row: 2;
+  background: v-bind(backgroundColor);
+  border-radius: v-bind(barRadius);
+  justify-self: center;
+  position: relative;
+  display: flex;
+  align-items: end;
+  justify-content: start;
+  height: v-bind(horizontalPositionWrapper);
+  width: v-bind(verticalPositionWrapper);
 }
 
 .progress-percent {
-    height: v-bind(verticalPositionFiller);
-    width: v-bind(horizontalPositionFiller);
-    background: v-bind(backgroundProgressColor);
-    transition: v-bind(transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
+  height: v-bind(verticalPositionFiller);
+  width: v-bind(horizontalPositionFiller);
+  background: v-bind(backgroundProgressColor);
+  transition: v-bind(transition);
+  border-radius: v-bind(barRadius);
 }
 
-span {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-weight: 600;
-    z-index: 1000;
+/* Text */
+.progress-value {
+  font-weight: 600;
+  white-space: nowrap;
+  align-self: center;
+  justify-self: center;
+  color: v-bind(textColor);
+  z-index: 1000;
 }
+
+/* Grid-Zuweisung */
+.align-left   { grid-column: 1; }
+.align-center { grid-column: 2; }
+.align-right  { grid-column: 3; }
+
+.justify-top    { grid-row: 1; }
+.justify-center { grid-row: 2; }
+.justify-bottom { grid-row: 3; }
 </style>

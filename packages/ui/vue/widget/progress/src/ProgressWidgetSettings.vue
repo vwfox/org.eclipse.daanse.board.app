@@ -70,19 +70,7 @@ const deleteField = (id: number) => {
   gradientFields.value = gradientFields.value.filter((_, i) => i !== id);
 };
 
-watch(
-    () => widgetSettings.value.progress,
-    (newValue) => {
-        const progressValue = parseFloat(String(newValue));
-        if (progressValue > 100) {
-            widgetSettings.value.progress = "100";
-        } else if (progressValue < 0) {
-            widgetSettings.value.progress = "0";
-        } else {
-            widgetSettings.value.progress = newValue;
-        }
-    }
-);
+
 </script>
 
 <template>
@@ -96,6 +84,16 @@ watch(
                 v-model="widgetSettings.progress"
                 :label="t('progress:ProgressWidget.progress')"
             />
+          <va-input
+            v-model="widgetSettings.min"
+            type="number"
+            :label="t('progress:ProgressWidget.min')"
+          />
+          <va-input
+            v-model="widgetSettings.max"
+            type="number"
+            :label="t('progress:ProgressWidget.max')"
+          />
             <va-color-input
                 v-model="widgetSettings.fillColor"
                 :label="t('progress:ProgressWidget.fillColor')"
@@ -104,6 +102,43 @@ watch(
                 v-model="widgetSettings.backgroundColor"
                 :label="t('progress:ProgressWidget.backgroundColor')"
             />
+          <va-color-input
+            v-model="widgetSettings.textColor"
+            :label="t('progress:ProgressWidget.textColor')"
+          />
+          <va-input
+            v-model="widgetSettings.barThickness"
+            :label="t('progress:ProgressWidget.barThickness')"
+            placeholder="z.B. 20px"
+          />
+          <va-input
+            v-model="widgetSettings.borderRadius"
+            :label="t('progress:ProgressWidget.borderRadius')"
+            placeholder="z.B. 10px"
+          />
+          <va-select
+            v-model="widgetSettings.valueAlign"
+            :label="t('progress:ProgressWidget.valueAlign')"
+            :options="[
+              { text: 'alignStart', value: 'left' },
+              { text: 'alignCenter', value: 'center' },
+              { text: 'alignEnd', value: 'right' },
+              ]"
+            value-by="value"
+            text-by="text"
+          />
+          <va-select
+            v-model="widgetSettings.valueJustify"
+            :label="t('progress:ProgressWidget.valueAlign')"
+            :options="[
+              { text: 'alignStart', value: 'top' },
+              { text: 'alignCenter', value: 'center' },
+              { text: 'alignEnd', value: 'bottom' },
+              ]"
+            value-by="value"
+            text-by="text"
+
+          />
             <va-checkbox
                 v-model="widgetSettings.isVertical"
                 :label="t('progress:ProgressWidget.isVertical')"

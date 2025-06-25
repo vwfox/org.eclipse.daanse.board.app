@@ -59,7 +59,7 @@ export class ComputedStoreParameter {
   //      - updated when variables are added or removed
 
   getDependencies(): string[] {
-    const regexp = /\$(\S+)*/gm
+    const regexp = /\$([a-zA-Z_][\w]*)/g
     const dependencies = [] as string[]
     let m: RegExpExecArray | null
 
@@ -81,42 +81,41 @@ export class ComputedStoreParameter {
       return result
     }
 
+    // Alte Subscriptions entfernen
     this.currentSubscriptions.forEach((subFn, key) => {
       const variable = this.storage.getVariable(key) as Variable
       if (variable) {
         variable.unsubscribe(subFn)
       }
     })
-
     this.currentSubscriptions.clear()
 
+    // Neue Subscriptions einrichten
     dependencies.forEach(dep => {
-      const variable = this.storage.getVariable(dep) as Variable
-      console.log('dep', dep)
-      console.log('storage', this.storage)
+      const variable = this.storage.getVariable(dep) as Variable | undefined
 
-      this.currentSubscriptions.set(dep, () => {
-        console.log('Should update')
-        this.refreshCb()
-      })
-
-      variable.subscribe(this.currentSubscriptions.get(dep) as () => void)
+      if (variable) {
+        const subFn = () => {
+          this.refreshCb()
+        }
+        this.currentSubscriptions.set(dep, subFn)
+        variable.subscribe(subFn)
+      }
     })
 
-    console.log(this.currentSubscriptions)
-
+    // Nur definierte Variablen ersetzen
     dependencies.forEach(dep => {
-      result = result.replace(
-        `$${dep}`,
-        typeof this.storage.getVariable(dep)?.value === 'number'
-          ? this.storage.getVariable(dep)?.value
-          : `${this.storage.getVariable(dep)?.value}`,
-      )
+      const variable = this.storage.getVariable(dep)
+      if (variable && variable.value !== undefined) {
+        result = result.replace(
+          `$${dep}`,
+          typeof variable.value === 'number'
+            ? variable.value.toString()
+            : `${variable.value}`,
+        )
+      }
     })
 
-    // TODO: make logic for evaluation
-    // const execFn = new Function(`return ${result}`);
-    // return execFn();
     return result
   }
 
