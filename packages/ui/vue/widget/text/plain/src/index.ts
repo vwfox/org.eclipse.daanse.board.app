@@ -16,6 +16,7 @@ import Icon from './assets/text.svg'
 import TextWidget from './TextWidget.vue'
 import TextWidgetSettings from './TextWidgetSettings.vue'
 import { Container } from 'inversify'
+import { VariableWrapper } from 'org.eclipse.daanse.board.app.ui.vue.composables'
 
 const init = (container: Container) => {
   const widgetRepository = container.get<WidgetRepository>(identifier)
@@ -24,14 +25,14 @@ const init = (container: Container) => {
 }
 
 interface ITextSettings {
-  text: string
-  fontSize: number
-  fontColor: string
-  fontWeight: string
-  fontStyle: string
-  textDecoration: string
-  horizontalAlign: string
-  verticalAlign: string
+  text: VariableWrapper<string>
+  fontSize: VariableWrapper<number>
+  fontColor: VariableWrapper<string>
+  fontWeight: VariableWrapper<string>
+  fontStyle: VariableWrapper<string>
+  textDecoration: VariableWrapper<string>
+  horizontalAlign: VariableWrapper<string>
+  verticalAlign: VariableWrapper<string>
 }
 
 const register = (widgetRepository: WidgetRepository) => {

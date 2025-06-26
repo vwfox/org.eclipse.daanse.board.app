@@ -13,14 +13,21 @@ Contributors:
 
 <script lang="ts" setup>
 import { IMermaidWidgetSettings } from '.';
+import { computed } from 'vue'
 
 const widgetSettings = defineModel<IMermaidWidgetSettings>({ required: true });
+
+
 </script>
 
 <template>
     <div class="settings_container">
-        <VaTextarea v-model="widgetSettings.value" :minRows="10" />
-        <VaSelect v-model="widgetSettings.theme" :options="[ 'default', 'neutral', 'dark', 'forest', 'base' ]"/>
+      <VaTextarea
+        v-model="widgetSettings.value.original"
+        :minRows="10"
+      />
+      <VaSelect v-model="widgetSettings.theme.value"
+                :options="[ 'default', 'neutral', 'dark', 'forest', 'base' ]"/>
     </div>
 </template>
 <style scoped>

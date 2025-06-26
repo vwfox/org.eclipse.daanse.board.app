@@ -11,7 +11,7 @@
  *   Smart City Jena
  **********************************************************************/
 import { type VariableRepository, identifier } from "org.eclipse.daanse.board.app.lib.repository.variable"
-import { ConstantVariableSymbol } from "org.eclipse.daanse.board.app.lib.variables"
+import { CONSTANT_VARIABLE, ConstantVariableSymbol } from 'org.eclipse.daanse.board.app.lib.variables'
 import { Container } from "inversify"
 import Settings from "./Settings.vue"
 
@@ -22,7 +22,7 @@ const init = (container: Container) => {
 }
 
 const register = (variableRepository: VariableRepository) => {
-    variableRepository.registerVariableType('constant', {
+    variableRepository.registerVariableType(CONSTANT_VARIABLE, {
         Variable: ConstantVariableSymbol,
         Settings: Settings,
     })

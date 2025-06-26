@@ -314,7 +314,7 @@ const centerUpdated = (center: any) => {
                         :name="wmsLayer.name"
                         :opacity="wmsLayer.opacity"
                         :transparent="true"
-                        :url="wmsLayer.service.getOperationUrl('GetMap')"
+                        :url="(wmsLayer.service as  any).getOperationUrl('GetMap')"
                         :visible="(wmsLayer as any).checked"
                         format="image/png"
                         layer-type="base">
@@ -325,7 +325,7 @@ const centerUpdated = (center: any) => {
             <!--<template v-if="compareDatastream(wmsLayer.wfs_service?.geoJson as BoxedDatastream, config.styles.find(style=>style.id==styleID)!)">-->
             <l-geo-json v-if="!isPoint(wmsLayer.wfs_service?.geoJson)" ref="thingsLayer"
                         :geojson="filterFeatureCollection(wmsLayer.wfs_service?.geoJson as any,config.styles.find(style=>style.id==styleID)!) as unknown as  GeoJsonObject[]"
-                        :options-style="()=>config.styles.find(style=>style.id==styleID)?.renderer.area"></l-geo-json>
+                        :options-style="()=>config.styles.find(style=>style.id==styleID)?.renderer.area as any"></l-geo-json>
             <!-- </template>-->
           </template>
         </template>
@@ -338,7 +338,7 @@ const centerUpdated = (center: any) => {
                   <template v-if="isFeatureCollection(location.location)">
                     <l-geo-json v-if="!isPoint(location.location)" ref="thingsLayer"
                                 :geojson="location.location" :options="options"
-                                :options-style="()=>renderer.renderer.area"></l-geo-json>
+                                :options-style="()=>renderer.renderer.area as any"></l-geo-json>
                   </template>
 
 
@@ -373,7 +373,7 @@ const centerUpdated = (center: any) => {
                         v-if="compareDatastream(datastream as BoxedDatastream, subrenderer) /*&& openThing[thing['@iot.id']]*/">
                         <l-geo-json ref="thingsLayer"
                                     :geojson="transformToGeoJson(datastream.observedArea)" :options="options"
-                                    :options-style="()=>subrenderer.renderer.area"></l-geo-json>
+                                    :options-style="()=>subrenderer.renderer.area as any"></l-geo-json>
                         <l-marker
                           v-if="((subrenderer.placement == ERefType.Thing)?getPoint(location.location):getPointformArea(transformToGeoJson(datastream.observedArea))) as L.LatLngExpression"
                           :lat-lng="((subrenderer.placement == ERefType.Thing)?getPoint(location.location):getPointformArea(transformToGeoJson(datastream.observedArea))) as L.LatLngExpression">
@@ -388,7 +388,7 @@ const centerUpdated = (center: any) => {
                                   <component
                                     :is="getById(subrenderer.observation?.component)?.component"
                                     v-if="getById(subrenderer.observation?.component)"
-                                    :config="subrenderer.observation.setting"
+                                    :config="subrenderer.observation?.setting"
                                     :data="datastream.observations[0]?.result"></component>
                                 </template>
                               </div>
@@ -397,7 +397,7 @@ const centerUpdated = (center: any) => {
                               <div :style="{background:subrenderer.renderer.pointPin.color}"
                                     class="pin round contain">
                                 <div class="inner">
-                                  {{ datastream[((subrenderer as IRenderer).renderer.point_prop) ?? ''] }}
+                                  {{ datastream[((subrenderer as unknown as IRenderer).renderer.point_prop) ?? ''] }}
                                 </div>
                                 <template v-if="datastream.observations">
                                   <component

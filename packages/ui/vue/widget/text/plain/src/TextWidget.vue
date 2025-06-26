@@ -12,65 +12,59 @@ Contributors:
 -->
 
 <script lang="ts" setup>
-import { computed, toRefs, onMounted, ref, watch } from "vue";
-import { useDatasourceRepository } from 'org.eclipse.daanse.board.app.ui.vue.composables'
+import { computed, toRefs, onMounted, ref, watch, getCurrentInstance } from 'vue'
+import { useDatasourceRepository, VariableWrapper } from 'org.eclipse.daanse.board.app.ui.vue.composables'
 import helpers from 'org.eclipse.daanse.board.app.lib.utils.helpers'
 import type { ITextSettings } from "./index";
 import { useVariableRepository } from "org.eclipse.daanse.board.app.ui.vue.composables"
 
 
 const { wrapParameters } = useVariableRepository();
-const props = defineProps<{ datasourceId: string; config: ITextSettings }>();
-const { datasourceId, config } = toRefs(props);
+const props = defineProps<{ datasourceId: string; }>();
+const { datasourceId } = toRefs(props);
+const config = defineModel<ITextSettings>('configv', { required: true});
+const defaultConfig: ITextSettings = {
+  text: new VariableWrapper<string>(""),
+  fontSize: new VariableWrapper<number>(12),
+  fontColor: new VariableWrapper<string>("#000"),
+  fontWeight: new VariableWrapper<string>("normal"),
+  fontStyle: new VariableWrapper<string>("normal"),
+  textDecoration: new VariableWrapper<string>("none"),
+  horizontalAlign: new VariableWrapper<string>("Left"),
+  verticalAlign: new VariableWrapper<string>("Top"),
+};
 
 const data = ref(null as any);
 const { update } = useDatasourceRepository(datasourceId, "object", data);
 
-const defaultConfig: ITextSettings = {
-    text: "",
-    fontSize: 12,
-    fontColor: "#000",
-    fontWeight: "normal",
-    fontStyle: "normal",
-    textDecoration: "none",
-    horizontalAlign: "Left",
-    verticalAlign: "Top",
-};
+
+
 
 watch(datasourceId, (newVal, oldVal) => {
     update(newVal, oldVal);
 })
 
-const {
-    text,
-    fontSize,
-    fontColor,
-    horizontalAlign,
-    fontWeight,
-    fontStyle,
-    textDecoration
-} = wrapParameters({
-    text: computed(() => config.value.text),
-    fontSize: computed(() => config.value.fontSize),
-    fontColor: computed(() => config.value.fontColor),
-    horizontalAlign: computed(() => config.value.horizontalAlign),
-    fontWeight: computed(() => config.value.fontWeight),
-    fontStyle: computed(() => config.value.fontStyle),
-    textDecoration: computed(() => config.value.textDecoration),
-});
+type ConfigKeys = keyof ITextSettings;
+if(!config.value.text){
+  for (const key of Object.keys(defaultConfig) as ConfigKeys[]) {
+    const defaultVal = defaultConfig[key];
+    const currentVal = config.value[key];
 
-onMounted(async () => {
-    if (config.value) {
-        Object.assign(config.value, { ...defaultConfig, ...config.value });
+    if (currentVal === undefined || currentVal === null) {
+      // TypeScript hilft hier nicht automatisch → expliziter Cast nötig
+      (config.value[key] as typeof defaultVal) = defaultVal;
     }
-});
+  }
+}
 
 const calculatedString = computed(() => {
-    if (!text.value) {
+    console.log(config.value.text.value)
+    if (!config.value.text.value) {
         return "";
     }
 
-    const { parts } = helpers.widget.extractValuesAndFullObject(text.value);
+
+    const { parts } = helpers.widget.extractValuesAndFullObject(config.value.text.value);
     let result = "";
 
     for (const part of parts) {
@@ -87,11 +81,11 @@ const calculatedString = computed(() => {
 </script>
 
 <template>
-    <div class="text-container" :style="{
+  <div class="text-container" :style="{
         'justify-content':
-            config.verticalAlign === 'Top'
+            config.verticalAlign.value === 'Top'
                 ? 'flex-start'
-                : config.verticalAlign === 'Center'
+                : config.verticalAlign.value === 'Center'
                     ? 'center'
                     : 'flex-end',
     }">
@@ -113,11 +107,11 @@ const calculatedString = computed(() => {
 
 .component {
     font-size: v-bind(fontSize + "px");
-    color: v-bind(fontColor);
-    text-align: v-bind(horizontalAlign);
-    font-weight: v-bind(fontWeight);
-    font-style: v-bind(fontStyle);
-    text-decoration: v-bind(textDecoration);
+    color: v-bind(config.fontColor.value);
+    text-align: v-bind(config.horizontalAlign.value);
+    font-weight: v-bind(config.fontWeight.value);
+    font-style: v-bind(config.fontStyle.value);
+    text-decoration: v-bind(config.textDecoration.value);
     overflow: hidden;
 }
 </style>

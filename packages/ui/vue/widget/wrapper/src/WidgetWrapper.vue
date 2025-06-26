@@ -156,6 +156,7 @@ const getpadding= computed(()=>{
           <component
             :is="availableWidgets[widget.type].component"
             :config="widget.config"
+            v-model:configv="widget.config"
             :datasourceId="widget.config.datasourceId"
             class="widget_component"
           />

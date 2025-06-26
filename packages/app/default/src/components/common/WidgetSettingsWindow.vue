@@ -41,9 +41,10 @@ const t = (key: string) => {
     <h3>Widget Settings</h3>
     <div class="content" v-if="widget">
       <WidgetWrapperSettings v-model="widget.wrapperConfig" />
+
       <component
         :is="availableWidgetsSettings[widget.type]?.settingsComponent"
-        v-model="widget.config"
+        v-model="widget.config "
         :key="widget.uid"
       />
       <va-collapse v-model="storeSection" :header="t('Widgets.storeSettingsTitle')" icon="store">

@@ -208,10 +208,12 @@ import { init as initOgcStaConnectionUI }
   from 'org.eclipse.daanse.board.app.ui.vue.datasource.ogcsta'
 import { init as initWidgetMap } from 'org.eclipse.daanse.board.app.ui.vue.widget.map'
 
-import { init as initVariable, ConstantVariableSymbol }
+import { init as initVariable, ConstantVariableSymbol,CONSTANT_VARIABLE,COMPUTED_VARIABLE }
   from 'org.eclipse.daanse.board.app.lib.variables'
 import { VariableFactory, init as initVariableFactory, identifier as variableFactoryIdentifier }
   from 'org.eclipse.daanse.board.app.lib.factory.variable'
+import { init as initVariableWrapperFactory, identifier as variableFactoryWrapperIdentifier }
+  from 'org.eclipse.daanse.board.app.lib.factory.variableWrapper'
 import {
   VariableRepository,
   init as initVariableRepository,
@@ -344,6 +346,7 @@ initPersistenceRest(container)
 initPersistenceGit(container)
 initPersistenceGitUI(container)
 initPersistenceReopLoader(container)
+initVariableWrapperFactory(container)
 // const variableFactory = container.get<VariableFactory>(variableFactoryIdentifier)
 const variableRepository = container.get<VariableRepository>(variablerepositoryIdentifier)
 
@@ -352,11 +355,11 @@ const variableRepository = container.get<VariableRepository>(variablerepositoryI
 //   Settings: null as any,
 // })
 
-variableRepository.registerVariable('test', 'constant', {
+variableRepository.registerVariable('test', CONSTANT_VARIABLE, {
   value: 'posts',
 })
 
-variableRepository.registerVariable('testComputed', 'computed', {
+variableRepository.registerVariable('testComputed', COMPUTED_VARIABLE, {
   expression: '$test + 123',
 })
 //@ts-ignore

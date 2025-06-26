@@ -13,9 +13,11 @@ Contributors:
 
 <script lang="ts" setup>
 import type { ITextSettings } from './index'
-import { inject, ref, computed } from 'vue'
+import { inject, ref, computed, getCurrentInstance } from 'vue'
 import type { i18n } from "org.eclipse.daanse.board.app.lib.i18next"
-import { useVariableRepository } from "org.eclipse.daanse.board.app.ui.vue.composables"
+import { useVariableRepository, VariableWrapper } from 'org.eclipse.daanse.board.app.ui.vue.composables'
+import type { Container } from 'inversify/lib/esm'
+import { identifier, VariableRepository } from 'org.eclipse.daanse.board.app.lib.repository.variable'
 
 const previews = ref({
 } as Record<string, boolean>)
@@ -27,9 +29,12 @@ const opened = ref({
 const timestamp = ref(null);
 
 const widgetSettings = defineModel<ITextSettings>({ required: true })
-const { wrapParameters } = useVariableRepository();
+console.log(widgetSettings)
+const instance = getCurrentInstance()
+const container = instance?.appContext.config.globalProperties.$container as Container
+const variableRepository = container.get<VariableRepository>(identifier)
 
-const {
+/*const {
   text,
   fontSize,
   fontColor,
@@ -45,10 +50,26 @@ const {
   fontWeight: computed(() => widgetSettings.value.fontWeight),
   fontStyle: computed(() => widgetSettings.value.fontStyle),
   textDecoration: computed(() => widgetSettings.value.textDecoration),
-});
+});*/
 
 const i18n: i18n | undefined = inject('i18n');
 const t = (key: string) => (i18n) ? i18n.t(key) : key;
+
+const addVariable =() =>{
+  const var_test = variableRepository.getVariable('test');
+  console.log(var_test);
+  console.log(var_test.value);
+  (widgetSettings.value.text as VariableWrapper<string>).setTo(var_test)
+}
+const addVariable2 =() =>{
+  const var_test2 = variableRepository.getVariable('color');
+  console.log(var_test2);
+  console.log(var_test2.value);
+  (widgetSettings.value.fontColor as VariableWrapper<string>).setTo(var_test2)
+  window.setTimeout(() => {
+    var_test2.value = '#999'
+  },15000)
+}
 </script>
 
 <template>
@@ -56,77 +77,79 @@ const t = (key: string) => (i18n) ? i18n.t(key) : key;
     <div class="settings-container">
       <div class="settings-block">
         <div style="flex-grow: 1;">
-          <va-input class="text-title" :label="t('textBase:TextWidget.label')" v-model="widgetSettings.text">
+          <va-input class="text-title" :label="t('textBase:TextWidget.label')" v-model="widgetSettings.text.value">
             <template #append>
               <VaIcon name="visibility" style="margin-left: 4px;" color="secondary"
-                @click="previews['value'] = !previews['value']" />
+                @click="addVariable" />
             </template>
           </va-input>
-          <div v-if="previews['value']">{{ text }}</div>
+
         </div>
         <div style="width: 100px;">
-          <va-input class="text-size" :label="t('textBase:TextWidget.fontSize')" v-model="widgetSettings.fontSize">
+          <va-input class="text-size" :label="t('textBase:TextWidget.fontSize')" v-model="widgetSettings.fontSize.value">
             <template #append>
               <VaIcon name="visibility" style="margin-left: 4px;" color="secondary"
                 @click="previews['font-size'] = !previews['font-size']" />
             </template>
           </va-input>
-          <div v-if="previews['font-size']">{{ fontSize }}</div>
+          <div v-if="previews['font-size']">{{ widgetSettings.fontSize.value }}</div>
         </div>
       </div>
       <div class="settings-block">
         <va-color-input class="text-color" :label="t('textBase:TextWidget.fontColor')"
-          v-model="widgetSettings.fontColor" />
+          v-model="widgetSettings.fontColor.value" />
+        <VaIcon name="visibility" style="margin-left: 4px;" color="secondary"
+                @click="addVariable2" />
         <div class="align-buttons-group align-buttons-group__format">
-          <VaButton class="align-button" icon="format_bold" size="small" icon-color="#000000" :color="widgetSettings.fontWeight === 'bold' ? '#606060' : '#fafafa'
+          <VaButton class="align-button" icon="format_bold" size="small" icon-color="#000000" :color="widgetSettings.fontWeight.value === 'bold' ? '#606060' : '#fafafa'
             " @click="
-              widgetSettings.fontWeight === 'bold'
-                ? (widgetSettings.fontWeight = 'normal')
-                : (widgetSettings.fontWeight = 'bold')
+              widgetSettings.fontWeight.value === 'bold'
+                ? (widgetSettings.fontWeight.value = 'normal')
+                : (widgetSettings.fontWeight.value = 'bold')
               " />
-          <VaButton class="align-button" icon="format_italic" size="small" icon-color="#000000" :color="widgetSettings.fontStyle === 'italic' ? '#606060' : '#fafafa'
+          <VaButton class="align-button" icon="format_italic" size="small" icon-color="#000000" :color="widgetSettings.fontStyle.value === 'italic' ? '#606060' : '#fafafa'
             " @click="
-              widgetSettings.fontStyle === 'italic'
-                ? (widgetSettings.fontStyle = 'normal')
-                : (widgetSettings.fontStyle = 'italic')
+              widgetSettings.fontStyle.value === 'italic'
+                ? (widgetSettings.fontStyle.value = 'normal')
+                : (widgetSettings.fontStyle.value = 'italic')
               " />
-          <VaButton class="align-button" icon="format_underline" size="small" icon-color="#000000" :color="widgetSettings.textDecoration === 'underline'
+          <VaButton class="align-button" icon="format_underline" size="small" icon-color="#000000" :color="widgetSettings.textDecoration.value === 'underline'
               ? '#606060'
               : '#fafafa'
             " @click="
-              widgetSettings.textDecoration === 'underline'
-                ? (widgetSettings.textDecoration = 'None')
-                : (widgetSettings.textDecoration = 'underline')
+              widgetSettings.textDecoration.value === 'underline'
+                ? (widgetSettings.textDecoration.value = 'None')
+                : (widgetSettings.textDecoration.value= 'underline')
               " />
         </div>
       </div>
       <div class="settings-block">
         <div class="align-buttons-group">
           <div class="align-horizontal-buttons">
-            <VaButton class="align-button" icon="align_horizontal_left" size="small" icon-color="#000000" :color="widgetSettings.horizontalAlign === 'Left'
+            <VaButton class="align-button" icon="align_horizontal_left" size="small" icon-color="#000000" :color="widgetSettings.horizontalAlign.value === 'Left'
                 ? '#606060'
                 : '#fafafa'
-              " @click="widgetSettings.horizontalAlign = 'Left'" />
-            <VaButton class="align-button" icon="align_horizontal_center" size="small" icon-color="#000000" :color="widgetSettings.horizontalAlign === 'Center'
+              " @click="widgetSettings.horizontalAlign.value = 'Left'" />
+            <VaButton class="align-button" icon="align_horizontal_center" size="small" icon-color="#000000" :color="widgetSettings.horizontalAlign.value === 'Center'
                 ? '#606060'
                 : '#fafafa'
-              " @click="widgetSettings.horizontalAlign = 'Center'" />
-            <VaButton class="align-button" icon="align_horizontal_right" size="small" icon-color="#000000" :color="widgetSettings.horizontalAlign === 'Right'
+              " @click="widgetSettings.horizontalAlign.value = 'Center'" />
+            <VaButton class="align-button" icon="align_horizontal_right" size="small" icon-color="#000000" :color="widgetSettings.horizontalAlign.value === 'Right'
                 ? '#606060'
                 : '#fafafa'
-              " @click="widgetSettings.horizontalAlign = 'Right'" />
+              " @click="widgetSettings.horizontalAlign.value = 'Right'" />
           </div>
           <div class="align-vertical-buttons ml-2">
-            <VaButton class="align-button" icon="align_vertical_top" size="small" icon-color="#000000" :color="widgetSettings.verticalAlign === 'Top' ? '#606060' : '#fafafa'
-              " @click="widgetSettings.verticalAlign = 'Top'" />
-            <VaButton class="align-button" icon="align_vertical_center" size="small" icon-color="#000000" :color="widgetSettings.verticalAlign === 'Center'
+            <VaButton class="align-button" icon="align_vertical_top" size="small" icon-color="#000000" :color="widgetSettings.verticalAlign.value === 'Top' ? '#606060' : '#fafafa'
+              " @click="widgetSettings.verticalAlign.value = 'Top'" />
+            <VaButton class="align-button" icon="align_vertical_center" size="small" icon-color="#000000" :color="widgetSettings.verticalAlign.value === 'Center'
                 ? '#606060'
                 : '#fafafa'
-              " @click="widgetSettings.verticalAlign = 'Center'" />
-            <VaButton class="align-button" icon="align_vertical_bottom" size="small" icon-color="#000000" :color="widgetSettings.verticalAlign === 'Bottom'
+              " @click="widgetSettings.verticalAlign.value = 'Center'" />
+            <VaButton class="align-button" icon="align_vertical_bottom" size="small" icon-color="#000000" :color="widgetSettings.verticalAlign.value === 'Bottom'
                 ? '#606060'
                 : '#fafafa'
-              " @click="widgetSettings.verticalAlign = 'Bottom'" />
+              " @click="widgetSettings.verticalAlign.value = 'Bottom'" />
           </div>
         </div>
       </div>

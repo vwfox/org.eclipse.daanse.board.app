@@ -75,6 +75,11 @@ export class VariableRepository {
     return Array.from(this.availableVariables)
   }
 
+  renameVariable(newname: string,oldname:string): void {
+    const avar = this.availableVariables.get(oldname);
+    this.availableVariables.set(newname,avar)
+    this.availableVariables.delete(oldname);
+  }
   // registerVariable(name: string, config: VariableConfig) {
   //   this.availableVariables[name] = config
   // }

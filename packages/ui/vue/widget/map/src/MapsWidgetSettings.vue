@@ -224,7 +224,7 @@ const modelswitch = computed(() => {
     </div>
   </VaModal>
 
-  <RendererModal v-model="modelswitch" v-model:layer="selectedLayer" v-model:show="renderShow" :services="widgetSettings.services"></RendererModal>
+  <RendererModal v-model="modelswitch" v-model:layer="selectedLayer as any" v-model:show="renderShow" :services="widgetSettings.services"></RendererModal>
   <va-collapse v-model="opened.widgetSectionLayer" header="Layers" icon="layers">
 
         <span v-if="widgetSettings.layers.length==0" class="empty">
