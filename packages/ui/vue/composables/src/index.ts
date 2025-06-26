@@ -15,5 +15,8 @@ import { useDatasourceRepository } from './useDatasourceRepository'
 import { useTemporaryStore } from './useTemporaryStore'
 import { usePromisifiedModal } from './promisifiedModal'
 import { useVariableRepository } from './useVariableRepository'
+import { VariableWrapper,VARIABLEWRAPPER } from './VariableWrapper'
+import { VariableComplexStringWrapper,VARIABLECOMPLEXSTRINGWRAPPER } from './VariableComplexStringWrapper'
 
-export { useDatasourceRepository, useTemporaryStore, useVariableRepository, usePromisifiedModal }
+
+export { useDatasourceRepository, useTemporaryStore, useVariableRepository, usePromisifiedModal,VariableWrapper,VARIABLEWRAPPER,VariableComplexStringWrapper,VARIABLECOMPLEXSTRINGWRAPPER}

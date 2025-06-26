@@ -24,14 +24,18 @@ const init = (container: Container) => {
   register(widgetRepository);
 }
 
+interface Variable<T>{
+  name: string;
+  value: T;
+}
 interface IIconSettings {
-    currentIcon: string;
-    iconColor: string;
-    iconSize: number;
-    isIconFilled: boolean;
-    strokeWeight: number;
-    opticSize: number;
-    grade: number;
+    currentIcon: string|Variable<string>;
+    iconColor: string|Variable<string>;
+    iconSize: number|Variable<number>;
+    isIconFilled: boolean|Variable<boolean>;
+    strokeWeight: number|Variable<number>;
+    opticSize: number|Variable<number>;
+    grade: number|Variable<number>;
 }
 
 const register = (widgetRepository: WidgetRepository) => {

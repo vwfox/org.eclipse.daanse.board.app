@@ -59,13 +59,24 @@ const {
 } = useMoveableLayout(innerlayoutItems)
 
 watch(
-  () => ({ widgets, layout }),
-  ({ widgets: newWidgets, layout: newLayout }) => {
-    innerWidgets.value =cloneDeep(newWidgets);
-    innerlayoutItems.value =cloneDeep(newLayout);
-  },
-  { deep: true, immediate: true },
-)
+  () => widgets,
+  (newWidgets)=>{
+    console.log(newWidgets)
+    console.log(innerWidgets.value)
+    if(innerWidgets.value.length==0 && newWidgets && newWidgets.length!==0){
+      innerWidgets.value = newWidgets;
+    }
+    //
+    //triggerRef(innerWidgets);
+  },{ deep: true, immediate: true })
+watch(()=>layout,(newLayout)=>{
+  innerlayoutItems.value = JSON.parse(JSON.stringify(newLayout))
+  },{ deep: true, immediate: true });
+
+    //innerWidgets.value = JSON.parse(JSON.stringify(newWidgets))
+    //innerWidgets.value =  cloneDeep(newWidgets);
+
+
 
 const addWidget = (type: string, datasourceId: string, dropX: number, dropY: number) => {
   const uid = `widget_${Math.random().toString(36).substring(7)}`

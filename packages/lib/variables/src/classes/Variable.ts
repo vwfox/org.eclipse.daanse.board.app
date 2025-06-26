@@ -12,7 +12,7 @@
  **********************************************************************/
 
 
-import { RefreshType, VariableEvents } from '..'
+import {  RefreshType, VariableEvents } from '..'
 import { type IVariableConfig } from '..'
 import {
   type VariableRepository,
@@ -21,14 +21,17 @@ import {
 import { Container } from 'inversify'
 import { identifiers } from 'org.eclipse.daanse.board.app.lib.core'
 import { type TinyEmitter } from 'tiny-emitter'
+import { Serializable } from '../interface/JSONSerializableI'
 
-const symbol = Symbol.for('Variable')
 
+const TYPE = 'Variable'
+const symbol = Symbol.for(TYPE)
 const init = (container: Container) => {
   container.bind(symbol).toConstantValue(Variable);
 }
 
-class Variable {
+abstract class Variable implements Serializable{
+
   private subscribers: any[] = []
   private innerValue: any
 
@@ -40,25 +43,32 @@ class Variable {
   private refreshType: RefreshType = RefreshType.None
   private refreshIntervalId: number = 0
   private refreshTrigger: string = null as unknown as string
+  public type: string = null as unknown as string
 
   constructor(
     public name: string,
     public container: Container,
     config: IVariableConfig,
   ) {
-    this.description = config.description
+    this.type = TYPE;
+
     this.eventBus = this.container.get<TinyEmitter>(
       identifiers.TINY_EMITTER,
     )
     this.storage = this.container.get<VariableRepository>(
       variableRepositoryIdentifier,
     )
-
+    this.update(config);
+  }
+  public rename(newName: string){
+    this.name = newName;
+  }
+  public update(config: IVariableConfig){
+    this.description = config.description
     this.refreshInterval = config.refreshInterval || 0
     this.refreshInterval = Math.max(this.refreshInterval, 300)
     this.refreshType = config.refreshType || RefreshType.None
     this.refreshTrigger = config.refreshTrigger || (null as unknown as string)
-
     if (this.refreshType === RefreshType.Interval) {
       if (this.refreshInterval) {
         this.refreshIntervalId = setInterval(() => {
@@ -74,7 +84,6 @@ class Variable {
     }
     this.eventBus.emit(VariableEvents.VariableUpdated)
   }
-
   set onInterval(onInterval: () => any) {
     this.intervalFn = onInterval
   }
@@ -98,6 +107,10 @@ class Variable {
     this.subscribers = this.subscribers.filter(sub => sub !== subscriber)
   }
 
+  getSubscriptions(): any[] {
+    return this.subscribers
+  }
+
   notyfy() {
     this.eventBus.emit(VariableEvents.VariableUpdated)
     this.subscribers.forEach(subscriber => subscriber())
@@ -113,6 +126,16 @@ class Variable {
     if (this.refreshTrigger) {
       this.eventBus.off(this.refreshTrigger)
     }
+  }
+  serialize(): any {
+    const ret =   {
+      name:this.name,
+      description:this.description,
+      refreshType:this.refreshType,
+      refreshInterval:this.refreshInterval??undefined,
+      type: this.type
+    }
+    return ret;
   }
 }
 

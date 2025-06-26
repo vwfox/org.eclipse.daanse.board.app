@@ -14,19 +14,17 @@
 import { ref, getCurrentInstance } from 'vue';
 import { defineStore } from 'pinia';
 import type { Container } from 'inversify'
-import {
-    VariableRepository,
-    identifier
-} from 'org.eclipse.daanse.board.app.lib.repository.variable';
+import { type VariableRepository, identifier }
+  from 'org.eclipse.daanse.board.app.lib.repository.variable';
 import { identifiers } from 'org.eclipse.daanse.board.app.lib.core';
 import { TinyEmitter } from 'tiny-emitter';
-import { VariableEvents } from 'org.eclipse.daanse.board.app.lib.variables';
+import { type Variable, VariableEvents } from 'org.eclipse.daanse.board.app.lib.variables'
 
 export const useVariablesStore = defineStore('variables', () =>{
     const variables = ref([] as any[]);
     const instance = getCurrentInstance()
     const container = instance?.appContext.config.globalProperties.$container as Container
-    const variableRepository = container.get<VariableRepository>(identifier)
+    const variableRepositoryInst = container.get<VariableRepository>(identifier)
     const eventBus = container.get<TinyEmitter>(identifiers.TINY_EMITTER);
 
     eventBus.on(VariableEvents.VariableUpdated, () => {
@@ -35,7 +33,7 @@ export const useVariablesStore = defineStore('variables', () =>{
 
     const updateVariables = () => {
         variables.value.splice(0, variables.value.length);
-        variables.value.push(...variableRepository.getAllVariables().map(([name, config]) => {
+        variables.value.push(...variableRepositoryInst.getAllVariables().map(([name, config]) => {
             return {
                 ...config,
                 name,
@@ -46,14 +44,14 @@ export const useVariablesStore = defineStore('variables', () =>{
 
     updateVariables();
 
-    const createVariable = (type: string = 'constant', config: any = {
+    const createVariable = (type: string = 'ConstantVariable', config: any = {
         value: 'test'
     }) => {
         const uid = Math.random().toString(36).substring(7)
         const name = 'Variable ' + uid
 
-        variableRepository.registerVariable(name, type, config)
-        const newVar = variableRepository.getVariable(name)
+      variableRepositoryInst.registerVariable(name, type, config)
+        const newVar = variableRepositoryInst.getVariable(name)
         variables.value.push({
             ...newVar,
             name
@@ -64,17 +62,18 @@ export const useVariablesStore = defineStore('variables', () =>{
         const index = variables.value.findIndex((v) => v.name === name);
         if (index > -1) {
             variables.value.splice(index, 1);
-            variableRepository.removeVariable(name);
+          variableRepositoryInst.removeVariable(name);
         }
     };
 
     const updateVariable = (variableState: any) => {
-        variableRepository.removeVariable(variableState.originalName);
-        variableRepository.registerVariable(
-            variableState.name,
-            variableState.type,
-            variableState.config
-        );
+
+        const prevVar = variableRepositoryInst.getVariable(variableState.originalName);
+        (prevVar as Variable).update(variableState.config)
+        if(variableState.name && prevVar.name !== variableState.name) {
+          prevVar.rename(variableState.name);
+          variableRepositoryInst.renameVariable( variableState.name,variableState.originalName);
+        }
         updateVariables();
     }
 
@@ -83,5 +82,6 @@ export const useVariablesStore = defineStore('variables', () =>{
         createVariable,
         removeVariable,
         updateVariable,
+        updateVariables
     };
 });

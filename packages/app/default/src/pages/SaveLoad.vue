@@ -41,7 +41,15 @@ import { type DatasourceRepository, identifier as DsRepoId }
   from 'org.eclipse.daanse.board.app.lib.repository.datasource'
 import { parse, stringify } from 'flatted'
 
+import  {identifier as VariableRepositoryId,type VariableRepository }
+  from 'org.eclipse.daanse.board.app.lib.repository.variable'
+import  {identifier as VariableWrapperFactroyId,type VariableWrapperFactory }
+  from 'org.eclipse.daanse.board.app.lib.factory.variableWrapper'
+import {type Variable} from 'org.eclipse.daanse.board.app.lib.variables'
+import { useVariablesStore } from '@/stores/VariablesPinia.ts'
 
+const {variables, createVariable, removeVariable, updateVariable,updateVariables}
+  = useVariablesStore()
 const releaseEndPointUrl = ref<String>('')
 if (window && (window as any)['__env'] && (window as any)['__env'].settings
   && (window as any)['__env'].settings.releaseEndPointUrl) {
@@ -55,6 +63,10 @@ const connectionRepository:ConnectionRepository|undefined =
   container?.get<ConnectionRepository>(ConnectionRepoId)
 const dsRepository:DatasourceRepository|undefined =
   container?.get<DatasourceRepository>(DsRepoId)
+const variableRepository:VariableRepository|undefined =
+  container?.get<VariableRepository>(VariableRepositoryId)
+const variableWrapperFactroy:VariableWrapperFactory|undefined =
+  container?.get<VariableWrapperFactory>(VariableWrapperFactroyId)
 
 repoManager.addObserver({
   update: async (event, repo) => {
@@ -135,12 +147,23 @@ const getData = () => {
   const stores = useDataSourcesStore()
   const conections = useConnectionsStore()
   const widgets = useWidgetsStore()
+  const pinia_variables = []
+
+
+  const variables:string[] = [];
+  for (const arr of (variableRepository as VariableRepository).getAllVariables()){
+    const vari = (arr[1] as Variable).serialize();
+    vari.name = arr[0] as string;
+    variables.push(vari);
+  }
 
   const data = {
     layout: layoutStore.layout,
     datasources: stores.dataSources,
     conections: conections.connections,
-    widgets: widgets.widgets
+    widgets: widgets.widgets,
+    variables:variables,
+
   }
   return stringify(data)
 }
@@ -158,7 +181,18 @@ const loadData = (content: any) => {
     const conections = useConnectionsStore()
     const widgets = useWidgetsStore()
 
-    console.log(data)
+
+
+    //if (data.variables) variables.variables = data.pinia_variables
+
+    for(const variable of data.variables) {
+      if(variableRepository){
+        console.log(variable.name);
+        (variableRepository as VariableRepository)
+          .registerVariable(variable.name, variable.type, variable)
+      }
+    }
+    updateVariables();
     if (data.conections) conections.connections = data.conections
     for(const connection of data.conections) {
       if(connectionRepository)(connectionRepository as ConnectionRepository)
@@ -171,9 +205,14 @@ const loadData = (content: any) => {
       if(dsRepository)(dsRepository as DatasourceRepository)
         .registerDatasource(datasource.uid, datasource.type, datasource.config)
     }
+
+    variableWrapperFactroy?.initilazeVariableWrappers(data.widgets)
+    console.log(data.widgets)
     if (data.layout) layoutStore.layout = data.layout
 
     if (data.widgets) widgets.widgets = data.widgets
+
+    console.log((variableRepository as VariableRepository).getVariable('testComputed').value)
   }
 
 

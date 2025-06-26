@@ -16,16 +16,18 @@ import { VariableStorage } from '../storage/VariableStorage'
 import { type TinyEmitter } from 'tiny-emitter'
 import { type IComputedVariableConfig } from '..'
 import { Container } from 'inversify'
+import {  Serializable } from '../interface/JSONSerializableI'
 
-const symbol = Symbol.for('ComputedVariable')
+const TYPE = 'ComputedVariable'
+const symbol = Symbol.for(TYPE)
 
 const init = (container: Container) => {
   container.bind(symbol).toConstantValue(ComputedVariable);
 }
 
-class ComputedVariable extends Variable {
+class ComputedVariable extends Variable implements Serializable{
   private innerExpression: string = ''
-  public type = 'computed'
+  public type = TYPE
 
   constructor(
     name: string,
@@ -33,6 +35,13 @@ class ComputedVariable extends Variable {
     config: IComputedVariableConfig,
   ) {
     super(name, container, config)
+    this.expression = config.expression
+
+    this.initSubscriptions()
+  }
+
+  update(config: IComputedVariableConfig): void {
+    super.update(config);
     this.expression = config.expression
 
     this.initSubscriptions()
@@ -91,13 +100,25 @@ class ComputedVariable extends Variable {
       console.log(dep)
       const depencencyVariable = this.storage.getVariable(dep)
       console.log(depencencyVariable)
-      depencencyVariable.subscribe(() => {
-        console.log('dep changed', dep)
-        this.notyfy()
-        console.log('Variable changed')
-      })
+      if(depencencyVariable){
+        depencencyVariable.subscribe(() => {
+          console.log('dep changed', dep)
+          this.notyfy()
+          console.log('Variable changed')
+        })
+      }else {
+        console.log('dep pending:',dep)
+      }
+
     })
+  }
+  serialize(): any {
+    const ret = super.serialize();
+    ret.value = this.value;
+    ret.expression = this.innerExpression;
+    ret.type = this.type;
+    return ret;
   }
 }
 
-export { ComputedVariable, symbol, init }
+export { ComputedVariable, symbol, init, TYPE as COMPUTED_VARIABLE }

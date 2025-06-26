@@ -16,11 +16,12 @@ import Icon from './assets/text.svg'
 import MermaidWidget from './MermaidWidget.vue'
 import MermaidWidgetSettings from './MermaidWidgetSettings.vue'
 import { Container } from 'inversify'
+import { VariableComplexStringWrapper, VariableWrapper } from 'org.eclipse.daanse.board.app.ui.vue.composables'
 
 
 interface IMermaidWidgetSettings {
-  theme: string;
-  value: string;
+  theme: VariableWrapper<string>;
+  value: VariableComplexStringWrapper;
 }
 
 const init = (container: Container) => {

@@ -14,17 +14,22 @@
 import { Variable } from './Variable'
 import { VariableStorage } from '../storage/VariableStorage'
 import { type TinyEmitter } from 'tiny-emitter'
-import { type IConstantVariableConfig } from '..'
+import { type IConstantVariableConfig, RefreshType } from '..'
 import { Container } from 'inversify'
+import { Serializable } from '../interface/JSONSerializableI'
+import { container, identifiers } from 'org.eclipse.daanse.board.app.lib.core'
+import type { VariableRepository } from 'org.eclipse.daanse.board.app.lib.repository.variable'
+import { identifier as variableRepositoryIdentifier } from 'org.eclipse.daanse.board.app.lib.repository.variable/dist/src'
 
-const symbol = Symbol.for('Variable')
+const TYPE = 'ConstantVariable'
+const symbol = Symbol.for(TYPE)
 
 const init = (container: Container) => {
   container.bind(symbol).toConstantValue(ConstantVariable);
 }
 
-class ConstantVariable extends Variable {
-  public type = 'constant'
+class ConstantVariable extends Variable implements Serializable {
+  public type = TYPE
 
   constructor(
     name: string,
@@ -32,6 +37,10 @@ class ConstantVariable extends Variable {
     config: IConstantVariableConfig,
   ) {
     super(name, container, config)
+    this.value = config.value
+  }
+  update(config: IConstantVariableConfig): void {
+    super.update(config);
     this.value = config.value
   }
 
@@ -42,6 +51,15 @@ class ConstantVariable extends Variable {
   set value(value) {
     super.value = value
   }
+
+  serialize(): any {
+    const ret = super.serialize();
+    ret.value = this.value;
+    ret.type = this.type;
+    return ret;
+  }
+
+
 }
 
-export { ConstantVariable, symbol, init }
+export { ConstantVariable, symbol, init, TYPE as CONSTANT_VARIABLE }
