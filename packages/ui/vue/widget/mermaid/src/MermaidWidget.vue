@@ -12,7 +12,7 @@ Contributors:
 -->
 
 <script lang="ts" setup>
-import { nextTick, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue'
 import mermaid from 'mermaid';
 import { IMermaidWidgetSettings } from '.';
 import { useVariableRepository } from "org.eclipse.daanse.board.app.ui.vue.composables"
@@ -20,7 +20,6 @@ import { useVariableRepository } from "org.eclipse.daanse.board.app.ui.vue.compo
 const { wrapParameters } = useVariableRepository();
 
 const props = defineProps<{ config: IMermaidWidgetSettings }>();
-
 const container = ref<HTMLDivElement | null>(null);
 const timestamp = ref(Date.now());
 
@@ -28,8 +27,8 @@ const {
     value,
     theme,
 } = wrapParameters({
-    value: props.config.value,
-    theme: props.config.theme,
+    value:computed(() =>props.config.value),
+    theme: computed(() =>props.config.theme),
 });
 
 watch(() => theme, async (newTheme: any) => {
