@@ -73,7 +73,13 @@ export function useVariableRepository() {
           `Resolving variable: ${varName}`,
           variableRepository.getVariable(varName),
         )
-        const variable = variableRepository.getVariable(varName)
+        let variable = undefined;
+        try{
+          variable = variableRepository.getVariable(varName)
+        }catch (e){
+          console.error(e)
+        }
+
 
         if (variable) {
           console.log(`Variable found: ${varName}`, variable.subscribe)
@@ -103,7 +109,9 @@ export function useVariableRepository() {
     for (const [key, value] of Object.entries(parameters)) {
       const computedValue = computed(() => {
         updateTimestamp.value
-        return calculateValue(value.value + '')
+        if(value)
+          return calculateValue(value.value + '')
+        else return undefined
       })
       wrappedParameters[key] = computedValue
     }
