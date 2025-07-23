@@ -184,15 +184,17 @@ const loadData = (content: any) => {
 
 
     //if (data.variables) variables.variables = data.pinia_variables
-
-    for(const variable of data.variables) {
-      if(variableRepository){
-        console.log(variable.name);
-        (variableRepository as VariableRepository)
-          .registerVariable(variable.name, variable.type, variable)
+    if(data.variables){
+      for(const variable of data.variables) {
+        if(variableRepository){
+          console.log(variable.name);
+          (variableRepository as VariableRepository)
+            .registerVariable(variable.name, variable.type, variable)
+        }
       }
+      updateVariables();
     }
-    updateVariables();
+
     if (data.conections) conections.connections = data.conections
     for(const connection of data.conections) {
       if(connectionRepository)(connectionRepository as ConnectionRepository)
