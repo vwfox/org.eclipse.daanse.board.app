@@ -9,17 +9,16 @@ Contributors: Smart City Jena
 */
 import i18next from "i18next";
 import type {i18n} from "i18next";
-import type { Container } from "inversify";
+import  { container } from 'org.eclipse.daanse.board.app.lib.core';
 const symbolForI18n = Symbol.for('I18next')
 
-const init = (container: Container) => {
-  console.log('init i18next')
+
+if (!container.isBound(symbolForI18n)) {
   i18next.init({fallbackLng: 'en', resources: {}});
   container.bind<i18n>(symbolForI18n).toConstantValue(i18next);
+  console.log('initilaized i18n')
 }
-
 export {
-  init,
   symbolForI18n,
   i18n
 }

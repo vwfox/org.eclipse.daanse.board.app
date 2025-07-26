@@ -5,18 +5,18 @@
   which is available at https://www.eclipse.org/legal/epl-2.0/
   SPDX-License-Identifier: EPL-2.0
   Contributors: Smart City Jena
-*/
+ */
 
-import type { Container } from 'inversify'
+import { container } from 'org.eclipse.daanse.board.app.lib.core'
 import { inject, optional, ServiceIdentifier } from 'inversify'
 import { identifier, SettingsManagerI } from 'org.eclipse.daanse.board.app.lib.settings.manager'
 import { identifier as RepoManagerId, Repository, RepositoryRegistryI } from 'org.eclipse.daanse.board.app.lib.repository.persistence'
 
-const init = async (container: Container) => {
 
-  const settingsManager = container.get<SettingsManagerI>(identifier)
-  const repoManager: RepositoryRegistryI = container.get<RepositoryRegistryI>(RepoManagerId)
+const settingsManager = container.get<SettingsManagerI>(identifier)
+const repoManager: RepositoryRegistryI = container.get<RepositoryRegistryI>(RepoManagerId)
 
+async function init() {
   console.info('📦 RepoRepositoryLoader started')
   if (!settingsManager) {
     console.info('SettingsManager not installed')
@@ -45,8 +45,6 @@ const init = async (container: Container) => {
     }
   }
 }
+init();
 
 
-export {
-  init
-}

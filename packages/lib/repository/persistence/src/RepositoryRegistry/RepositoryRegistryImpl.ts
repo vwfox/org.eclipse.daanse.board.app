@@ -11,9 +11,7 @@
 
 import type { Repository, RepositoryRegistryI } from '../api/persistance'
 import { type Component } from 'vue'
-import type { BaseRepository } from '../api/BaseRepository'
-import { Container, inject, injectable, optional, ServiceIdentifier } from 'inversify'
-import { identifier, SettingsManagerI } from 'org.eclipse.daanse.board.app.lib.settings.manager'
+import { injectable } from 'inversify'
 import { RepositoryObserver, RepositoryObserverPatternInterface } from '../api/RepositoryObserverI'
 
 

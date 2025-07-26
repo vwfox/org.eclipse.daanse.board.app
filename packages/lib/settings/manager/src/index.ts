@@ -8,17 +8,16 @@ SPDX-License-Identifier: EPL-2.0
 Contributors: Smart City Jena
 */
 
-import type { Container } from 'inversify'
+import  { container } from 'org.eclipse.daanse.board.app.lib.core';
 import { SettingsManager } from './classes/SettingsManager'
 import { type SettingsManagerI } from './interfaces/SettingsManagerI'
 const identifier = Symbol.for('SettingsManager')
-const init = (container: Container) => {
+
+if (!container.isBound(identifier)) {
   container.bind<SettingsManagerI>(identifier).toConstantValue(new SettingsManager());
   console.log("📦 SettingsManager initialized");
 }
-
 export {
-  init,
   identifier,
   type SettingsManagerI
 }

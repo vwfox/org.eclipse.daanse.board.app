@@ -11,6 +11,7 @@
  *   Smart City Jena
  **********************************************************************/
 
+
 import { createVuestic } from 'vuestic-ui'
 import 'vuestic-ui/styles/essential.css'
 import 'vuestic-ui/styles/typography.css'
@@ -24,8 +25,41 @@ import router from './router'
 
 import { init } from 'org.eclipse.daanse.board.app.lib.module1'
 import { container, identifiers } from 'org.eclipse.daanse.board.app.lib.core'
-import { TinyEmitter } from 'tiny-emitter'
 
+const app = createApp(App)
+app.use(createVuestic({
+  config: {
+    colors: {
+      presets: {
+        light: {
+          primary: '#606060',
+          lightPrim:'#cbcbcb',
+          orange:'#c29803',
+          //active:"rgba(255,201,132,0.25)",
+          active:"rgba(147,147,147,0.25)",
+          /*secondary: '#E79542',*/
+          textPrimary: '#3a3a3a',
+        }
+      }
+    }
+  },
+}))
+
+init(container)
+container.bind(identifiers.CONTAINER).toDynamicValue((ctx: any) => {
+  return ctx
+})
+
+
+app.config.globalProperties.$container = container
+app.provide('container',container);
+app.provide('codeEditorType', 'monaco');
+const symbolForApp = Symbol.for('App');
+container.bind('App').toConstantValue(app);
+const pinia = createPinia();
+setActivePinia(pinia)
+app.use(pinia)
+loadPackages()
 // TODO: Move this to initialization of the app
 import {
   type ConnectionRepository,
@@ -53,37 +87,6 @@ import 'org.eclipse.daanse.board.app.lib.datasource.ogcsta'
 import 'org.eclipse.daanse.board.app.lib.datasource.sparql'
 import { init as initChartComposer } from 'org.eclipse.daanse.board.app.lib.composer.chart'
 import { init as initDatatableComposer } from 'org.eclipse.daanse.board.app.lib.composer.datatable'
-
-import { init as initI18next, symbolForI18n } from 'org.eclipse.daanse.board.app.lib.i18next'
-
-import { init as initCommonEn } from 'org.eclipse.daanse.board.app.ui.vue.lang.common.en'
-
-import {
-  init as initI18nextVuePlugin,
-  I18nextVuePlugin,
-} from 'org.eclipse.daanse.board.app.ui.vue.plugins.i18next'
-
-import { init as initLangEnIconWidget } from 'org.eclipse.daanse.board.app.ui.vue.lang.icon.en'
-import { init as initLangEnIamgeWidget } from 'org.eclipse.daanse.board.app.ui.vue.lang.image.en'
-import {
-  init as initLangEnPrgressWidget
-} from 'org.eclipse.daanse.board.app.ui.vue.lang.progress.en'
-import { init as initLangEnVideoWidget } from 'org.eclipse.daanse.board.app.ui.vue.lang.video.en'
-import {
-  init as initLangEnSvgBaseWidget
-} from 'org.eclipse.daanse.board.app.ui.vue.lang.svg.base.en'
-import {
-  init as initLangEnSvgRepeatWidget
-} from 'org.eclipse.daanse.board.app.ui.vue.lang.svg.repeat.en'
-import {
-  init as initLangEnTextRichWidget
-} from 'org.eclipse.daanse.board.app.ui.vue.lang.text.rich.en'
-import {
-  init as initLangEnTextPlainWidget
-} from 'org.eclipse.daanse.board.app.ui.vue.lang.text.plain.en'
-import {
-  init as initLangEnWidgetWrapper
-} from 'org.eclipse.daanse.board.app.ui.vue.lang.wrapper.en'
 
 import {
   init as initWidgetRepo
@@ -151,66 +154,53 @@ import 'org.eclipse.daanse.board.app.ui.vue.variable.constant'
 import 'org.eclipse.daanse.board.app.ui.vue.variable.computed'
 
 import { init as initWrapper } from 'org.eclipse.daanse.board.app.ui.vue.widget.wrapper'
-/*import {init as initSytles } from 'org.eclipse.daanse.board.app.ui.vue.styles.daanse';*/
 
-import 'org.eclipse.daanse.board.app.ui.vue.datasource.sparql'
-import {
-  init as initEndpointfinderPlugin
-} from 'org.eclipse.daanse.board.app.ui.vue.plugins.endpointfinder'
-import {
-  init as initPresitenceRepos
-} from 'org.eclipse.daanse.board.app.lib.repository.persistence'
-import { init as initPesistaneceLocal } from 'org.eclipse.daanse.board.app.lib.persistence.local'
-import { init as initSettingsManager } from 'org.eclipse.daanse.board.app.lib.settings.manager'
-import {
-  init as initPersistenceReopLoader
-} from 'org.eclipse.daanse.board.app.lib.persistence.loader'
-import { init as initPersistenceHelper } from 'org.eclipse.daanse.board.app.lib.persistence.util'
-import { init as initPersistenceRest } from 'org.eclipse.daanse.board.app.lib.persistence.rest'
-import { init as initPersistenceGit } from 'org.eclipse.daanse.board.app.lib.persistence.git'
-import { init as initPersistenceGitUI } from 'org.eclipse.daanse.board.app.ui.vue.persistence.git'
-
-window.addEventListener('load', () => {
-  const preloader = document.getElementById('preloader')
+if (document.readyState === 'complete') {
+  // load-Event ist schon vorbei
+  onLoaded()
+} else {
+  window.addEventListener('load', onLoaded)
+}
+function onLoaded(){
+  const preloader = document.getElementById('preloader');
   if (preloader) {
     preloader.style.display = 'none'
   }
-})
-const app = createApp(App)
-app.use(
-  createVuestic({
-    config: {
-      colors: {
-        presets: {
-          light: {
-            primary: '#606060',
-            lightPrim: '#cbcbcb',
-            orange: '#c29803',
-            //active:"rgba(255,201,132,0.25)",
-            active: 'rgba(147,147,147,0.25)',
-            /*secondary: '#E79542',*/
-            textPrimary: '#3a3a3a',
-          },
-        },
-      },
-    },
-  }),
-)
-init(container)
-container.bind(identifiers.CONTAINER).toDynamicValue((ctx: any) => {
-  return ctx
-})
+}
+
+
+async function loadPackages(){
+  await import ("org.eclipse.daanse.board.app.lib.i18next")
+  await import ("org.eclipse.daanse.board.app.ui.vue.plugins.i18next")
+  await import ( "org.eclipse.daanse.board.app.ui.vue.lang.common.en")
+  await import ( "org.eclipse.daanse.board.app.ui.vue.lang.icon.en")
+  await import ( "org.eclipse.daanse.board.app.ui.vue.lang.image.en")
+  await import ( "org.eclipse.daanse.board.app.ui.vue.lang.progress.en")
+  await import ( "org.eclipse.daanse.board.app.ui.vue.lang.video.en")
+  await import ( "org.eclipse.daanse.board.app.ui.vue.lang.svg.base.en")
+  await import ( "org.eclipse.daanse.board.app.ui.vue.lang.svg.repeat.en")
+  await import ( "org.eclipse.daanse.board.app.ui.vue.lang.text.rich.en")
+  await import ( "org.eclipse.daanse.board.app.ui.vue.lang.text.plain.en")
+  await import ( 'org.eclipse.daanse.board.app.ui.vue.lang.wrapper.en')
+  await import ("org.eclipse.daanse.board.app.lib.settings.manager")
+  await import ( "org.eclipse.daanse.board.app.ui.vue.plugins.endpointfinder")
+
+  await import ( "org.eclipse.daanse.board.app.lib.repository.persistence")
+  await import ( "org.eclipse.daanse.board.app.lib.persistence.local")
+  await import ( "org.eclipse.daanse.board.app.lib.persistence.util")
+  await import ("org.eclipse.daanse.board.app.lib.persistence.rest")
+  await import ("org.eclipse.daanse.board.app.lib.persistence.git")
+  await import ("org.eclipse.daanse.board.app.ui.vue.persistence.git")
+  await import ("org.eclipse.daanse.board.app.lib.persistence.loader")
+}
+
+//initSettingsManager(container)
 
 app.config.globalProperties.$container = container
 app.provide('container', container)
 app.provide('codeEditorType', 'monaco')
-const symbolForApp = Symbol.for('App')
-container.bind('App').toConstantValue(app)
-initSettingsManager(container)
-initI18next(container)
-//initSytles(container)
-initCommonEn(container)
-initI18nextVuePlugin(container)
+
+
 
 initChartComposer(container)
 initDatatableComposer(container)
@@ -234,15 +224,6 @@ initMermaidWidget(container)
 initMarkdownWidget(container)
 initCodeWidget(container)
 
-initLangEnWidgetWrapper(container)
-initLangEnIconWidget(container)
-initLangEnIamgeWidget(container)
-initLangEnPrgressWidget(container)
-initLangEnSvgBaseWidget(container)
-initLangEnSvgRepeatWidget(container)
-initLangEnTextRichWidget(container)
-initLangEnTextPlainWidget(container)
-initLangEnVideoWidget(container)
 initTableData(container)
 
 initVariable(container)
@@ -250,14 +231,6 @@ initVariable(container)
 // initConstantVariable(container)
 // initComputedVariable(container)
 
-initPersistenceHelper(container)
-initPresitenceRepos(container)
-initPesistaneceLocal(container)
-initPersistenceRest(container)
-initPersistenceGit(container)
-initPersistenceGitUI(container)
-initPersistenceReopLoader(container)
-// initVariableWrapperFactory(container)
 
 
 
@@ -282,15 +255,12 @@ connectionRepository.registerConnection('test', 'rest', {
   type: 'rest',
   name: 'test',
 })
-const pinia = createPinia()
-setActivePinia(pinia)
-app.use(pinia)
+
 
 const datasourceRepository = container.get<DatasourceRepository>(DatasourceIdentifier)
 initPivotTableUI(container)
 initKpiTableUI(container)
 initWebsocketConnectionUI(container)
-initEndpointfinderPlugin(container)
 initChartComposerUi(container)
 initDatatableComposerUI(container)
 initChartWidgetUI(container)
@@ -300,7 +270,8 @@ datasourceRepository.registerDatasource('test_ds', 'rest', {
   connection: 'test',
 })
 
-app.use(I18nextVuePlugin)
+
+
 
 app.use(router)
 

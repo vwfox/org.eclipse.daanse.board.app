@@ -8,16 +8,16 @@ SPDX-License-Identifier: EPL-2.0
 Contributors: Smart City Jena
 */
 
-import type { Container } from "inversify";
-import {symbolForI18n} from "org.eclipse.daanse.board.app.lib.i18next";
-import type {i18n} from "org.eclipse.daanse.board.app.lib.i18next";
-import en from "./lang/en.json";
 
-const init = (container: Container) => {
-  const i18n = container.get<i18n>(symbolForI18n);
-  i18n.addResourceBundle('en', 'image', en);
-}
+import { symbolForI18n } from 'org.eclipse.daanse.board.app.lib.i18next'
+import type { i18n } from 'org.eclipse.daanse.board.app.lib.i18next'
+import en from './lang/en.json'
+import { container } from 'org.eclipse.daanse.board.app.lib.core'
 
-export {
-  init
-}
+
+const i18n = container.get<i18n>(symbolForI18n)
+i18n.addResourceBundle('en', 'image', en)
+console.log('📦 add Resource Bundle en image')
+
+
+

@@ -22,7 +22,7 @@ export default defineConfig({
       fileName: 'lib.persistence.rest'
     },
     rollupOptions: {
-      external: []
+      external: ['org.eclipse.daanse.board.app.lib.core']
     }
   },
   plugins: [

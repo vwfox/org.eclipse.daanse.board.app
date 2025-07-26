@@ -8,22 +8,20 @@
   Contributors: Smart City Jena
 */
 
-import type { Container } from 'inversify'
+import {container} from "org.eclipse.daanse.board.app.lib.core"
 import { identifier as persistenceIdentifieer, Repository, type RepositoryRegistryI } from 'org.eclipse.daanse.board.app.lib.repository.persistence'
 import LocalRepositoryImpl from './classes/LocalRepositoryImpl'
 
 const identifier = Symbol.for('LocalRepository')
-const init = (container: Container) => {
+if(!container.isBound(identifier)){
   container.bind<Repository>(identifier).to(LocalRepositoryImpl)
   const repoRegistry = container.get<RepositoryRegistryI>(persistenceIdentifieer)
   if (!repoRegistry) {
     console.log('RepositoryRegistry not found')
-    return
+  }else {
+    repoRegistry.registerRepoType(LocalRepositoryImpl.type, identifier)
+    console.log('📦 LocalRepository registered')
   }
-  repoRegistry.registerRepoType(LocalRepositoryImpl.type, identifier)
-  console.log('📦 LocalRepository registered')
+
 }
 
-export {
-  init
-}

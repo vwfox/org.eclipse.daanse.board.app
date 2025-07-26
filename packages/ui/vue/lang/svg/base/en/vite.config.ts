@@ -21,7 +21,7 @@ export default defineConfig({
       fileName: 'ui.vue.lang.svg.base.en'
     },
     rollupOptions: {
-      external: []
+      external: ['org.eclipse.daanse.board.app.lib.core']
     }
   },
   plugins: [

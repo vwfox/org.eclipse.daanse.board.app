@@ -33,8 +33,8 @@ interface IProgressSettings {
   rotation: number
   min?: number;
   max?: number;
-  barThickness?: string; // z. B. "20px"
-  borderRadius?: string; // z. B. "10px"
+  barThickness?: string; // z.B. "20px"
+  borderRadius?: string; // z.B. "10px"
   valueAlign?: "left" | "center" | "right";
   valueJustify?: "top" | "center" | "bottom";
   textColor?: string;

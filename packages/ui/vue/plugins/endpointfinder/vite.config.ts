@@ -33,7 +33,7 @@ export default defineConfig({
       fileName: 'ui.vue.plugins.endpointfinder',
     },
     rollupOptions: {
-      external: ['vue','pinia'],
+      external: ['vue','pinia','org.eclipse.daanse.board.app.lib.core'],
       output: {
         globals: {
           vue: 'Vue'

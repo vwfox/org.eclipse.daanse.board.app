@@ -8,7 +8,7 @@
   Contributors: Smart City Jena
  */
 
-import type { Container } from 'inversify'
+import  { container } from 'org.eclipse.daanse.board.app.lib.core';
 import type { Plugin } from '@vue/runtime-core'
 import { Options } from '@vitejs/plugin-vue'
 import EndPointfinderModal from './modals/EndPointfinderModal.vue'
@@ -21,7 +21,20 @@ import { RestConnection } from 'org.eclipse.daanse.board.app.lib.connection.rest
 import { useConnectionsStore } from 'org.eclipse.daanse.board.app.ui.vue.stores.connection'
 import { DataSourceDTO } from 'org.eclipse.daanse.board.app.ui.vue.stores.datasouce'
 
-const init = (container: Container) => {
+let initialized = false;
+
+if (!initialized) {
+  const endpointFinderPlugin: Plugin = {
+    install(app, options: Options) {
+      // configure the app
+      const { vNode, destroy, el } = mount(EndPointfinderModal as unknown as Component, { props: {}, app: app })
+
+      app.provide('endpointfinder', async () => {
+        await vNode.component?.exposed?.run(() => {
+        })
+      })
+    }
+  }
 
   const app: App<any> = container.get('App')
   app.use(endpointFinderPlugin)
@@ -36,20 +49,7 @@ const init = (container: Container) => {
   useSparQLEndPointManager().registerEndpoint(ds as RestConnection, 'SparqlDataEurope')
   useSparQLEndPointManager().setActive('SparqlDataEurope')
   console.log('📦 Endpointfinder initialized')
+  initialized = true;
 }
 
 
-const endpointFinderPlugin: Plugin = {
-  install(app, options: Options) {
-    // configure the app
-    const { vNode, destroy, el } = mount(EndPointfinderModal as unknown as Component, { props: {}, app: app })
-
-    app.provide('endpointfinder', async () => {
-      await vNode.component?.exposed?.run(() => {
-      })
-    })
-  }
-}
-export {
-  init
-}

@@ -22,6 +22,9 @@ export default [
   {
     name: 'app/files-to-lint',
     files: ['**/*.{ts,mts,tsx,vue}'],
+    rules: {
+      'spaced-comment': 'off'
+    },
   },
 
   {
@@ -41,5 +44,5 @@ export default [
     ...pluginPlaywright.configs['flat/recommended'],
     files: ['e2e/**/*.{test,spec}.{js,ts,jsx,tsx}'],
   },
-  skipFormatting,
+  skipFormatting
 ]
