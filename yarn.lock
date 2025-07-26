@@ -10826,6 +10826,27 @@ orderedmap@^2.0.0:
   resolved "https://registry.npmjs.org/orderedmap/-/orderedmap-2.1.1.tgz#61481269c44031c449915497bf5a4ad273c512d2"
   integrity sha512-TvAWxi0nDe1j/rtMcWcIj94+Ffe6n7zhow33h40SKxmsmozs6dz/e+EajymfoFcHd7sxNn8yHM8839uixMOV6g==
 
+org.eclipse.daanse.board.app.lib.factory.connection@^0.0.1-next.1:
+  version "0.0.1-next.1"
+  resolved "https://registry.npmjs.org/org.eclipse.daanse.board.app.lib.factory.connection/-/org.eclipse.daanse.board.app.lib.factory.connection-0.0.1-next.1.tgz#197ca788e7f0e4a90e4585ee41689bd12c69d3f0"
+  integrity sha512-pJRNf6l+ItnTNWIwnw2+99W10QH1tiz3SSurPXJQ1i7mPyH+DdFdOeCTFN0CERYCcQMELYPN+JYG27Fc7m28Cg==
+  dependencies:
+    org.eclipse.daanse.board.app.lib.core "^0.0.1-next.1"
+
+org.eclipse.daanse.board.app.lib.factory.datasource@^0.0.1-next.1:
+  version "0.0.1-next.1"
+  resolved "https://registry.npmjs.org/org.eclipse.daanse.board.app.lib.factory.datasource/-/org.eclipse.daanse.board.app.lib.factory.datasource-0.0.1-next.1.tgz#635465540098b335a615b4c4ae26fd67423b6119"
+  integrity sha512-H0m9psnf+6JKj6uymVCuiTpMKhM5KZuBxpAGJysGtQnNVI9egWyIPAEHz0pW0sL6pYNqtm0qyVurGLf9+FJhwA==
+  dependencies:
+    org.eclipse.daanse.board.app.lib.core "^0.0.1-next.1"
+
+org.eclipse.daanse.board.app.lib.factory.variable@^0.0.1-next.1:
+  version "0.0.1-next.1"
+  resolved "https://registry.npmjs.org/org.eclipse.daanse.board.app.lib.factory.variable/-/org.eclipse.daanse.board.app.lib.factory.variable-0.0.1-next.1.tgz#ca12b00dc2ab58d96e7601bd8a12801c7e5481db"
+  integrity sha512-vY4KiFMr2XWK6cY7JSc4udGjzpuvL+hhSeVazEUSFMm+3Cnklg/vSrW/xerI11qoM992tiJlQRYJqjEmfHMWag==
+  dependencies:
+    org.eclipse.daanse.board.app.lib.core "^0.0.1-next.1"
+
 os-tmpdir@~1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"

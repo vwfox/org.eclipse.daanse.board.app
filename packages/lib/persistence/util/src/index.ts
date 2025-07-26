@@ -8,18 +8,16 @@
   Contributors: Smart City Jena
 */
 
-import type { Container } from 'inversify'
+import {container} from 'org.eclipse.daanse.board.app.lib.core'
 import { type ValidityCheckI } from './api/ValidityCheckI'
 import ValidityCheck from './utils/ValidityCheck'
 
 const identifier = Symbol.for('ValidityCheck')
-const init = (container: Container) => {
+if(!container.isBound(identifier)) {
   container.bind<ValidityCheckI>(identifier).to(ValidityCheck).inSingletonScope()
-
 }
 
 export {
-  init,
   ValidityCheckI,
   identifier
 }

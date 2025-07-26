@@ -12,25 +12,25 @@
 import { Repository, RepositoryRegistryI, identifier as persistenceIdentifieer } from 'org.eclipse.daanse.board.app.lib.repository.persistence'
 
 import GitRepositoryImpl from './GitRepository/GitRepositoryImpl'
-import { Container } from 'inversify'
+import {container} from 'org.eclipse.daanse.board.app.lib.core'
 import type {GitWritableRepository} from './git_api/api/GitWritableRepsitory';
 import {AuthentificationError} from "./git_api/services/common/CastError";
 const identifier = Symbol.for('GitRepository')
 const type = GitRepositoryImpl.type;
-const init = (container: Container) => {
+if(!container.isBound(identifier)) {
   container.bind<Repository>(identifier).to(GitRepositoryImpl)
   const repoRegistry = container.get<RepositoryRegistryI>(persistenceIdentifieer)
   if (!repoRegistry) {
     console.log('RepositoryRegistry not found')
-    return
   }
-  repoRegistry.registerRepoType(GitRepositoryImpl.type, identifier)
-  console.log('📦 GitRepository registered')
+  else {
+    repoRegistry.registerRepoType(GitRepositoryImpl.type, identifier)
+    console.log('📦 GitRepository registered')
+  }
+
 
 }
-
 export {
-  init,
   identifier,
   GitWritableRepository,
   type,

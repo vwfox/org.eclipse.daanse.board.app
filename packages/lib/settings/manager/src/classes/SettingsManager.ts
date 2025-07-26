@@ -17,9 +17,7 @@ export class SettingsManager implements SettingsManagerI{
 
   private ext_loaded = false;
   private path = '/config.json'
-  constructor() {
 
-  }
   async loadData(){
     try{
 

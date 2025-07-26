@@ -21,7 +21,7 @@ export default defineConfig({
       fileName: 'lib.repository.persistence',
     },
     rollupOptions: {
-      external: [],
+      external: ['org.eclipse.daanse.board.app.lib.core'],
     },
   },
   plugins: [

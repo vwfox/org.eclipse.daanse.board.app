@@ -27,8 +27,8 @@ import FilterModal from './FilterModal.vue'
 import { WidgetRepository, identifier as widgetRepoIdentifier } from 'org.eclipse.daanse.board.app.lib.repository.widget'
 import { useWidgetsStore } from 'org.eclipse.daanse.board.app.ui.vue.stores.widgets'
 import { ILayoutItem, useLayoutStore } from 'org.eclipse.daanse.board.app.ui.vue.stores.layout'
+import { container } from 'org.eclipse.daanse.board.app.lib.core'
 
-const container = inject('container') as Container
 
 const toogle = ref(false)
 const run = () => {

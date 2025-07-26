@@ -8,23 +8,20 @@ SPDX-License-Identifier: EPL-2.0
 Contributors: Smart City Jena
 */
 
-import type { Container } from 'inversify'
+import {container} from 'org.eclipse.daanse.board.app.lib.core';
 import type { RepositoryRegistryI,WritableRepository,Entity,Repository } from './api/persistance'
 import {BaseRepository} from './api/BaseRepository'
 import { RepositoryRegistry } from './RepositoryRegistry/RepositoryRegistryImpl'
 import type {RepositoryObserver} from './api/RepositoryObserverI';
 const identifier = Symbol.for('RepositoryRegistry')
 const identifierInternalContainer = Symbol.for('InternalContainer')
-const init = (container: Container) => {
-  console.log("📦 ReposetoryRegistry initialized");
-  container.bind<Container>(identifierInternalContainer).toConstantValue(container);
-  container.bind<RepositoryRegistryI>(identifier).to(RepositoryRegistry).inSingletonScope();
-  const registry = container.get<RepositoryRegistryI>(identifier);
 
+if(!container.isBound(identifier)){
+  container.bind<RepositoryRegistryI>(identifier).to(RepositoryRegistry).inSingletonScope();
+  console.log("📦 ReposetoryRegistry initialized");
 }
 
 export {
-  init,
   RepositoryRegistryI,
   identifier,
   BaseRepository,

@@ -41,4 +41,9 @@ export default defineConfig({
       },
     },
   },
+  build:{
+    rollupOptions: {
+      external: ['org.eclipse.daanse.board.app.lib.core']
+    }
+  }
 })
