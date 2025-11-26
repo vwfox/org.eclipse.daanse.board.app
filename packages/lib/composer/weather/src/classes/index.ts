@@ -193,14 +193,18 @@ export class WeatherComposer extends BaseDatasource {
       }
     }
 
-    const datasourceRepository = container.get(identifier) as DatasourceRepository
+    // Don't subscribe to datasource updates - Weather Composer manages its own refresh cycle
+    // Only the Weather Widget's refreshInterval should trigger data loads
+    // The Weather Widget will call getData() based on its refreshInterval setting
+    // If MQTT is active in the future, we can re-enable subscriptions for real-time updates
 
-    this.connectedDatasources
-      .filter((datasourceId) => datasourceId)
-      .forEach((ds) => {
-        const datasource = datasourceRepository.getDatasource(ds)
-        datasource.subscribe(updateFn)
-      })
+    // const datasourceRepository = container.get(identifier) as DatasourceRepository
+    // this.connectedDatasources
+    //   .filter((datasourceId) => datasourceId)
+    //   .forEach((ds) => {
+    //     const datasource = datasourceRepository.getDatasource(ds)
+    //     datasource.subscribe(updateFn)
+    //   })
   }
 
   async getData(type: string, options?: any): Promise<any> {

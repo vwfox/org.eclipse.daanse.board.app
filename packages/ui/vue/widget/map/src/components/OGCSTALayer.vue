@@ -15,6 +15,7 @@ import { type BoxedDatastream } from 'org.eclipse.daanse.board.app.lib.datasourc
 import L from 'leaflet'
 import { ERefType } from '../api/Renderer'
 import MapMarker from './MapMarker.vue'
+import { useComparator } from '../composables/comparator'
 
 interface OGCSTALayerProps {
   locations: any[]
@@ -33,6 +34,21 @@ interface OGCSTALayerProps {
 
 const props = defineProps<OGCSTALayerProps>()
 const openThing = ref<{ [key: string]: boolean }>({})
+
+const { checkObservationConditions } = useComparator()
+
+const shouldRenderDatastream = (datastream: BoxedDatastream, subrenderer: any): boolean => {
+  if (!subrenderer.observationConditions || subrenderer.observationConditions.length === 0) {
+    return true
+  }
+
+  if (!datastream.observations || datastream.observations.length === 0) {
+    return false
+  }
+
+  const latestObservation = datastream.observations[datastream.observations.length - 1]
+  return checkObservationConditions(latestObservation, subrenderer)
+}
 </script>
 
 <template>
@@ -70,7 +86,7 @@ const openThing = ref<{ [key: string]: boolean }>({})
 
           <template v-for="(datastream) in thing.datastreams??[]" :key="(datastream as BoxedDatastream).iotId">
             <template v-for="subrenderer in renderer.ds_renderer" :key="subrenderer.id">
-              <template v-if="compareDatastream(datastream as BoxedDatastream, subrenderer)">
+              <template v-if="compareDatastream(datastream as BoxedDatastream, subrenderer) && shouldRenderDatastream(datastream as BoxedDatastream, subrenderer)">
                 <l-geo-json
                   ref="thingsLayer"
                   :geojson="transformToGeoJson(datastream.observedArea)"

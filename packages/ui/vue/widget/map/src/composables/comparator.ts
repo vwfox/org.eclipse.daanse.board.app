@@ -99,6 +99,28 @@ export function useComparator() {
     return copyOfFeaturecollection
   }
 
+  const checkObservationConditions = (observation: any, renderer: DSRenderer): boolean => {
+    if (!renderer.observationConditions || renderer.observationConditions.length === 0) {
+      return true
+    }
+    if (!observation) return false
+
+    const allMatch = renderer.observationConditions.every((condition) => {
+      if (condition.value === '*') {
+        return true
+      }
+
+      const prop = resolveObj(observation, condition.prop ?? '')
+      if (prop === undefined || prop === null) {
+        return false
+      }
+
+      return compateCondition(condition.comperator, prop, condition.value)
+    })
+
+    return allMatch
+  }
+
   const compateCondition = (comperator: Comperator, prop: any, value: any) => {
     switch (comperator) {
       case Comperator.eq:
@@ -120,7 +142,8 @@ export function useComparator() {
   return {
     compareThing,
     compareDatastream,
-    filterFeatureCollection
+    filterFeatureCollection,
+    checkObservationConditions
   }
 
 }

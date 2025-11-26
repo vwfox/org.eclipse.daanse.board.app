@@ -35,6 +35,10 @@ export class DSRenderer{
   @Documentation("The name of the data stream renderer.")
   @Attribute() name?: string;
   @Reference('Condition') datastream: Array<Condition> = [];
+
+  @Documentation("Optional conditions applied to observation values to control visibility.")
+  @Reference('Condition') observationConditions: Array<Condition> = [];
+
   @Reference('Observation') observation: Observation = new Observation();
   @Reference('PointAndAreaSettings') renderer: PointAndAreaSettings = new PointAndAreaSettings();
 

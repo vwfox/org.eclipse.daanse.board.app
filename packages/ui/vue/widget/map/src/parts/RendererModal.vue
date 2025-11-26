@@ -193,6 +193,13 @@ const addStyle = () => {
 
 }
 const addDSStyle = () => {
+  if (!selection.value) return
+
+  // Initialize ds_renderer array if it doesn't exist
+  if (!selection.value.ds_renderer) {
+    selection.value.ds_renderer = []
+  }
+
   selection.value.ds_renderer.push({
     name: 'new DS Style',
     datastream: [
@@ -202,6 +209,7 @@ const addDSStyle = () => {
         value: '*'
       }
     ],
+    observationConditions: [],
     placement: ERefType.Thing,
     renderer: {
       point_render_as: 'icon',
@@ -294,8 +302,12 @@ watch(showModal, (val) => {
     selection.value = undefined
   }
 })
-watch(selection,()=>{
+watch(selection, (newVal) => {
   tabNo.value = 0
+  // Initialize observationConditions if it doesn't exist
+  if (newVal && !newVal.thing && !newVal.observationConditions) {
+    newVal.observationConditions = []
+  }
 })
 </script>
 
@@ -309,19 +321,18 @@ watch(selection,()=>{
   >
     <div class="tree_detail">
       <div class="tree">
-        <div class="menu">
-
-          <div class="menuitem">
-            <div class="checked">
-              <VaIcon
-                class="material-icons"
-                @click="addStyle"
-              >
-                add
-              </VaIcon>
-            </div>
+        <div class="menuitem">
+          <div class="checked">
+            <VaIcon
+              class="material-icons"
+              @click="addStyle"
+            >
+              add
+            </VaIcon>
           </div>
-          <va-divider></va-divider>
+        </div>
+        <va-divider></va-divider>
+        <VaScrollContainer class="menu" vertical color="#cbcbcb">
           <div v-for="style in model" :key="style.id"
           >
             <div :class="{'active':style.id==selection?.id}" class="menuitem" @click="selection=style">
@@ -439,10 +450,7 @@ watch(selection,()=>{
             </template>
 
           </div>
-
-
-        </div>
-
+        </VaScrollContainer>
       </div>
       <div class="detail">
         <VaTabs v-model="tabNo">
@@ -458,7 +466,7 @@ watch(selection,()=>{
               </template>
               <template v-else>
                 <VaTab
-                  v-for="tab in ['Conditions', 'Points', 'Areas','Values']"
+                  v-for="tab in ['Datastream Conditions', 'Observation Conditions', 'Points', 'Areas','Values']"
                   :key="tab"
                 >
                   {{ tab }}
@@ -482,30 +490,46 @@ watch(selection,()=>{
             class="scroller"
             vertical
           >
-            <div v-if="tabNo == 1 || tabNo == 2" class="rowlayout">
-              <PointStyler v-if="tabNo==1" v-model="(selection as IDSRenderer).renderer"></PointStyler>
-              <AreaStyler v-if="tabNo==2" v-model="selection.renderer.area"></AreaStyler>
-            </div>
-            <div v-if="tabNo ==3 && layerModel?.type =='OGCSTA' && !selection.thing" class="full rowlayout">
-
+            <template v-if="layerModel?.type =='OGCSTA' && !selection.thing">
+              <!-- Datastream Renderer Tabs: Datastream Conditions (0), Observation Conditions (1), Points (2), Areas (3), Values (4) -->
+              <div v-if="tabNo == 2 || tabNo == 3" class="rowlayout">
+                <PointStyler v-if="tabNo==2" v-model="(selection as IDSRenderer).renderer"></PointStyler>
+                <AreaStyler v-if="tabNo==3" v-model="selection.renderer.area"></AreaStyler>
+              </div>
+              <div v-else-if="tabNo == 4" class="full rowlayout">
                 <PlacementSytler v-model="(selection as IDSRenderer&PlacementI)as PlacementI"></PlacementSytler>
                 <OberservationsStyler v-model="(selection as IDSRenderer)"></OberservationsStyler>
-
-            </div>
-            <div v-else-if="tabNo ==3 && layerModel?.type =='OGCSTA' && selection.thing" class="full">
-              <AutoUpdateSettings v-model="selection"></AutoUpdateSettings>
-            </div>
-            <div v-else class="full">
-              <template v-if="layerModel?.type =='OGCSTA' && selection.thing">
-                <ConditionSettings v-if="tabNo==0" v-model="selection.thing"></ConditionSettings>
-              </template>
-              <template v-else>
-
-                <ConditionSettings v-if="tabNo==0" v-model="selection.datastream"
-                                    v-model:thing-props="thingsProps"></ConditionSettings>
-
-              </template>
-            </div>
+              </div>
+              <div v-else-if="tabNo == 0" class="full">
+                <ConditionSettings v-model="selection.datastream" v-model:thing-props="thingsProps"></ConditionSettings>
+              </div>
+              <div v-else-if="tabNo == 1" class="full">
+                <ConditionSettings v-model="selection.observationConditions" v-model:thing-props="thingsProps"></ConditionSettings>
+              </div>
+            </template>
+            <template v-else-if="layerModel?.type =='OGCSTA' && selection.thing">
+              <!-- Thing Renderer Tabs: Conditions (0), Points (1), Areas (2), Auto-update (3) -->
+              <div v-if="tabNo == 1 || tabNo == 2" class="rowlayout">
+                <PointStyler v-if="tabNo==1" v-model="(selection as IDSRenderer).renderer"></PointStyler>
+                <AreaStyler v-if="tabNo==2" v-model="selection.renderer.area"></AreaStyler>
+              </div>
+              <div v-else-if="tabNo == 3" class="full">
+                <AutoUpdateSettings v-model="selection"></AutoUpdateSettings>
+              </div>
+              <div v-else-if="tabNo == 0" class="full">
+                <ConditionSettings v-model="selection.thing"></ConditionSettings>
+              </div>
+            </template>
+            <template v-else>
+              <!-- Non-OGCSTA Tabs: Conditions (0), Points (1), Areas (2) -->
+              <div v-if="tabNo == 1 || tabNo == 2" class="rowlayout">
+                <PointStyler v-if="tabNo==1" v-model="(selection as IDSRenderer).renderer"></PointStyler>
+                <AreaStyler v-if="tabNo==2" v-model="selection.renderer.area"></AreaStyler>
+              </div>
+              <div v-else-if="tabNo == 0" class="full">
+                <ConditionSettings v-model="selection.datastream" v-model:thing-props="thingsProps"></ConditionSettings>
+              </div>
+            </template>
           </VaScrollContainer>
 
 
@@ -560,7 +584,14 @@ watch(selection,()=>{
 
 .tree {
   width: 300px;
+  display: flex;
+  flex-direction: column;
+  max-height: 600px;
 
+  .menu {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 
 .detail {

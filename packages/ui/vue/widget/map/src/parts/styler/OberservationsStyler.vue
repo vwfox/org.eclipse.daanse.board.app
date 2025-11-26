@@ -21,7 +21,7 @@ const model: ModelRef<IDSRenderer> = defineModel<IDSRenderer>({ required: true }
 const { getAll, getById } = useDataPointRegistry()
 
 const rendererOptions = computed(() => {
-    let ret: any = []
+    let ret: any = [{ name: 'None', id: 'none' }]
     getAll().forEach((val, key) => ret.push({ name: val.name, id: val.namespace + val.qualifiedName }))
     return ret
   }
