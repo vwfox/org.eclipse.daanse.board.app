@@ -64,10 +64,15 @@ const getShadow = computed(() => {
 })
 
 const getBackground = computed(() => {
-  let post = ''
+  let bgAlpha = 255
   if (isByte(widget.wrapperConfig.backgroundColorTransparence)) {
-    post = widget.wrapperConfig.backgroundColorTransparence.toString(16)
+    bgAlpha = widget.wrapperConfig.backgroundColorTransparence
   }
+  // Also factor in overall widget transparency
+  if (isByte(widget.wrapperConfig.transparency)) {
+    bgAlpha = Math.round(bgAlpha * (widget.wrapperConfig.transparency / 255))
+  }
+
   let color = (widget.wrapperConfig.backgroundColor || '#FFFFFF').replace(
     '#',
     '',
@@ -76,6 +81,7 @@ const getBackground = computed(() => {
     color = color[0] + color[0] + color[1] + color[1] + color[2] + color[2]
   }
 
+  const post = bgAlpha < 255 ? bgAlpha.toString(16).padStart(2, '0') : ''
   const ret = `#${color}${post}`
   return ret
 })
@@ -137,10 +143,13 @@ const getpadding= computed(()=>{
     class="flex relative flex-col w-full h-full wrapper-container" :style="{ '--blur-amount': getBlur + 'px', '--title-color': titleColor }">
     <div
       v-if="widget.wrapperConfig.title"
-      class="p-2 font-semibold capitalize"
+      class="font-semibold capitalize"
       :style="{
         fontSize: titleFontSize + 'px',
         color: titleColor,
+        padding: getpadding + 'px',
+        paddingBottom: 0,
+        opacity: transparency,
       }"
     >
       {{ widget.wrapperConfig.title }}
@@ -148,7 +157,7 @@ const getpadding= computed(()=>{
     <template v-if="isWidgetRegistered">
       <div
         class="w-full h-full box-border cursor-pointer overflow-hidden sub"
-        style="position: relative;"
+        :style="{ position: 'relative', opacity: transparency }"
       >
         <VaScrollContainer color="#cbcbcb" vertical horizontal>
           <component
@@ -202,7 +211,6 @@ const getpadding= computed(()=>{
   width: 100%;
   height: 100%;
   box-Shadow: v-bind(getShadow);
-  opacity: v-bind(transparency);
   border-radius: v-bind(borderRadius + "px");
   backdrop-filter: blur(var(--blur-amount));
 }
